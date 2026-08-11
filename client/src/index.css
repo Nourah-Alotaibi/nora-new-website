@@ -483,8 +483,10 @@
   .journey-window-bar { min-height: 38px; padding: 0 9px 0 12px; border-radius: 19px 19px 0 0; }
   .journey-window-title { font-size: 10px; max-width: 60%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
   .journey-window-controls span { width: 8px; height: 8px; }
-  .journey-card-content { padding: 18px 18px 22px; }
-  .journey-icon { width: 44px; height: 44px; font-size: 22px; border-radius: 13px; }
+  .journey-card-content { padding: 6px 8px 8px; }
+  .journey-icon { width: 26px; height: 26px; font-size: 13px; border-radius: 7px; }
+  .journey-grid { gap: 14px; }
+  .card-title-glow, .card-subtitle-glow { line-height: 1.15; }
 }
 
 /* ── Journey section layout — floating zig-zag ── */
@@ -508,14 +510,14 @@
 @media (max-width: 720px) {
   .journey-grid {
     width: 100%;
-    gap: 48px;
+    gap: 24px;
     padding: 0 10px;
     box-sizing: border-box;
   }
 
   .journey-card-wrapper {
     width: 82%;
-    max-width: 370px;
+    max-width: 340px;
     min-width: 0;
     /* Guarantee visibility on mobile regardless of IntersectionObserver */
     opacity: 1 !important;
@@ -532,8 +534,8 @@
 }
 
 @media (max-width: 420px) {
-  .journey-grid { gap: 36px; }
-  .journey-card-wrapper { width: 84%; max-width: 340px; }
+  .journey-grid { gap: 18px; }
+  .journey-card-wrapper { width: 88%; max-width: 300px; }
 }
 
 /* ── Section headings — light + dark glow ── */
@@ -835,7 +837,7 @@
 .pa-section {
   position: relative;
   overflow: hidden;
-  padding: 5rem 3rem 6rem;
+  padding: 3rem 3rem 4rem;
 }
 /* Film grain */
 .pa-section::before {
@@ -926,7 +928,7 @@
   position: relative;
   z-index: 10;
   text-align: center;
-  margin-bottom: 3.5rem;
+  margin-bottom: 1.5rem;
 }
 .pa-eyebrow {
   display: inline-block;
@@ -946,7 +948,7 @@
     inset 0 0 6px rgba(139,92,246,0.1);
 }
 .pa-title {
-  font-size: clamp(3rem, 7.5vw, 5.2rem);
+  font-size: clamp(2.7rem, 6.75vw, 4.68rem);
   font-weight: 900;
   letter-spacing: -0.02em;
   line-height: 1.05;
@@ -1298,7 +1300,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem 1rem 0.5rem;
+  padding: 0.6rem 1rem 0.3rem;
   transition: opacity 0.32s ease, transform 0.32s ease;
 }
 .pa-wire-deco {
@@ -1488,6 +1490,9 @@
   box-shadow: 0 0 4px rgba(109,40,217,0.18);
 }
 
+@media (min-width: 769px) {
+  .pa-viewer { zoom: 0.9; }
+}
 @media (max-width: 768px) {
   .pa-viewer { padding: 0 0.5rem; }
   .pa-viewer-content { padding: 1rem 1rem 0.75rem; }
@@ -1495,12 +1500,18 @@
   .pa-arrow-right { right: -58px; }
 }
 @media (max-width: 640px) {
-  .pa-section { padding: 3.5rem 0.75rem 4rem; }
-  .pa-title { font-size: clamp(1.8rem, 8vw, 2.8rem); }
+  .pa-section { padding: 1.5rem 0.75rem 2rem; }
+  .pa-title { font-size: clamp(1.5rem, 7vw, 2.2rem); }
+  .pa-header { margin-bottom: 0.75rem; }
   .pa-viewer-content { padding: 0.85rem 0.85rem 0.65rem; }
   .pa-card-subtitle { font-size: 0.82rem; }
   .pa-card-desc { font-size: 0.72rem; }
-  .pa-neon-line { font-size: clamp(42px, 12vw, 66px); }
+  .pa-neon-line { font-size: clamp(26px, 8vw, 38px); }
+  .pa-neon-icon svg { width: clamp(48px, 12vw, 80px); }
+  .pa-neon-icon { margin-bottom: 0.4rem; }
+  .pa-neon-env { padding: 0.3rem 0.5rem 0.1rem; }
+  .pa-neon-title { margin-bottom: 0.4rem; }
+  .pa-subtitle { margin-top: 0.4rem; font-size: 0.82rem; }
   .pa-recognition-item { font-size: 0.7rem; }
   .pa-arrow { width: 38px; height: 38px; font-size: 0.95rem; }
   .pa-arrow-left  { left: -48px; }

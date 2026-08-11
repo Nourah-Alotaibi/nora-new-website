@@ -233,7 +233,7 @@ function JourneyCard({ chapter, index }: { chapter: (typeof journeyChapters)[0];
         {chapter.floatingEmojis?.map((em, i) => (
           <span
             key={i}
-            className="card-float-emoji"
+            className="card-float-emoji hidden md:inline"
             style={{
               animationDelay: `${i * 1.1}s`,
               right: i === 0 ? "14px" : i === 1 ? "52px" : "28px",
@@ -257,19 +257,19 @@ function JourneyCard({ chapter, index }: { chapter: (typeof journeyChapters)[0];
 
         {/* Card content */}
         <div className="journey-card-content">
-          <div className="flex items-start gap-4 mb-3">
+          <div className="flex items-start gap-3 md:gap-4 mb-2 md:mb-3">
             <div className="journey-icon flex-shrink-0">{chapter.emoji}</div>
             <div className="flex-1 min-w-0">
-              <h3 className="card-title-glow text-xl font-bold">{chapter.title}</h3>
-              <span className="text-sm font-medium dark:text-[#a78bfa] text-purple-500">{chapter.date}</span>
+              <h3 className="card-title-glow text-[0.9rem] md:text-xl font-bold leading-tight">{chapter.title}</h3>
+              <span className="text-[0.7rem] md:text-sm font-medium dark:text-[#a78bfa] text-purple-500">{chapter.date}</span>
             </div>
           </div>
-          <h4 className="card-subtitle-glow text-base font-semibold mb-3 pl-[56px]">{chapter.subtitle}</h4>
-          <p className="text-[0.92rem] dark:text-[rgba(203,213,225,0.85)] text-gray-600 leading-7 pl-[56px] whitespace-pre-line">{chapter.story}</p>
+          <h4 className="card-subtitle-glow text-[0.78rem] md:text-base font-semibold mb-1 md:mb-3 pl-[44px] md:pl-[56px]">{chapter.subtitle}</h4>
+          <p className="text-[0.75rem] md:text-[0.92rem] dark:text-[rgba(203,213,225,0.85)] text-gray-600 leading-5 md:leading-7 pl-[44px] md:pl-[56px] whitespace-pre-line">{chapter.story}</p>
           {chapter.achievements && (
-            <div className="mt-4 pl-[56px] flex flex-col gap-2">
+            <div className="mt-2 md:mt-4 pl-[44px] md:pl-[56px] flex flex-col gap-1 md:gap-2">
               {chapter.achievements.map((a, i) => (
-                <div key={i} className="text-sm dark:text-[#e9d5ff] text-purple-800 px-4 py-2 dark:bg-[rgba(139,92,246,0.1)] bg-purple-50 border dark:border-[rgba(139,92,246,0.2)] border-purple-200 rounded-xl font-medium">
+                <div key={i} className="text-[0.7rem] md:text-sm dark:text-[#e9d5ff] text-purple-800 px-3 py-1 md:px-4 md:py-2 dark:bg-[rgba(139,92,246,0.1)] bg-purple-50 border dark:border-[rgba(139,92,246,0.2)] border-purple-200 rounded-lg md:rounded-xl font-medium">
                   {a}
                 </div>
               ))}
@@ -1049,7 +1049,7 @@ export default function Home() {
           <span key={`dot-${i}`} className="absolute text-[8px] animate-[sparkle_3s_ease-in-out_infinite] pointer-events-none" style={{ left: `${5 + i * 8}%`, top: `${10 + (i % 4) * 22}%`, animationDelay: `${i * 0.5}s`, color: cardSparkleColors[i % 12] }}>●</span>
         ))}
 
-        <div className="flex items-center justify-center gap-16 max-w-[1100px] w-full relative z-10 flex-col md:flex-row">
+        <div className="flex items-center justify-center gap-5 md:gap-16 max-w-[1100px] w-full relative z-10 flex-col md:flex-row">
           {/* Portrait - left side */}
           <motion.div
             className="flex-shrink-0 relative"
@@ -1060,7 +1060,7 @@ export default function Home() {
             <img
               src="/image.png"
               alt="Nourah Alotaibi"
-              className="h-[55vh] md:h-[75vh] max-h-[700px] min-h-[300px] w-auto object-contain animate-[portraitFloat_4s_ease-in-out_infinite]"
+              className="h-[32vh] md:h-[75vh] max-h-[250px] md:max-h-[700px] min-h-[160px] md:min-h-[300px] w-auto object-contain animate-[portraitFloat_4s_ease-in-out_infinite]"
             />
           </motion.div>
 
@@ -1104,7 +1104,7 @@ export default function Home() {
       {/* ── Journey Section ── */}
       <section
         id="journey"
-        className="py-24 px-6 relative overflow-hidden"
+        className="py-8 md:py-16 px-4 md:px-6 relative overflow-hidden"
         style={{
           background: isDark
             ? [
@@ -1134,9 +1134,9 @@ export default function Home() {
           </>
         )}
 
-        <motion.div className="text-center mb-16 relative z-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-          <h2 className="section-heading text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3">My Journey</h2>
-          <p className="section-subtitle text-base">Every chapter shaped who I am today</p>
+        <motion.div className="text-center mb-4 md:mb-8 relative z-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+          <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2">My Journey</h2>
+          <p className="section-subtitle text-sm md:text-base">Every chapter shaped who I am today</p>
         </motion.div>
 
         <ShootingStar />
