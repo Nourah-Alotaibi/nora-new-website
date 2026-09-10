@@ -2738,3 +2738,67 @@
   .mh2-blob, .mh2-star, .mh2-ring, .mh2-portrait-frame, .mh2-name, .mh2-ticker, .mh2-robot, .mh2-computer,
   .mh2-emoji, .dh-star, .dh-emoji, .dh-award-ticker { animation: none !important; }
 }
+
+/* Softer violet accents for the dark portfolio. */
+.dark .mh2-section { --pink:#a28bbd; --violet:#a08ac9; --violet-2:#716098; }
+.dark .mh2-cta,.dark .premium-btn { background:linear-gradient(110deg,#65517f,#796192 58%,#62507e); color:#faf7ff; box-shadow:0 5px 18px -8px #9c83c460,inset 0 1px 0 #ffffff18; }
+.dark .mh2-cta:hover,.dark .mh2-cta:focus-visible,.dark .premium-btn:hover { background:linear-gradient(110deg,#735d8c,#836b9b,#705b8e); box-shadow:0 6px 22px -8px #a48cc777,inset 0 1px 0 #ffffff22; }
+.dark .mh2-cta::after { background:linear-gradient(115deg,transparent 22%,#ffffff12 48%,transparent 60%); }
+.dark .mh2-social:hover,.dark .mh2-social:focus-visible { border-color:#a28bbd; background:#9280b01f; }
+
+
+/* A small rose accent, with violet still leading. */
+.dark .mh2-cta,.dark .premium-btn { background:linear-gradient(110deg,#946281 0%,#796192 30%,#685381 100%); }
+.dark .mh2-cta:hover,.dark .mh2-cta:focus-visible,.dark .premium-btn:hover { background:linear-gradient(110deg,#a36e91 0%,#8970a2 32%,#735e8e 100%); }
+.dark .mh2-name,.dark .hero-name-nourah,.dark .hero-name-alotaibi { background-image:linear-gradient(110deg,#c88fae 0%,#b098d5 32%,#a799d0 70%,#aec3dd 100%); background-clip:text; -webkit-background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+
+
+/* Original hero palette, with its pink nudged toward orchid. */
+.dark .mh2-section { --pink:#c674c4; --violet:#9b6bff; --violet-2:#6d3bff; }
+.dark .mh2-cta,.dark .premium-btn { background:linear-gradient(100deg,#bd70bd 0%,#a259df 52%,#7950c4 100%); box-shadow:0 6px 18px -7px #aa68b373,0 3px 28px -6px #7953bd55,inset 0 1px 0 #ffffff33; }
+.dark .mh2-cta:hover,.dark .mh2-cta:focus-visible,.dark .premium-btn:hover { background:linear-gradient(100deg,#c47fc5 0%,#ab70df 52%,#8760ca 100%); }
+/* Blue-violet name and a pink-to-blue invitation. */
+.dark .mh2-name,.dark .hero-name-nourah,.dark .hero-name-alotaibi { background-image:linear-gradient(105deg,#72baf2 0%,#8aa5ef 38%,#ac8be0 72%,#9780d6 100%); background-clip:text; -webkit-background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+.dark .mh2-cta,.dark .premium-btn { background:linear-gradient(105deg,#c47cae 0%,#a574ca 45%,#6d9ad3 100%); }
+.dark .mh2-cta:hover,.dark .mh2-cta:focus-visible,.dark .premium-btn:hover { background:linear-gradient(105deg,#ce8bb9 0%,#af85d5 45%,#7aaade 100%); }
+
+
+/* Gentler charcoal base; retain all colored accents and atmospheric gradients. */
+.dark { --background:#171822; }
+.dark .mh2-section { --bg-0:#17151f; --bg-1:#1c1828; }
+
+
+/* A little more midnight depth, with chapter decorations restored. */
+.dark .mh2-section { --bg-0:#100d19; --bg-1:#171222; }
+.dark .mh2-computer { width:35px; }
+.dark #journey .card-float-emoji { display:inline; opacity:.65; }
+@media(max-width:767px) { .dark #journey .card-float-emoji { font-size:22px; opacity:.4; } }
+@media(prefers-reduced-motion:reduce) { .dark #journey .card-float-emoji { animation:none; } }
+
+
+/* Quiet night backdrop: dim the atmospheric pools, preserve foreground accents. */
+.dark #hero .mh2-section { --bg-0:#12121e; --bg-1:#181725; }
+.dark #hero .mh2-blob-a,.dark #hero .mh2-blob-b { opacity:.18; filter:blur(110px); }
+.dark #hero .mh2-blob-c { opacity:.07; }
+.dark #hero > section { background:radial-gradient(ellipse at 50% 0%,rgba(117,111,155,.10),transparent 65%),radial-gradient(ellipse at 65% 100%,rgba(78,98,147,.08),transparent 58%),#12121e !important; }
+.dark #hero .hero-retro-horizon,.dark #hero .hero-retro-lane { opacity:.3; }
+
+
+/* A quiet portrait rim instead of the broad pulsing halo. */
+.dark #hero .mh2-portrait-frame { padding:3px; background:linear-gradient(140deg,#807596,#514965); box-shadow:0 0 0 1px #b4a7cd1c,0 0 18px 2px #8b72b31c; animation:none; }
+.dark #hero .mh2-ring { opacity:.35; }
+.dark #hero .mh2-ring::before { box-shadow:none; }
+
+
+/* Slightly deeper night base. */
+.dark #hero .mh2-section { --bg-0:#0c0d16; --bg-1:#12131e; }
+.dark #hero > section { background:radial-gradient(ellipse at 50% 0%,rgba(117,111,155,.07),transparent 65%),radial-gradient(ellipse at 65% 100%,rgba(78,98,147,.06),transparent 58%),#0c0d16 !important; }
+
+
+/* A faint white edge on the portrait orbit rings. */
+.dark #hero .mh2-ring { border-color:rgba(239,231,255,.4); box-shadow:0 0 9px rgba(248,243,255,.17),0 0 16px rgba(177,148,222,.12); }
+
+
+/* A slightly brighter inner portrait ring. */
+.dark #hero .mh2-portrait-frame { box-shadow:0 0 0 1px rgba(240,227,255,.45),0 0 17px 3px rgba(220,196,255,.34),0 0 32px 5px rgba(166,133,220,.2); }
+

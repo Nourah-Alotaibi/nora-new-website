@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, type CSSProperties } from "react";
+import { useState, useEffect, useRef, useMemo, type ReactElement, type CSSProperties } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 // Journey chapters data with exact content
-const journeyChapters = [
+const journeyChapters: { emoji: string; title: string; date: string; subtitle: string; story: string; sparkle: boolean; floatingEmojis: string[]; achievements?: string[] }[] = [
   {
     emoji: "🏫",
     title: "Where It All Started",
@@ -235,7 +235,7 @@ function JourneyCard({ chapter, index }: { chapter: (typeof journeyChapters)[0];
         {chapter.floatingEmojis?.map((em, i) => (
           <span
             key={i}
-            className="card-float-emoji hidden md:inline"
+            className="card-float-emoji" aria-hidden="true"
             style={{
               animationDelay: `${i * 1.1}s`,
               right: i === 0 ? "14px" : i === 1 ? "52px" : "28px",
@@ -557,7 +557,7 @@ const PA_PROJECTS = [
     accent: "rgba(186,115,255,0.85)",
     accentRgb: "186,115,255",
     mediaBg: "linear-gradient(135deg, #0D0515 0%, #160930 60%, #080312 100%)",
-    video: "/videos/epicare.mp4",
+    video: "/nora-dark/videos/epicare.mp4",
     deep: "22,7,35",
     surface: "17,8,27",
     titleLines: ["EPICARE"],
@@ -581,7 +581,7 @@ const PA_PROJECTS = [
     accent: "rgba(255,99,190,0.85)",
     accentRgb: "255,99,190",
     mediaBg: "linear-gradient(135deg, #1E0518 0%, #300828 60%, #160410 100%)",
-    video: "/videos/eva-kw.mp4",
+    video: "/nora-dark/videos/eva-kw.mp4",
     deep: "34,5,25",
     surface: "25,7,19",
     titleLines: ["EVA"],
@@ -603,7 +603,7 @@ const PA_PROJECTS = [
     accent: "rgba(255,68,61,0.85)",
     accentRgb: "255,68,61",
     mediaBg: "linear-gradient(135deg, #1E0505 0%, #320808 60%, #160303 100%)",
-    video: "/videos/wolf-game.mp4",
+    video: "/nora-dark/videos/wolf-game.mp4",
     deep: "34,5,7",
     surface: "24,7,9",
     titleLines: ["WEREWOLF"],
@@ -623,7 +623,7 @@ const PA_PROJECTS = [
     accent: "rgba(117,255,87,0.85)",
     accentRgb: "117,255,87",
     mediaBg: "linear-gradient(135deg, #051A08 0%, #082810 60%, #030F05 100%)",
-    video: "/videos/aafiya.mp4",
+    video: "/nora-dark/videos/aafiya.mp4",
     deep: "5,27,10",
     surface: "7,22,10",
     titleLines: ["AAFIYA"],
@@ -646,12 +646,12 @@ const PA_PROJECTS = [
     deep: "5,20,37",
     surface: "7,17,29",
     titleLines: ["RISE"],
-    image: "/rise-trade.png",
+    image: "/nora-dark/rise-trade.png",
   },
 ];
 
 /* ─── Neon Icons (inline SVG line art — no emoji, no icon libraries) ── */
-const NEON_ICONS: { [key: number]: JSX.Element } = {
+const NEON_ICONS: { [key: number]: ReactElement } = {
   /* EPICARE — purple diagonal pill + cross + heartbeat */
   1: (
     <svg viewBox="0 0 150 95" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -937,7 +937,7 @@ function ProjectsSection() {
         "radial-gradient(ellipse at 18% 45%, rgba(88,28,135,0.32) 0%, transparent 58%)",
         "radial-gradient(ellipse at 78% 18%, rgba(100,40,180,0.22) 0%, transparent 52%)",
         "radial-gradient(ellipse at 55% 82%, rgba(120,50,200,0.20) 0%, transparent 52%)",
-        "linear-gradient(175deg, #07040F 0%, #0C0720 45%, #08041A 100%)",
+        "linear-gradient(175deg, #18151f 0%, #1b172c 45%, #191624 100%)",
       ].join(", ")
     : [
         "radial-gradient(ellipse at 22% 48%, rgba(143,66,215,0.14) 0%, transparent 55%)",
@@ -958,7 +958,7 @@ function ProjectsSection() {
 
   return (
     <section
-      className="pa-section"
+      id="projects" className="pa-section"
       style={{ background: sectionBg }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
@@ -967,7 +967,7 @@ function ProjectsSection() {
       <div className="pa-crt"  aria-hidden />
       <div className="pa-vignette" aria-hidden />
       {/* Progressive dim overlay — gets darker toward last projects */}
-      <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, background: "rgba(0,0,0,1)", opacity: [0, 0, 0.10, 0.20, 0.32][active] ?? 0, transition: "opacity 0.5s ease" }} />
+      <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, background: "rgba(17,19,29,1)", opacity: [0, 0, 0.10, 0.20, 0.32][active] ?? 0, transition: "opacity 0.5s ease" }} />
 
       {/* Sparks */}
       <div className="pa-sparks" aria-hidden>
@@ -1282,7 +1282,7 @@ function MobileHero() {
             <div className="mh2-ring mh2-ring-3" aria-hidden />
             <div className="mh2-ring mh2-ring-1" aria-hidden />
             <div className="mh2-portrait-frame">
-              <img src="/image.png" alt="Nourah Alotaibi" />
+              <img src="/nora-dark/image.png" alt="Nourah Alotaibi" />
             </div>
 
             <span className="mh2-robot" aria-hidden>🤖</span>
@@ -1320,12 +1320,11 @@ function MobileHero() {
 
           <p className="mh2-desc">
             I build AI systems from local to cloud, design web experiences, enjoy solving CTFs (cyber security challenges).
-            <span className="mh2-fun-aside">~unofficial matcha specialist &amp; tester 🍵</span>
           </p>
 
           <div className="mh2-actions">
-            <a className="mh2-cta" href="#journey">
-              <span>Explore my journey</span>
+            <a className="mh2-cta" href="#projects">
+              <span>Explore my work</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
@@ -1407,7 +1406,7 @@ export default function Home() {
   const isDark = theme === "dark";
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-[#0a0a1a]" : "bg-[#FCFBF8]"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-[#121321]" : "bg-[#FCFBF8]"}`}>
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-[3px] bg-white/5 z-[1000]">
         <div className="h-full bg-gradient-to-r from-indigo-400 via-purple-400 to-fuchsia-400 rounded-r transition-[width] duration-100" style={{ width: `${scrollProgress}%` }} />
@@ -1519,7 +1518,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
             <img
-              src="/image.png"
+              src="/nora-dark/image.png"
               alt="Nourah Alotaibi"
               className="h-[22vh] md:h-[75vh] max-h-[150px] md:max-h-[700px] min-h-[80px] md:min-h-[300px] w-auto object-contain animate-[portraitFloat_4s_ease-in-out_infinite]"
             />
@@ -1576,11 +1575,10 @@ export default function Home() {
             </h2>
             <p className={`dh-hero-desc text-[0.55rem] leading-4 mb-2 md:text-base md:leading-7 md:mb-6 ${isDark ? "text-[rgba(203,213,225,0.8)]" : "text-gray-600"}`}>
               I build AI systems from local to cloud, design web experiences, enjoy solving CTFs (cyber security challenges).
-              <span className="dh-fun-aside">~unofficial matcha specialist &amp; tester 🍵</span>
             </p>
-            <a href="#journey" className="premium-btn inline-flex items-center gap-1 md:gap-2 px-2.5 py-1 md:px-6 md:py-3 rounded-full font-semibold text-[0.55rem] md:text-sm text-white">
+            <a href="#projects" className="premium-btn inline-flex items-center gap-1 md:gap-2 px-2.5 py-1 md:px-6 md:py-3 rounded-full font-semibold text-[0.55rem] md:text-sm text-white">
               <Sparkles className="w-2.5 h-2.5 md:w-4 md:h-4" />
-              Explore My Journey
+              Explore My Work
             </a>
 
             <DesktopAwardsTicker />
@@ -1593,6 +1591,8 @@ export default function Home() {
       </section>
       </div>{/* end #hero wrapper */}
 
+      <ProjectsSection />
+
       {/* ── Journey Section ── */}
       <section
         id="journey"
@@ -1602,7 +1602,7 @@ export default function Home() {
             ? [
                 "radial-gradient(ellipse 600px 400px at 20% 85%, rgba(30,80,180,0.18) 0%, transparent 70%)",
                 "radial-gradient(ellipse 500px 350px at 80% 90%, rgba(56,120,220,0.14) 0%, transparent 65%)",
-                "linear-gradient(180deg, #020408 0%, #030a16 12%, #050e22 25%, #08142e 40%, #0c1c40 55%, #102448 68%, #162e5a 80%, #0e1e3a 90%, #132444 95%, #1a3060 100%)",
+                "linear-gradient(180deg, #0d1018 0%, #111420 28%, #15192a 48%, #182033 65%, #1b2841 82%, #26334a 100%)",
               ].join(", ")
             : [
                 "radial-gradient(ellipse 700px 560px at 100% 0%, rgba(167,139,250,0.28) 0%, rgba(196,181,253,0.12) 45%, transparent 72%)",
@@ -1702,8 +1702,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Projects Section ── */}
-      <ProjectsSection />
+
+
 
       {/* ── Contact Section ── */}
       <section
@@ -1711,7 +1711,7 @@ export default function Home() {
         className="py-6 md:py-24 px-3 md:px-6 relative overflow-hidden"
         style={{
           background: isDark
-            ? "linear-gradient(175deg, #080B1F 0%, #16133D 50%, #0A0820 100%)"
+            ? "linear-gradient(175deg, #26334a 0%, #2c3b55 55%, #303950 100%)"
             : [
                 "radial-gradient(circle at 28% 20%, rgba(240,200,235,.30) 0%, rgba(240,200,235,.12) 30%, transparent 70%)",
                 "radial-gradient(circle at 80% 10%, rgba(220,180,255,.26) 0%, transparent 72%)",
@@ -1744,6 +1744,10 @@ export default function Home() {
           <a href="https://github.com/nourah-alotaibi" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 md:gap-4 group">
             <div className={`w-7 h-7 md:w-11 md:h-11 rounded-lg md:rounded-xl flex items-center justify-center ${isDark ? "bg-gradient-to-br from-[rgba(139,92,246,0.2)] to-[rgba(168,85,247,0.2)] border border-[rgba(139,92,246,0.3)] text-[#c4b5fd]" : "bg-purple-100 border border-purple-200 text-purple-600"}`}><Globe className="w-3 h-3 md:w-5 md:h-5" /></div>
             <div><p className={`text-[0.55rem] md:text-xs font-medium ${isDark ? "text-[#a78bfa]" : "text-purple-500"}`}>GitHub</p><p className={`text-[0.6rem] md:text-sm group-hover:underline ${isDark ? "text-[#f5f3ff]" : "text-purple-900"}`}>@nourah-alotaibi</p></div>
+          </a>
+          <a href="https://www.linkedin.com/in/nourah-fahad-alotaibi-14b121226/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 md:gap-4 group">
+            <div className={`w-7 h-7 md:w-11 md:h-11 rounded-lg md:rounded-xl flex items-center justify-center ${isDark ? "bg-gradient-to-br from-[rgba(139,92,246,0.2)] to-[rgba(168,85,247,0.2)] border border-[rgba(139,92,246,0.3)] text-[#c4b5fd]" : "bg-purple-100 border border-purple-200 text-purple-600"}`}><Linkedin className="w-3 h-3 md:w-5 md:h-5" /></div>
+            <div><p className={`text-[0.55rem] md:text-xs font-medium ${isDark ? "text-[#a78bfa]" : "text-purple-500"}`}>LinkedIn</p><p className={`text-[0.6rem] md:text-sm group-hover:underline ${isDark ? "text-[#f5f3ff]" : "text-purple-900"}`}>Nourah Alotaibi</p></div>
           </a>
         </div>
       </section>

@@ -5,12 +5,33 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import { MotionConfig } from "framer-motion";
+import BrightHome, { ModeSwitch } from "./pages/BrightHome";
+import { useTheme } from "./contexts/ThemeContext";
 
+function Portfolio() {
+  const { theme } = useTheme();
+  return (
+    <>
+      {theme === "light" ? (
+        <BrightHome />
+      ) : (
+        <>
+          <header className="dark-theme-header">
+            <span>nourah</span>
+            <ModeSwitch />
+          </header>
+          <Home />
+        </>
+      )}
+    </>
+  );
+}
 
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
+      <Route path={"/"} component={Portfolio} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -26,13 +47,12 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="dark"
-        switchable
-      >
+      <ThemeProvider defaultTheme="light" switchable>
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <MotionConfig reducedMotion="user">
+            <Router />
+          </MotionConfig>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

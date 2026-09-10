@@ -1,0 +1,466 @@
+[
+  {
+    "id": "coded-long",
+    "texture": "/laptop/stickers/coded-long.svg",
+    "position": [
+      166.0,
+      48.0
+    ],
+    "scale": [
+      282,
+      46
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "national-cyber-reference-needed",
+    "texture": "/laptop/stickers/national-cyber-reference-needed.svg",
+    "position": [
+      452.0,
+      48.5
+    ],
+    "scale": [
+      250,
+      51
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "hackathon-kuwait",
+    "texture": "/laptop/stickers/hackathon-kuwait.svg",
+    "position": [
+      721.0,
+      53.0
+    ],
+    "scale": [
+      112,
+      70
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "unicode-mockup-provisional",
+    "texture": "/laptop/stickers/unicode-mockup-provisional.png",
+    "position": [
+      124.5,
+      130.0
+    ],
+    "scale": [
+      217,
+      64
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "women-techmakers-mockup-provisional",
+    "texture": "/laptop/stickers/women-techmakers-mockup-provisional.png",
+    "position": [
+      158.5,
+      208.5
+    ],
+    "scale": [
+      107,
+      89
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "code-symbol",
+    "texture": "/laptop/stickers/code-symbol.svg",
+    "position": [
+      270.5,
+      162.0
+    ],
+    "scale": [
+      57,
+      52
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "red-brain-mockup-provisional",
+    "texture": "/laptop/stickers/red-brain-mockup-provisional.png",
+    "position": [
+      347.5,
+      138.5
+    ],
+    "scale": [
+      71,
+      79
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "google-cloud",
+    "texture": "/laptop/stickers/google-cloud.svg",
+    "position": [
+      522.0,
+      143.5
+    ],
+    "scale": [
+      168,
+      39
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "gdsc",
+    "texture": "/laptop/stickers/gdsc.svg",
+    "position": [
+      513.5,
+      184.0
+    ],
+    "scale": [
+      207,
+      32
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "injaz-kuwait",
+    "texture": "/laptop/stickers/injaz-kuwait.svg",
+    "position": [
+      711.5,
+      155.0
+    ],
+    "scale": [
+      147,
+      80
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "cloud-mark",
+    "texture": "/laptop/stickers/cloud-mark.svg",
+    "position": [
+      64.0,
+      291.0
+    ],
+    "scale": [
+      100,
+      78
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "eve-mockup-provisional",
+    "texture": "/laptop/stickers/eve-mockup-provisional.png",
+    "position": [
+      155.5,
+      322.0
+    ],
+    "scale": [
+      101,
+      126
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "octocat-mockup-provisional",
+    "texture": "/laptop/stickers/octocat-mockup-provisional.png",
+    "position": [
+      257.5,
+      338.5
+    ],
+    "scale": [
+      79,
+      89
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "ai-brain",
+    "texture": "/laptop/stickers/ai-brain.svg",
+    "position": [
+      59.0,
+      406.5
+    ],
+    "scale": [
+      90,
+      103
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "ceo",
+    "texture": "/laptop/stickers/ceo.svg",
+    "position": [
+      192.5,
+      405.0
+    ],
+    "scale": [
+      159,
+      40
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "certified-innovator",
+    "texture": "/laptop/stickers/certified-innovator.svg",
+    "position": [
+      392.5,
+      346.0
+    ],
+    "scale": [
+      151,
+      48
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "academy-x-reference-needed",
+    "texture": "/laptop/stickers/academy-x-reference-needed.svg",
+    "position": [
+      554.5,
+      322.0
+    ],
+    "scale": [
+      115,
+      34
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "coded",
+    "texture": "/laptop/stickers/coded.svg",
+    "position": [
+      560.0,
+      370.5
+    ],
+    "scale": [
+      110,
+      39
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "coffee-cup-mockup-provisional",
+    "texture": "/laptop/stickers/coffee-cup-mockup-provisional.png",
+    "position": [
+      334.5,
+      437.0
+    ],
+    "scale": [
+      65,
+      90
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "cyber-emblem-mockup-provisional",
+    "texture": "/laptop/stickers/cyber-emblem-mockup-provisional.png",
+    "position": [
+      154.0,
+      483.0
+    ],
+    "scale": [
+      108,
+      102
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "cure",
+    "texture": "/laptop/stickers/cure.svg",
+    "position": [
+      441.0,
+      455.0
+    ],
+    "scale": [
+      110,
+      110
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "coffee-bean-mockup-provisional",
+    "texture": "/laptop/stickers/coffee-bean-mockup-provisional.png",
+    "position": [
+      560.5,
+      456.0
+    ],
+    "scale": [
+      99,
+      104
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "innovation-center",
+    "texture": "/laptop/stickers/innovation-center.svg",
+    "position": [
+      372.5,
+      531.0
+    ],
+    "scale": [
+      225,
+      70
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "alt-future",
+    "texture": "/laptop/stickers/alt-future.svg",
+    "position": [
+      581.0,
+      535.5
+    ],
+    "scale": [
+      180,
+      37
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "kuwait-codes",
+    "texture": "/laptop/stickers/kuwait-codes.svg",
+    "position": [
+      705.5,
+      414.0
+    ],
+    "scale": [
+      141,
+      88
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "palette",
+    "texture": "/laptop/stickers/palette.svg",
+    "position": [
+      729.0,
+      528.0
+    ],
+    "scale": [
+      96,
+      58
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "programmer-cat-text-top",
+    "texture": "/laptop/stickers/programmer-cat-text-top.svg",
+    "position": [
+      698.0,
+      226.5
+    ],
+    "scale": [
+      176,
+      25
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  },
+  {
+    "id": "cat-mockup-provisional",
+    "texture": "/laptop/stickers/cat-mockup-provisional.png",
+    "position": [
+      699.0,
+      281.0
+    ],
+    "scale": [
+      158,
+      84
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": true
+  },
+  {
+    "id": "programmer-cat-text-bottom",
+    "texture": "/laptop/stickers/programmer-cat-text-bottom.svg",
+    "position": [
+      699.0,
+      335.5
+    ],
+    "scale": [
+      174,
+      43
+    ],
+    "rotation": 0,
+    "zOffset": 0.001,
+    "visible": true,
+    "provisional": false
+  }
+]
