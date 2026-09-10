@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import './App.css'
 
 // Import cute visual assets
+import profilePhoto from '../image.png'
 import aumBuilding from './assets/aum_university_building.png'
 import ucBerkeleyBuilding from './assets/uc_berkeley_building.png'
 import navyCodedBuilding from './assets/navy_coded_building.png'
@@ -150,6 +151,8 @@ function App() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="magical-hero min-h-screen flex items-center justify-center relative overflow-hidden">
+        {/* Mobile retro grid floor */}
+        <div className="mobile-grid-wrap"><div className="mobile-grid"></div></div>
         {/* Floating sparkles */}
         {[...Array(20)].map((_, i) => (
           <Sparkle 
@@ -164,32 +167,32 @@ function App() {
         <div className="fairy" style={{ top: '20%', right: '15%', animationDelay: '2s' }} />
         <div className="fairy" style={{ bottom: '20%', left: '20%', animationDelay: '4s' }} />
         
-        {/* Floating cute elements with bigger sizes */}
-        <motion.img 
-          src={kuwaitLandmarks} 
-          alt="Kuwait Landmarks" 
-          className="absolute top-20 left-20 magical-image-large magical-float opacity-40"
+        {/* Floating cute elements with bigger sizes - hidden on mobile */}
+        <motion.img
+          src={kuwaitLandmarks}
+          alt="Kuwait Landmarks"
+          className="hero-float-desktop absolute top-20 left-20 magical-image-large magical-float opacity-40"
           animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }}
           transition={{ duration: 6, repeat: Infinity }}
         />
-        <motion.img 
-          src={graduationCapMasters} 
-          alt="Graduation Cap" 
-          className="absolute top-40 right-32 magical-image-large magical-float opacity-40"
+        <motion.img
+          src={graduationCapMasters}
+          alt="Graduation Cap"
+          className="hero-float-desktop absolute top-40 right-32 magical-image-large magical-float opacity-40"
           animate={{ y: [0, -25, 0], rotate: [0, -15, 0] }}
           transition={{ duration: 7, repeat: Infinity, delay: 1 }}
         />
-        <motion.img 
-          src={trophyAwards} 
-          alt="Awards" 
-          className="absolute bottom-32 left-40 magical-image-large magical-float opacity-40"
+        <motion.img
+          src={trophyAwards}
+          alt="Awards"
+          className="hero-float-desktop absolute bottom-32 left-40 magical-image-large magical-float opacity-40"
           animate={{ y: [0, -35, 0], rotate: [0, 20, 0] }}
           transition={{ duration: 8, repeat: Infinity, delay: 2 }}
         />
-        <motion.img 
-          src={evaAiPin} 
-          alt="EVA AI" 
-          className="absolute bottom-40 right-20 magical-image-large magical-float opacity-40"
+        <motion.img
+          src={evaAiPin}
+          alt="EVA AI"
+          className="hero-float-desktop absolute bottom-40 right-20 magical-image-large magical-float opacity-40"
           animate={{ y: [0, -20, 0], rotate: [0, -10, 0] }}
           transition={{ duration: 5, repeat: Infinity, delay: 3 }}
         />
@@ -201,20 +204,28 @@ function App() {
             transition={{ duration: 1.2 }}
             className="magical-float"
           >
+            {/* Mobile-only orb with glow */}
+            <div className="mobile-orb-wrap">
+              <div className="mobile-halo"></div>
+              <div className="mobile-orb">
+                <img src={profilePhoto} alt="Nourah Alotaibi" />
+              </div>
+            </div>
+
             <div className="flex items-center justify-center gap-6 mb-8">
-              <motion.img 
-                src={kuwaitLandmarks} 
-                alt="Kuwait" 
-                className="magical-image magical-glow"
+              <motion.img
+                src={kuwaitLandmarks}
+                alt="Kuwait"
+                className="hero-float-desktop magical-image magical-glow"
                 whileHover={{ scale: 1.2, rotate: 10 }}
               />
-              <h1 className="text-8xl md:text-9xl font-bold magical-text">
+              <h1 className="text-5xl sm:text-7xl md:text-9xl font-bold magical-text">
                 Welcome to Noraland
               </h1>
-              <motion.img 
-                src={graduationCapMasters} 
-                alt="AI Graduate" 
-                className="magical-image magical-glow"
+              <motion.img
+                src={graduationCapMasters}
+                alt="AI Graduate"
+                className="hero-float-desktop magical-image magical-glow"
                 whileHover={{ scale: 1.2, rotate: -10 }}
               />
             </div>

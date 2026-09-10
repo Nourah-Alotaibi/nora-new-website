@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, type CSSProperties } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
@@ -9,6 +9,8 @@ import {
   Globe,
   ChevronDown,
   Play,
+  Github,
+  Linkedin,
 } from "lucide-react";
 
 // Journey chapters data with exact content
@@ -132,30 +134,30 @@ const skills = [
   { name: "Problem Solving", emoji: "🧩", category: "Soft Skills" },
 ];
 
-// Multi-color sparkle palette for card surroundings
+// Multi-color sparkle palette for card surroundings (no yellow/orange)
 const cardSparkleColors = [
-  "#FF8B68", "#FFD774", "#a78bfa", "#f0abfc",
-  "#93c5fd", "#6ee7b7", "#fbbf24", "#fb7185",
-  "#c084fc", "#38bdf8", "#f9a8d4", "#86efac",
+  "#ffffff", "#e9d5ff", "#a78bfa", "#f0abfc",
+  "#93c5fd", "#c4b5fd", "#d8b4fe", "#fb7185",
+  "#c084fc", "#38bdf8", "#f9a8d4", "#a5f3fc",
 ];
 
 // 4-point star sparkle data — varied colors, drifting across the page
 const starSparkleData = [
-  { left: "7%",  top: "12%", color: "#FF8B68", size: 16, anim: "star-drift-1", dur: "14s",  delay: "0s"    },
-  { left: "23%", top: "38%", color: "#a78bfa", size: 14, anim: "star-drift-2", dur: "18s",  delay: "3.5s"  },
-  { left: "41%", top: "72%", color: "#FFD774", size: 20, anim: "star-drift-3", dur: "22s",  delay: "1.2s"  },
-  { left: "57%", top: "22%", color: "#f0abfc", size: 15, anim: "star-drift-4", dur: "16s",  delay: "5.5s"  },
-  { left: "69%", top: "58%", color: "#93c5fd", size: 18, anim: "star-drift-5", dur: "20s",  delay: "2.3s"  },
-  { left: "82%", top: "33%", color: "#6ee7b7", size: 14, anim: "star-drift-6", dur: "13s",  delay: "7.1s"  },
-  { left: "91%", top: "54%", color: "#fbbf24", size: 17, anim: "star-drift-1", dur: "19s",  delay: "4.2s"  },
-  { left: "14%", top: "82%", color: "#fb7185", size: 19, anim: "star-drift-3", dur: "15s",  delay: "6.8s"  },
-  { left: "48%", top: "88%", color: "#c084fc", size: 15, anim: "star-drift-2", dur: "21s",  delay: "9.4s"  },
-  { left: "76%", top: "83%", color: "#38bdf8", size: 16, anim: "star-drift-5", dur: "17s",  delay: "11.2s" },
+  { left: "7%",  top: "12%", color: "#FF8B68", size: 22, anim: "star-drift-1", dur: "14s",  delay: "0s"    },
+  { left: "23%", top: "38%", color: "#a78bfa", size: 20, anim: "star-drift-2", dur: "18s",  delay: "3.5s"  },
+  { left: "41%", top: "72%", color: "#FFD774", size: 27, anim: "star-drift-3", dur: "22s",  delay: "1.2s"  },
+  { left: "57%", top: "22%", color: "#f0abfc", size: 21, anim: "star-drift-4", dur: "16s",  delay: "5.5s"  },
+  { left: "69%", top: "58%", color: "#93c5fd", size: 24, anim: "star-drift-5", dur: "20s",  delay: "2.3s"  },
+  { left: "82%", top: "33%", color: "#6ee7b7", size: 20, anim: "star-drift-6", dur: "13s",  delay: "7.1s"  },
+  { left: "91%", top: "54%", color: "#fbbf24", size: 23, anim: "star-drift-1", dur: "19s",  delay: "4.2s"  },
+  { left: "14%", top: "82%", color: "#fb7185", size: 25, anim: "star-drift-3", dur: "15s",  delay: "6.8s"  },
+  { left: "48%", top: "88%", color: "#c084fc", size: 21, anim: "star-drift-2", dur: "21s",  delay: "9.4s"  },
+  { left: "76%", top: "83%", color: "#38bdf8", size: 22, anim: "star-drift-5", dur: "17s",  delay: "11.2s" },
 ];
 
 function PageSparkles() {
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
+    <div className="hidden md:block fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 3 }}>
       {starSparkleData.map((s, i) => (
         <span
           key={i}
@@ -710,6 +712,171 @@ const PA_SPARKS = Array.from({ length: 55 }, (_, i) => ({
   isCross: i % 5 === 0,
 }));
 
+// Emoji + diamond sparkles for the Selected Works background (trimmed, smaller)
+const PA_EMOJI_SPARKLES = [
+  // ── Top ──
+  { id:  0, left:  "5%", top:  "7%", emoji: "✨", size: 13, dur: "5s",   delay: "0s",   op: 0.65 },
+  { id:  1, left: "28%", top:  "5%", emoji: "✦",  size: 10, dur: "6.5s", delay: "1.4s", op: 0.75, color: "#c4b5fd" },
+  { id:  2, left: "60%", top:  "6%", emoji: "✦",  size: 13, dur: "4.8s", delay: "1.8s", op: 0.7,  color: "#93c5fd" },
+  { id:  3, left: "88%", top:  "9%", emoji: "✧",  size: 11, dur: "5.2s", delay: "0.4s", op: 0.7,  color: "#f9a8d4" },
+  // ── Left ──
+  { id:  4, left:  "2%", top: "30%", emoji: "✦",  size: 12, dur: "5.8s", delay: "1.1s", op: 0.65, color: "#c084fc" },
+  { id:  5, left:  "5%", top: "60%", emoji: "🌟", size: 14, dur: "8s",   delay: "0.2s", op: 0.45 },
+  // ── Right ──
+  { id:  6, left: "93%", top: "28%", emoji: "✦",  size: 13, dur: "6.2s", delay: "0.7s", op: 0.65, color: "#f472b6" },
+  { id:  7, left: "91%", top: "58%", emoji: "💫", size: 12, dur: "7.2s", delay: "1.6s", op: 0.55 },
+  // ── Middle ──
+  { id:  8, left: "18%", top: "32%", emoji: "✦",  size:  9, dur: "6s",   delay: "1s",   op: 0.55, color: "#a78bfa" },
+  { id:  9, left: "42%", top: "40%", emoji: "✨", size:  9, dur: "4.6s", delay: "0.8s", op: 0.45 },
+  { id: 10, left: "65%", top: "35%", emoji: "⭐", size: 10, dur: "5.1s", delay: "1.3s", op: 0.5  },
+  { id: 11, left: "80%", top: "48%", emoji: "✦",  size: 12, dur: "7s",   delay: "4s",   op: 0.6,  color: "#c084fc" },
+  // ── Bottom ──
+  { id: 12, left:  "8%", top: "86%", emoji: "✨", size: 12, dur: "5.6s", delay: "2.2s", op: 0.55 },
+  { id: 13, left: "35%", top: "90%", emoji: "✦",  size: 14, dur: "5.4s", delay: "1.5s", op: 0.65, color: "#f472b6" },
+  { id: 14, left: "62%", top: "87%", emoji: "💫", size: 13, dur: "8.5s", delay: "3s",   op: 0.45 },
+  { id: 15, left: "85%", top: "91%", emoji: "✦",  size: 10, dur: "5.9s", delay: "0.3s", op: 0.6,  color: "#a78bfa" },
+  // ── Accent ──
+  { id: 16, left: "15%", top: "20%", emoji: "🌟", size: 17, dur: "9s",   delay: "4.5s", op: 0.3  },
+  { id: 17, left: "78%", top: "76%", emoji: "✨", size: 18, dur: "10s",  delay: "5.2s", op: 0.28 },
+];
+
+// Emoji sparkles for the Journey section (same style, slightly smaller)
+const JOURNEY_SPARKLES = [
+  { id:  0, left:  "4%", top: "10%", emoji: "✨", size:  8, dur: "5.2s", delay: "0s",   op: 0.80 },
+  { id:  1, left: "15%", top:  "5%", emoji: "✦",  size:  7, dur: "6s",   delay: "1.5s", op: 0.90, color: "#a78bfa" },
+  { id:  2, left: "38%", top:  "4%", emoji: "💫", size:  9, dur: "7.5s", delay: "0.7s", op: 0.75 },
+  { id:  3, left: "65%", top:  "6%", emoji: "✦",  size:  7, dur: "5.5s", delay: "2s",   op: 0.85, color: "#f9a8d4" },
+  { id:  4, left: "88%", top:  "8%", emoji: "⭐", size:  7, dur: "6.5s", delay: "1s",   op: 0.70 },
+  { id:  5, left:  "2%", top: "35%", emoji: "✦",  size:  8, dur: "5.8s", delay: "1.2s", op: 0.85, color: "#c4b5fd" },
+  { id:  6, left:  "3%", top: "65%", emoji: "✧",  size:  6, dur: "4.8s", delay: "2.8s", op: 0.80, color: "#93c5fd" },
+  { id:  7, left: "94%", top: "32%", emoji: "✨", size:  7, dur: "5s",   delay: "0.5s", op: 0.75 },
+  { id:  8, left: "96%", top: "60%", emoji: "✦",  size:  8, dur: "6.8s", delay: "3.2s", op: 0.85, color: "#c084fc" },
+  { id:  9, left: "22%", top: "48%", emoji: "✦",  size:  6, dur: "6.2s", delay: "1.8s", op: 0.75, color: "#f472b6" },
+  { id: 10, left: "55%", top: "52%", emoji: "✨", size:  7, dur: "4.9s", delay: "0.9s", op: 0.70 },
+  { id: 11, left: "75%", top: "40%", emoji: "✧",  size:  7, dur: "5.7s", delay: "2.5s", op: 0.80, color: "#a78bfa" },
+  { id: 12, left: "10%", top: "85%", emoji: "💫", size:  8, dur: "7s",   delay: "3.5s", op: 0.72 },
+  { id: 13, left: "50%", top: "90%", emoji: "✦",  size:  9, dur: "5.4s", delay: "1.4s", op: 0.85, color: "#e9d5ff" },
+  { id: 14, left: "85%", top: "88%", emoji: "🌟", size: 10, dur: "8s",   delay: "4s",   op: 0.65 },
+];
+
+// Rotating sparkle emojis for Journey (spin while floating)
+const JOURNEY_ROTATE_SPARKS = [
+  { id:  0, left: "9%",  top: "20%", emoji: "✨", size: 11, dur: "5s",   delay: "0s",   op: 0.80 },
+  { id:  1, left: "18%", top: "42%", emoji: "💫", size: 12, dur: "6.5s", delay: "1.2s", op: 0.75 },
+  { id:  2, left: "30%", top: "18%", emoji: "⭐", size: 10, dur: "4.8s", delay: "2.5s", op: 0.70 },
+  { id:  3, left: "42%", top: "60%", emoji: "✨", size: 11, dur: "7.2s", delay: "0.4s", op: 0.78 },
+  { id:  4, left: "52%", top: "28%", emoji: "🌟", size: 13, dur: "5.5s", delay: "3.1s", op: 0.65 },
+  { id:  5, left: "63%", top: "70%", emoji: "💫", size: 10, dur: "6.0s", delay: "1.7s", op: 0.72 },
+  { id:  6, left: "74%", top: "22%", emoji: "✨", size: 11, dur: "4.4s", delay: "0.9s", op: 0.80 },
+  { id:  7, left: "83%", top: "55%", emoji: "⭐", size:  9, dur: "7.8s", delay: "2.8s", op: 0.68 },
+  { id:  8, left: "12%", top: "70%", emoji: "🌟", size: 11, dur: "5.2s", delay: "1.5s", op: 0.73 },
+  { id:  9, left: "58%", top: "45%", emoji: "✨", size:  8, dur: "6.8s", delay: "3.8s", op: 0.70 },
+  { id: 10, left: "35%", top: "80%", emoji: "💫", size: 11, dur: "5.7s", delay: "0.6s", op: 0.75 },
+  { id: 11, left: "90%", top: "75%", emoji: "✨", size: 10, dur: "4.9s", delay: "2.2s", op: 0.72 },
+];
+
+// Tiny white disappearing stars for Journey section background
+const JOURNEY_BG_STARS = [
+  // char: ✦ ✧ ⋆ · ✦ ✧ (white, tiny, scattered densely)
+  { id:  0, left:  "2%",  top:  "8%",  ch: "✦", sz: 5,  dur: "3.2s", del: "0s"    },
+  { id:  1, left:  "8%",  top: "18%",  ch: "·", sz: 6,  dur: "4.1s", del: "1.1s"  },
+  { id:  2, left: "14%",  top:  "5%",  ch: "⋆", sz: 7,  dur: "2.8s", del: "0.4s"  },
+  { id:  3, left: "20%",  top: "14%",  ch: "✧", sz: 5,  dur: "3.7s", del: "2.3s"  },
+  { id:  4, left: "27%",  top:  "3%",  ch: "✦", sz: 4,  dur: "4.5s", del: "0.8s"  },
+  { id:  5, left: "34%",  top: "10%",  ch: "·", sz: 5,  dur: "3.0s", del: "1.9s"  },
+  { id:  6, left: "41%",  top:  "6%",  ch: "⋆", sz: 6,  dur: "5.2s", del: "3.1s"  },
+  { id:  7, left: "48%",  top: "16%",  ch: "✦", sz: 4,  dur: "3.5s", del: "0.2s"  },
+  { id:  8, left: "55%",  top:  "4%",  ch: "✧", sz: 7,  dur: "4.8s", del: "1.5s"  },
+  { id:  9, left: "62%",  top: "12%",  ch: "·", sz: 5,  dur: "2.9s", del: "2.7s"  },
+  { id: 10, left: "70%",  top:  "7%",  ch: "⋆", sz: 6,  dur: "3.8s", del: "0.6s"  },
+  { id: 11, left: "77%",  top: "15%",  ch: "✦", sz: 4,  dur: "5.0s", del: "3.4s"  },
+  { id: 12, left: "84%",  top:  "3%",  ch: "✧", sz: 5,  dur: "3.3s", del: "1.0s"  },
+  { id: 13, left: "91%",  top: "11%",  ch: "·", sz: 6,  dur: "4.2s", del: "2.0s"  },
+  { id: 14, left: "97%",  top:  "6%",  ch: "⋆", sz: 5,  dur: "3.1s", del: "0.7s"  },
+  { id: 15, left:  "5%",  top: "28%",  ch: "✦", sz: 4,  dur: "4.6s", del: "1.8s"  },
+  { id: 16, left: "11%",  top: "40%",  ch: "✧", sz: 6,  dur: "3.4s", del: "3.2s"  },
+  { id: 17, left: "18%",  top: "52%",  ch: "·", sz: 5,  dur: "5.1s", del: "0.3s"  },
+  { id: 18, left: "24%",  top: "33%",  ch: "⋆", sz: 7,  dur: "2.7s", del: "2.5s"  },
+  { id: 19, left: "31%",  top: "45%",  ch: "✦", sz: 4,  dur: "4.0s", del: "1.3s"  },
+  { id: 20, left: "38%",  top: "58%",  ch: "✧", sz: 5,  dur: "3.6s", del: "0.9s"  },
+  { id: 21, left: "45%",  top: "30%",  ch: "·", sz: 6,  dur: "4.9s", del: "2.1s"  },
+  { id: 22, left: "52%",  top: "44%",  ch: "⋆", sz: 5,  dur: "3.2s", del: "3.7s"  },
+  { id: 23, left: "59%",  top: "22%",  ch: "✦", sz: 7,  dur: "4.4s", del: "0.5s"  },
+  { id: 24, left: "66%",  top: "55%",  ch: "✧", sz: 4,  dur: "3.9s", del: "1.6s"  },
+  { id: 25, left: "73%",  top: "38%",  ch: "·", sz: 6,  dur: "2.6s", del: "2.9s"  },
+  { id: 26, left: "80%",  top: "24%",  ch: "⋆", sz: 5,  dur: "5.3s", del: "0.1s"  },
+  { id: 27, left: "87%",  top: "48%",  ch: "✦", sz: 4,  dur: "3.7s", del: "1.4s"  },
+  { id: 28, left: "93%",  top: "36%",  ch: "✧", sz: 6,  dur: "4.3s", del: "2.6s"  },
+  { id: 29, left:  "7%",  top: "68%",  ch: "·", sz: 5,  dur: "3.5s", del: "0.8s"  },
+  { id: 30, left: "15%",  top: "78%",  ch: "⋆", sz: 7,  dur: "4.7s", del: "3.0s"  },
+  { id: 31, left: "23%",  top: "62%",  ch: "✦", sz: 4,  dur: "3.1s", del: "1.7s"  },
+  { id: 32, left: "32%",  top: "75%",  ch: "✧", sz: 5,  dur: "5.4s", del: "2.4s"  },
+  { id: 33, left: "40%",  top: "83%",  ch: "·", sz: 6,  dur: "2.9s", del: "0.6s"  },
+  { id: 34, left: "48%",  top: "70%",  ch: "⋆", sz: 4,  dur: "4.1s", del: "3.5s"  },
+  { id: 35, left: "56%",  top: "80%",  ch: "✦", sz: 7,  dur: "3.8s", del: "1.2s"  },
+  { id: 36, left: "64%",  top: "65%",  ch: "✧", sz: 5,  dur: "4.5s", del: "2.8s"  },
+  { id: 37, left: "72%",  top: "77%",  ch: "·", sz: 6,  dur: "3.3s", del: "0.4s"  },
+  { id: 38, left: "79%",  top: "60%",  ch: "⋆", sz: 4,  dur: "5.0s", del: "1.9s"  },
+  { id: 39, left: "86%",  top: "72%",  ch: "✦", sz: 5,  dur: "3.6s", del: "3.3s"  },
+  { id: 40, left: "94%",  top: "82%",  ch: "✧", sz: 6,  dur: "4.2s", del: "0.9s"  },
+  { id: 41, left: "10%",  top: "93%",  ch: "·", sz: 5,  dur: "2.8s", del: "2.2s"  },
+  { id: 42, left: "28%",  top: "95%",  ch: "⋆", sz: 7,  dur: "4.8s", del: "1.0s"  },
+  { id: 43, left: "50%",  top: "97%",  ch: "✦", sz: 4,  dur: "3.4s", del: "3.8s"  },
+  { id: 44, left: "72%",  top: "92%",  ch: "✧", sz: 6,  dur: "5.2s", del: "0.3s"  },
+  { id: 45, left: "90%",  top: "94%",  ch: "·", sz: 5,  dur: "3.9s", del: "2.0s"  },
+  // extra dense layer
+  { id: 46, left:  "4%",  top: "13%",  ch: "·", sz: 3,  dur: "2.4s", del: "0.3s"  },
+  { id: 47, left: "12%",  top: "25%",  ch: "✦", sz: 4,  dur: "3.8s", del: "1.5s"  },
+  { id: 48, left: "19%",  top: "47%",  ch: "·", sz: 3,  dur: "5.0s", del: "2.8s"  },
+  { id: 49, left: "26%",  top: "20%",  ch: "⋆", sz: 4,  dur: "2.9s", del: "0.7s"  },
+  { id: 50, left: "33%",  top: "38%",  ch: "·", sz: 3,  dur: "4.3s", del: "3.6s"  },
+  { id: 51, left: "39%",  top:  "9%",  ch: "✧", sz: 4,  dur: "3.1s", del: "1.2s"  },
+  { id: 52, left: "46%",  top: "53%",  ch: "·", sz: 3,  dur: "4.7s", del: "0.5s"  },
+  { id: 53, left: "53%",  top: "31%",  ch: "⋆", sz: 4,  dur: "3.5s", del: "2.1s"  },
+  { id: 54, left: "60%",  top: "42%",  ch: "·", sz: 3,  dur: "2.7s", del: "3.9s"  },
+  { id: 55, left: "67%",  top: "18%",  ch: "✦", sz: 4,  dur: "4.6s", del: "0.9s"  },
+  { id: 56, left: "74%",  top: "63%",  ch: "·", sz: 3,  dur: "3.3s", del: "2.4s"  },
+  { id: 57, left: "81%",  top: "29%",  ch: "⋆", sz: 4,  dur: "5.1s", del: "1.7s"  },
+  { id: 58, left: "88%",  top: "57%",  ch: "·", sz: 3,  dur: "2.6s", del: "0.2s"  },
+  { id: 59, left: "95%",  top: "21%",  ch: "✧", sz: 4,  dur: "4.0s", del: "3.1s"  },
+  { id: 60, left:  "6%",  top: "73%",  ch: "⋆", sz: 3,  dur: "3.6s", del: "1.0s"  },
+  { id: 61, left: "13%",  top: "86%",  ch: "·", sz: 4,  dur: "4.9s", del: "2.3s"  },
+  { id: 62, left: "22%",  top: "57%",  ch: "✦", sz: 3,  dur: "3.2s", del: "3.4s"  },
+  { id: 63, left: "29%",  top: "88%",  ch: "·", sz: 4,  dur: "2.5s", del: "0.6s"  },
+  { id: 64, left: "37%",  top: "66%",  ch: "⋆", sz: 3,  dur: "4.4s", del: "1.8s"  },
+  { id: 65, left: "44%",  top: "79%",  ch: "✧", sz: 4,  dur: "3.0s", del: "2.6s"  },
+  { id: 66, left: "51%",  top: "90%",  ch: "·", sz: 3,  dur: "5.3s", del: "0.4s"  },
+  { id: 67, left: "58%",  top: "68%",  ch: "✦", sz: 4,  dur: "3.7s", del: "3.0s"  },
+  { id: 68, left: "65%",  top: "85%",  ch: "·", sz: 3,  dur: "2.8s", del: "1.3s"  },
+  { id: 69, left: "71%",  top: "50%",  ch: "⋆", sz: 4,  dur: "4.2s", del: "2.7s"  },
+  { id: 70, left: "78%",  top: "91%",  ch: "·", sz: 3,  dur: "3.5s", del: "0.8s"  },
+  { id: 71, left: "85%",  top: "74%",  ch: "✧", sz: 4,  dur: "4.8s", del: "3.3s"  },
+  { id: 72, left: "92%",  top: "45%",  ch: "·", sz: 3,  dur: "2.9s", del: "1.6s"  },
+  { id: 73, left:  "3%",  top: "56%",  ch: "⋆", sz: 4,  dur: "3.4s", del: "2.9s"  },
+  { id: 74, left: "16%",  top: "35%",  ch: "·", sz: 3,  dur: "5.2s", del: "0.1s"  },
+  { id: 75, left: "35%",  top: "27%",  ch: "✦", sz: 4,  dur: "3.9s", del: "1.4s"  },
+  { id: 76, left: "57%",  top: "14%",  ch: "·", sz: 3,  dur: "4.5s", del: "3.7s"  },
+  { id: 77, left: "75%",  top: "34%",  ch: "⋆", sz: 4,  dur: "2.7s", del: "0.5s"  },
+  { id: 78, left: "89%",  top: "16%",  ch: "·", sz: 3,  dur: "3.8s", del: "2.2s"  },
+  { id: 79, left: "43%",  top: "96%",  ch: "✧", sz: 3,  dur: "4.1s", del: "1.9s"  },
+  { id: 80, left: "68%",  top: "98%",  ch: "·", sz: 4,  dur: "3.0s", del: "0.3s"  },
+  { id: 81, left: "21%",  top: "99%",  ch: "⋆", sz: 3,  dur: "5.5s", del: "2.5s"  },
+  { id: 82, left: "82%",  top: "87%",  ch: "·", sz: 4,  dur: "3.1s", del: "1.1s"  },
+  { id: 83, left:  "9%",  top: "43%",  ch: "✦", sz: 3,  dur: "4.6s", del: "3.2s"  },
+  { id: 84, left: "49%",  top: "23%",  ch: "·", sz: 4,  dur: "2.3s", del: "0.7s"  },
+  { id: 85, left: "96%",  top: "67%",  ch: "⋆", sz: 3,  dur: "4.4s", del: "2.0s"  },
+  { id: 86, left: "30%",  top: "71%",  ch: "·", sz: 4,  dur: "3.6s", del: "3.5s"  },
+  { id: 87, left: "63%",  top: "59%",  ch: "✧", sz: 3,  dur: "5.0s", del: "0.9s"  },
+  { id: 88, left: "76%",  top: "11%",  ch: "·", sz: 4,  dur: "2.6s", del: "2.6s"  },
+  { id: 89, left:  "1%",  top: "89%",  ch: "⋆", sz: 3,  dur: "3.3s", del: "1.4s"  },
+  { id: 90, left: "99%",  top: "30%",  ch: "·", sz: 4,  dur: "4.7s", del: "3.8s"  },
+  { id: 91, left: "54%",  top: "76%",  ch: "✦", sz: 3,  dur: "3.2s", del: "0.2s"  },
+  { id: 92, left: "17%",  top: "62%",  ch: "·", sz: 4,  dur: "4.0s", del: "1.7s"  },
+  { id: 93, left: "42%",  top: "42%",  ch: "⋆", sz: 3,  dur: "2.8s", del: "2.3s"  },
+  { id: 94, left: "83%",  top: "39%",  ch: "·", sz: 4,  dur: "5.1s", del: "0.6s"  },
+  { id: 95, left: "25%",  top: "81%",  ch: "✧", sz: 3,  dur: "3.7s", del: "3.6s"  },
+];
+
 function renderText(text: string): React.ReactNode[] {
   return text.split(/(\[\[(?:org|num|rank):[^\]]+\]\])/).map((part, i) => {
     const m = part.match(/^\[\[(org|num|rank):(.+)\]\]$/);
@@ -779,9 +946,14 @@ function ProjectsSection() {
       ].join(", ");
 
   const titleColor = isDark ? "rgba(255,255,255,0.96)" : "rgba(15,10,40,0.92)";
+  const isLastThree = active >= 2;
   const cardBg = isDark
-    ? `radial-gradient(circle at 18% 0%, rgba(${proj.accentRgb},.28), transparent 36%), linear-gradient(160deg, rgba(${proj.accentRgb},.18) 0%, rgba(${proj.accentRgb},.08) 45%, rgba(${proj.deep ?? "8,8,12"},.99) 100%)`
-    : `radial-gradient(circle at 12% 0%, rgba(${proj.accentRgb},.14), transparent 38%), linear-gradient(160deg, rgba(${proj.accentRgb},.09) 0%, #FEFEFF 100%)`;
+    ? isLastThree
+      ? `radial-gradient(circle at 18% 0%, rgba(96,165,250,.22), transparent 36%), linear-gradient(160deg, rgba(147,197,253,.12) 0%, rgba(59,130,246,.07) 45%, rgba(15,30,60,.97) 100%)`
+      : `radial-gradient(circle at 18% 0%, rgba(${proj.accentRgb},.28), transparent 36%), linear-gradient(160deg, rgba(${proj.accentRgb},.18) 0%, rgba(${proj.accentRgb},.08) 45%, rgba(${proj.deep ?? "8,8,12"},.99) 100%)`
+    : isLastThree
+      ? `radial-gradient(circle at 12% 0%, rgba(147,197,253,.18), transparent 38%), linear-gradient(160deg, rgba(219,234,254,.5) 0%, #EFF6FF 100%)`
+      : `radial-gradient(circle at 12% 0%, rgba(${proj.accentRgb},.14), transparent 38%), linear-gradient(160deg, rgba(${proj.accentRgb},.09) 0%, #FEFEFF 100%)`;
   const cardBodyText = isDark ? "rgba(220,215,255,0.82)" : "rgba(40,30,80,0.75)";
 
   return (
@@ -794,6 +966,8 @@ function ProjectsSection() {
       <div className="pa-grid" aria-hidden />
       <div className="pa-crt"  aria-hidden />
       <div className="pa-vignette" aria-hidden />
+      {/* Progressive dim overlay — gets darker toward last projects */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, background: "rgba(0,0,0,1)", opacity: [0, 0, 0.10, 0.20, 0.32][active] ?? 0, transition: "opacity 0.5s ease" }} />
 
       {/* Sparks */}
       <div className="pa-sparks" aria-hidden>
@@ -809,6 +983,27 @@ function ProjectsSection() {
               "--pa-so": s.opacity, "--pa-sc": s.color,
             } as React.CSSProperties}
           />
+        ))}
+      </div>
+
+      {/* Emoji + diamond sparkles */}
+      <div className="pa-emoji-sparks" aria-hidden>
+        {PA_EMOJI_SPARKLES.map(s => (
+          <span
+            key={s.id}
+            className={`pa-emoji-spark${s.color ? " diamond" : ""}`}
+            style={{
+              left: s.left,
+              top: s.top,
+              fontSize: s.size + "px",
+              color: s.color ?? undefined,
+              "--pes-dur": s.dur,
+              "--pes-del": s.delay,
+              "--pes-op": s.op,
+            } as React.CSSProperties}
+          >
+            {s.emoji}
+          </span>
         ))}
       </div>
 
@@ -969,6 +1164,232 @@ function ProjectsSection() {
   );
 }
 
+function RetroGridScene() {
+  return (
+    <div className="hero-retro-scene" aria-hidden>
+      <div className="hero-retro-stars" />
+      <div className="hero-retro-horizon" />
+      <div className="hero-retro-grid-wrap">
+        <div className="hero-retro-grid" />
+      </div>
+      <div className="hero-retro-lane" />
+    </div>
+  );
+}
+
+// Awards banner (shared by mobile + desktop hero)
+const AWARD_ITEMS = [
+  { c: "pink", t: "🥇 1st — Gulf Countries Challenge" },
+  { c: "cyan", t: "🥇 1st — Best Game, Cultural Game Jam S2" },
+  { c: "violet", t: "🏆 Best Game Design — Cultural Game Jam S2" },
+  { c: "pink", t: "🏆 Best Social Media — INJAZ Kuwait (EVA AI)" },
+  { c: "cyan", t: "🥈 2nd — AUM Startup Challenge (EVA AI Pin)" },
+  { c: "violet", t: "🎓 Graduated with Honors — B.Sc. CE" },
+  { c: "pink", t: "🌍 Top 12 Worldwide — Babson Startup Challenge" },
+  { c: "cyan", t: "🏆 Best Grad Project Nominee — UC Berkeley AI" },
+];
+
+// Glowing starfield for the desktop hero — mirrors the mobile hero look
+const DESKTOP_HERO_STARS = Array.from({ length: 40 }, () => {
+  const size = Math.random() * 1.3 + 0.5;
+  return {
+    size,
+    top: Math.random() * 100,
+    left: Math.random() * 100,
+    delay: Math.random() * 5,
+    dur: Math.random() * 3 + 2.4,
+    glow: size * (Math.random() * 1.2 + 0.8),
+    bright: Math.random() > 0.85,
+  };
+});
+
+const HERO_BG_EMOJIS: { ch: string; style: CSSProperties; delay: string }[] = [
+  { ch: "✨", style: { top: "13%", left: "11%" }, delay: "0s" },
+  { ch: "⭐", style: { top: "70%", left: "7%" }, delay: "1.4s" },
+  { ch: "✨", style: { top: "18%", right: "9%" }, delay: "0.7s" },
+];
+
+function DesktopAwardsTicker() {
+  return (
+    <div className="dh-award-ticker-wrap" aria-hidden>
+      <div className="dh-award-ticker">
+        {[...AWARD_ITEMS, ...AWARD_ITEMS].map((a, i) => (
+          <span key={i} className="dh-award-item">
+            <span className={`aw-${a.c}`}>{a.t}</span>
+            <span className="dh-award-sep"> · </span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MobileHero() {
+  const stars = useMemo(
+    () =>
+      Array.from({ length: 55 }, () => {
+        const size = Math.random() * 1.3 + 0.5; // 0.5–1.8px, mostly pin-tiny
+        const bright = Math.random() > 0.85;
+        return {
+          size,
+          top: Math.random() * 100,
+          left: Math.random() * 100,
+          delay: Math.random() * 5,
+          dur: Math.random() * 3 + 2.4,
+          glow: size * (Math.random() * 1.2 + 0.8), // soft halo radius
+          bright,
+        };
+      }),
+    [],
+  );
+
+  return (
+    <section className="mh2-section">
+      <div className="mh2-blob mh2-blob-a" aria-hidden />
+      <div className="mh2-blob mh2-blob-b" aria-hidden />
+      <div className="mh2-blob mh2-blob-c" aria-hidden />
+
+      <div className="mh2-stars" aria-hidden>
+        {stars.map((s, i) => (
+          <span
+            key={i}
+            className={s.bright ? "mh2-star mh2-star-bright" : "mh2-star"}
+            style={{
+              width: `${s.size}px`,
+              height: `${s.size}px`,
+              top: `${s.top}%`,
+              left: `${s.left}%`,
+              animationDelay: `${s.delay}s`,
+              animationDuration: `${s.dur}s`,
+              boxShadow: `0 0 ${s.glow}px ${s.glow / 3}px rgba(255,255,255,${s.bright ? 0.35 : 0.16})`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="mh2-emojis" aria-hidden>
+        {HERO_BG_EMOJIS.map((e, i) => (
+          <span key={i} className="mh2-emoji" style={{ ...e.style, animationDelay: e.delay }}>
+            {e.ch}
+          </span>
+        ))}
+      </div>
+
+      <div className="mh2-stage">
+        <div className="mh2-portrait-col">
+          <div className="mh2-portrait-wrap">
+            <div className="mh2-ring mh2-ring-2" aria-hidden />
+            <div className="mh2-ring mh2-ring-3" aria-hidden />
+            <div className="mh2-ring mh2-ring-1" aria-hidden />
+            <div className="mh2-portrait-frame">
+              <img src="/image.png" alt="Nourah Alotaibi" />
+            </div>
+
+            <span className="mh2-robot" aria-hidden>🤖</span>
+
+            <div className="mh2-computer" aria-hidden>
+              <svg viewBox="0 0 100 82" fill="none">
+                <rect x="18" y="8" width="64" height="45" rx="5" fill="#12132e" stroke="#FFD166" strokeWidth="4" />
+                <rect x="25" y="15" width="50" height="31" rx="2" fill="#211548" stroke="#7E3FF2" strokeWidth="2" />
+                <path d="M12 58 H88 L96 70 Q96 75 89 75 H11 Q4 75 4 70 Z" fill="#16133D" stroke="#FFD166" strokeWidth="4" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="mh2-content">
+          <h1 className="mh2-hi">Hi, I'm</h1>
+          <p className="mh2-name">Nourah Alotaibi</p>
+
+          <div className="mh2-role-line">
+            <span className="mh2-role-pill">Computer Engineer</span>
+            <span className="mh2-role-pill mh2-alt">AI Developer</span>
+          </div>
+
+          <div className="mh2-credentials">
+            <div className="mh2-cred">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 10 12 5 2 10l10 5 10-5Z" />
+                <path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" />
+              </svg>
+              <span>
+                <b>Major</b>: CE <span className="mh2-sep">·</span> <b>Minor</b>: AI &amp; Entrepreneurship
+              </span>
+            </div>
+          </div>
+
+          <p className="mh2-desc">
+            I build AI systems from local to cloud, design web experiences, enjoy solving CTFs (cyber security challenges).
+            <span className="mh2-fun-aside">~unofficial matcha specialist &amp; tester 🍵</span>
+          </p>
+
+          <div className="mh2-actions">
+            <a className="mh2-cta" href="#journey">
+              <span>Explore my journey</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+
+            <div className="mh2-socials">
+              <a
+                className="mh2-social"
+                href="https://github.com/nourah-alotaibi"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.1 3.29 9.4 7.86 10.94.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.07.78 2.16v3.2c0 .3.21.66.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z" />
+                </svg>
+              </a>
+              <a
+                className="mh2-social"
+                href="https://www.linkedin.com/in/nourah-fahad-alotaibi-14b121226/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.45 20.45h-3.56v-5.58c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.68H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45Z" />
+                </svg>
+              </a>
+              <a className="mh2-social" href="mailto:noooriii760@gmail.com" aria-label="Email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+                  <path d="m3 6 9 7 9-7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div className="mh2-ticker-wrap">
+            <div className="mh2-ticker">
+              <span className="mh2-t-pink">🥇 1st — Gulf Countries Challenge</span> ·{" "}
+              <span className="mh2-t-cyan">🥇 1st — Best Game, Cultural Game Jam S2</span> ·{" "}
+              <span className="mh2-t-violet">🏆 Best Game Design — Cultural Game Jam S2</span> ·{" "}
+              <span className="mh2-t-pink">🏆 Best Social Media — INJAZ Kuwait (EVA AI)</span> ·{" "}
+              <span className="mh2-t-cyan">🥈 2nd — AUM Startup Challenge (EVA AI Pin)</span> ·{" "}
+              <span className="mh2-t-violet">🎓 Graduated with Honors — B.Sc. CE</span> ·{" "}
+              <span className="mh2-t-pink">🌍 Top 12 Worldwide — Babson Startup Challenge</span> ·{" "}
+              <span className="mh2-t-cyan">🏆 Best Grad Project Nominee — UC Berkeley AI</span> ·{" "}
+              <span className="mh2-t-pink">🥇 1st — Gulf Countries Challenge</span> ·{" "}
+              <span className="mh2-t-cyan">🥇 1st — Best Game, Cultural Game Jam S2</span> ·{" "}
+              <span className="mh2-t-violet">🏆 Best Game Design — Cultural Game Jam S2</span> ·{" "}
+              <span className="mh2-t-pink">🏆 Best Social Media — INJAZ Kuwait (EVA AI)</span> ·{" "}
+              <span className="mh2-t-cyan">🥈 2nd — AUM Startup Challenge (EVA AI Pin)</span> ·{" "}
+              <span className="mh2-t-violet">🎓 Graduated with Honors — B.Sc. CE</span> ·{" "}
+              <span className="mh2-t-pink">🌍 Top 12 Worldwide — Babson Startup Challenge</span> ·{" "}
+              <span className="mh2-t-cyan">🏆 Best Grad Project Nominee — UC Berkeley AI</span> ·
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const { theme } = useTheme();
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -995,8 +1416,15 @@ export default function Home() {
       {/* Page-wide drifting 4-point star sparkles */}
       <PageSparkles />
 
-      {/* ── Hero Section ── dark mode unchanged; light mode = seamless atmospheric CSS gradients ── */}
-      <section id="hero" className="min-h-screen flex flex-col items-center justify-center relative px-6 overflow-hidden" style={{ background: isDark
+      {/* ── Hero Section ── */}
+      <div id="hero">
+        {/* Mobile hero — hidden on md+ */}
+        <div className="md:hidden">
+          <MobileHero />
+        </div>
+
+        {/* Desktop hero — hidden below md */}
+      <section className="hidden md:flex min-h-screen flex-col items-center justify-center relative px-6 overflow-hidden" style={{ background: isDark
           ? [
               "radial-gradient(ellipse 1100px 640px at 50%  0%,  rgba(255,255,255,0.14) 0%, rgba(255,248,220,0.10) 30%, rgba(255,230,170,0.06) 55%, transparent 80%)",
               "radial-gradient(ellipse 1700px 950px at 50% -4%,  rgba(255,255,255,0.05) 0%, transparent 75%)",
@@ -1015,6 +1443,9 @@ export default function Home() {
               "#F9F7FF",
             ].join(", ")
       }}>
+
+        {/* Retro grid scene */}
+        {isDark && <RetroGridScene />}
 
         {/* Decorative clouds — light mode only */}
         {!isDark && heroCloudData.map((c, i) => <Cloud key={i} {...c} />)}
@@ -1049,7 +1480,37 @@ export default function Home() {
           <span key={`dot-${i}`} className="absolute text-[8px] animate-[sparkle_3s_ease-in-out_infinite] pointer-events-none" style={{ left: `${5 + i * 8}%`, top: `${10 + (i % 4) * 22}%`, animationDelay: `${i * 0.5}s`, color: cardSparkleColors[i % 12] }}>●</span>
         ))}
 
-        <div className="flex items-center justify-center gap-5 md:gap-16 max-w-[1100px] w-full relative z-10 flex-col md:flex-row">
+        {/* Glowing starfield + drifting emojis — mirrors the mobile hero */}
+        {isDark && (
+          <div className="dh-stars" aria-hidden>
+            {DESKTOP_HERO_STARS.map((s, i) => (
+              <span
+                key={`hstar-${i}`}
+                className={s.bright ? "dh-star dh-star-bright" : "dh-star"}
+                style={{
+                  width: `${s.size}px`,
+                  height: `${s.size}px`,
+                  top: `${s.top}%`,
+                  left: `${s.left}%`,
+                  animationDelay: `${s.delay}s`,
+                  animationDuration: `${s.dur}s`,
+                  boxShadow: `0 0 ${s.glow}px ${s.glow / 3}px rgba(255,255,255,${s.bright ? 0.35 : 0.16})`,
+                }}
+              />
+            ))}
+          </div>
+        )}
+        {isDark && (
+          <div className="dh-emojis" aria-hidden>
+            {HERO_BG_EMOJIS.map((e, i) => (
+              <span key={`hemoji-${i}`} className="dh-emoji" style={{ ...e.style, animationDelay: e.delay }}>
+                {e.ch}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="flex flex-row items-center justify-center gap-3 md:gap-16 max-w-[1100px] w-full relative z-10">
           {/* Portrait - left side */}
           <motion.div
             className="flex-shrink-0 relative"
@@ -1060,20 +1521,20 @@ export default function Home() {
             <img
               src="/image.png"
               alt="Nourah Alotaibi"
-              className="h-[32vh] md:h-[75vh] max-h-[250px] md:max-h-[700px] min-h-[160px] md:min-h-[300px] w-auto object-contain animate-[portraitFloat_4s_ease-in-out_infinite]"
+              className="h-[22vh] md:h-[75vh] max-h-[150px] md:max-h-[700px] min-h-[80px] md:min-h-[300px] w-auto object-contain animate-[portraitFloat_4s_ease-in-out_infinite]"
             />
           </motion.div>
 
           {/* Text - right side */}
           <motion.div
-            className="text-center md:text-left max-w-[520px]"
+            className="text-left max-w-[520px] min-w-0"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
           >
-            <div className="hero-title-wrapper mb-4">
-              <h1 className={`hero-title text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold leading-tight ${isDark ? "" : "text-purple-900"}`}>
-                Hi, I'm Nourah Alotaibi! 👋🏻
+            <div className="hero-title-wrapper mb-1 md:mb-4">
+              <h1 className={`hero-title text-[1rem] sm:text-5xl md:text-[3.5rem] font-extrabold leading-tight ${isDark ? "" : "text-purple-900"}`}>
+                Hi, I'm <span className="hero-name-nourah">Nourah</span> <span className="hero-name-alotaibi">Alotaibi!</span> 👋🏻
               </h1>
               {isDark && (
                 <>
@@ -1083,16 +1544,46 @@ export default function Home() {
                 </>
               )}
             </div>
-            <h2 className={`text-lg sm:text-xl md:text-2xl font-medium mb-5 ${isDark ? "text-[#c4b5fd]" : "text-purple-600"}`}>
+            <div className="dh-socials">
+              <a
+                className="dh-social"
+                href="https://github.com/nourah-alotaibi"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <Github />
+              </a>
+              <a
+                className="dh-social"
+                href="https://www.linkedin.com/in/nourah-fahad-alotaibi-14b121226/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <Linkedin />
+              </a>
+              <a
+                className="dh-social"
+                href="mailto:noooriii760@gmail.com"
+                aria-label="Email"
+              >
+                <Mail />
+              </a>
+            </div>
+            <h2 className={`text-[0.6rem] sm:text-xl md:text-2xl font-medium mb-1 md:mb-5 ${isDark ? "text-[#c4b5fd]" : "text-purple-600"}`}>
               Computer Engineer | AI Developer
             </h2>
-            <p className={`text-base leading-7 mb-8 ${isDark ? "text-[rgba(203,213,225,0.8)]" : "text-gray-600"}`}>
-              Explore the journey that made me who I am.
+            <p className={`dh-hero-desc text-[0.55rem] leading-4 mb-2 md:text-base md:leading-7 md:mb-6 ${isDark ? "text-[rgba(203,213,225,0.8)]" : "text-gray-600"}`}>
+              I build AI systems from local to cloud, design web experiences, enjoy solving CTFs (cyber security challenges).
+              <span className="dh-fun-aside">~unofficial matcha specialist &amp; tester 🍵</span>
             </p>
-            <a href="#journey" className="premium-btn inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm text-white">
-              <Sparkles className="w-4 h-4" />
+            <a href="#journey" className="premium-btn inline-flex items-center gap-1 md:gap-2 px-2.5 py-1 md:px-6 md:py-3 rounded-full font-semibold text-[0.55rem] md:text-sm text-white">
+              <Sparkles className="w-2.5 h-2.5 md:w-4 md:h-4" />
               Explore My Journey
             </a>
+
+            <DesktopAwardsTicker />
           </motion.div>
         </div>
 
@@ -1100,17 +1591,18 @@ export default function Home() {
           <ChevronDown className="w-6 h-6" />
         </motion.div>
       </section>
+      </div>{/* end #hero wrapper */}
 
       {/* ── Journey Section ── */}
       <section
         id="journey"
-        className="py-8 md:py-16 px-4 md:px-6 relative overflow-hidden"
+        className="py-3 md:py-16 px-2 md:px-6 relative overflow-hidden"
         style={{
           background: isDark
             ? [
-                "radial-gradient(ellipse 820px 680px at 100% 0%, rgba(139,92,246,0.22) 0%, rgba(109,40,217,0.10) 45%, transparent 75%)",
-                "radial-gradient(ellipse 700px 600px at 0% 0%, rgba(168,85,247,0.18) 0%, rgba(139,92,246,0.08) 40%, transparent 72%)",
-                "linear-gradient(155deg, #080B1F 0%, #0E0B2A 35%, #16133D 70%, #0A0820 100%)",
+                "radial-gradient(ellipse 600px 400px at 20% 85%, rgba(30,80,180,0.18) 0%, transparent 70%)",
+                "radial-gradient(ellipse 500px 350px at 80% 90%, rgba(56,120,220,0.14) 0%, transparent 65%)",
+                "linear-gradient(180deg, #020408 0%, #030a16 12%, #050e22 25%, #08142e 40%, #0c1c40 55%, #102448 68%, #162e5a 80%, #0e1e3a 90%, #132444 95%, #1a3060 100%)",
               ].join(", ")
             : [
                 "radial-gradient(ellipse 700px 560px at 100% 0%, rgba(167,139,250,0.28) 0%, rgba(196,181,253,0.12) 45%, transparent 72%)",
@@ -1134,9 +1626,71 @@ export default function Home() {
           </>
         )}
 
-        <motion.div className="text-center mb-4 md:mb-8 relative z-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-          <h2 className="section-heading text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2">My Journey</h2>
-          <p className="section-subtitle text-sm md:text-base">Every chapter shaped who I am today</p>
+        {/* Tiny white disappearing stars — fades toward bottom */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 2, WebkitMaskImage: "linear-gradient(to bottom, #000 0%, #000 35%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0.15) 80%, transparent 100%)", maskImage: "linear-gradient(to bottom, #000 0%, #000 35%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0.15) 80%, transparent 100%)" }} aria-hidden>
+          {JOURNEY_BG_STARS.map(s => (
+            <span
+              key={s.id}
+              className="absolute select-none leading-none"
+              style={{
+                left: s.left,
+                top: s.top,
+                fontSize: s.sz + "px",
+                color: "#ffffff",
+                animation: `sparkle ${s.dur} ease-in-out ${s.del} infinite`,
+              }}
+            >
+              {s.ch}
+            </span>
+          ))}
+        </div>
+
+        {/* Journey floating sparkles */}
+        <div className="pa-emoji-sparks" aria-hidden>
+          {JOURNEY_SPARKLES.map(s => (
+            <span
+              key={s.id}
+              className={`pa-emoji-spark${s.color ? " diamond" : ""}`}
+              style={{
+                left: s.left,
+                top: s.top,
+                fontSize: s.size + "px",
+                color: s.color ?? undefined,
+                "--pes-dur": s.dur,
+                "--pes-del": s.delay,
+                "--pes-op": s.op,
+              } as React.CSSProperties}
+            >
+              {s.emoji}
+            </span>
+          ))}
+        </div>
+
+        {/* Rotating sparkle emojis */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 3 }} aria-hidden>
+          {JOURNEY_ROTATE_SPARKS.map(s => (
+            <span
+              key={s.id}
+              className="absolute select-none leading-none"
+              style={{
+                left: s.left,
+                top: s.top,
+                fontSize: s.size + "px",
+                opacity: 0,
+                "--pes-dur": s.dur,
+                "--pes-del": s.delay,
+                "--pes-op": s.op,
+                animation: `journey-spin-float ${s.dur} ease-in-out ${s.delay} infinite`,
+              } as React.CSSProperties}
+            >
+              {s.emoji}
+            </span>
+          ))}
+        </div>
+
+        <motion.div className="text-center mb-2 md:mb-8 relative z-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+          <h2 className="section-heading text-base sm:text-3xl md:text-4xl font-extrabold mb-1 md:mb-2">My Journey</h2>
+          <p className="section-subtitle text-[0.6rem] md:text-base">Every chapter shaped who I am today</p>
         </motion.div>
 
         <ShootingStar />
@@ -1154,7 +1708,7 @@ export default function Home() {
       {/* ── Contact Section ── */}
       <section
         id="contact"
-        className="py-24 px-6 relative overflow-hidden"
+        className="py-6 md:py-24 px-3 md:px-6 relative overflow-hidden"
         style={{
           background: isDark
             ? "linear-gradient(175deg, #080B1F 0%, #16133D 50%, #0A0820 100%)"
@@ -1177,27 +1731,27 @@ export default function Home() {
           </>
         )}
 
-        <motion.div className="text-center mb-16 relative z-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-          <h2 className="section-heading text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3">Let's Connect</h2>
-          <p className="section-subtitle text-base">Ready to discuss AI innovation, education, or potential collaborations?</p>
+        <motion.div className="text-center mb-5 md:mb-16 relative z-10" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+          <h2 className="section-heading text-lg sm:text-4xl md:text-5xl font-extrabold mb-1 md:mb-3">Let's Connect</h2>
+          <p className="section-subtitle text-[0.6rem] md:text-base">Ready to discuss AI innovation, education, or potential collaborations?</p>
         </motion.div>
 
-        <div className="max-w-[500px] mx-auto flex flex-col gap-6 relative z-10">
-          <a href="mailto:noooriii760@gmail.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
-            <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${isDark ? "bg-gradient-to-br from-[rgba(139,92,246,0.2)] to-[rgba(168,85,247,0.2)] border border-[rgba(139,92,246,0.3)] text-[#c4b5fd]" : "bg-purple-100 border border-purple-200 text-purple-600"}`}><Mail className="w-5 h-5" /></div>
-            <div><p className={`text-xs font-medium ${isDark ? "text-[#a78bfa]" : "text-purple-500"}`}>Email</p><p className={`text-sm group-hover:underline ${isDark ? "text-[#f5f3ff]" : "text-purple-900"}`}>noooriii760@gmail.com</p></div>
+        <div className="max-w-[500px] mx-auto flex flex-col gap-2 md:gap-6 relative z-10">
+          <a href="mailto:noooriii760@gmail.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 md:gap-4 group">
+            <div className={`w-7 h-7 md:w-11 md:h-11 rounded-lg md:rounded-xl flex items-center justify-center ${isDark ? "bg-gradient-to-br from-[rgba(139,92,246,0.2)] to-[rgba(168,85,247,0.2)] border border-[rgba(139,92,246,0.3)] text-[#c4b5fd]" : "bg-purple-100 border border-purple-200 text-purple-600"}`}><Mail className="w-3 h-3 md:w-5 md:h-5" /></div>
+            <div><p className={`text-[0.55rem] md:text-xs font-medium ${isDark ? "text-[#a78bfa]" : "text-purple-500"}`}>Email</p><p className={`text-[0.6rem] md:text-sm group-hover:underline ${isDark ? "text-[#f5f3ff]" : "text-purple-900"}`}>noooriii760@gmail.com</p></div>
           </a>
-          <a href="https://github.com/nourah-alotaibi" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
-            <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${isDark ? "bg-gradient-to-br from-[rgba(139,92,246,0.2)] to-[rgba(168,85,247,0.2)] border border-[rgba(139,92,246,0.3)] text-[#c4b5fd]" : "bg-purple-100 border border-purple-200 text-purple-600"}`}><Globe className="w-5 h-5" /></div>
-            <div><p className={`text-xs font-medium ${isDark ? "text-[#a78bfa]" : "text-purple-500"}`}>GitHub</p><p className={`text-sm group-hover:underline ${isDark ? "text-[#f5f3ff]" : "text-purple-900"}`}>@nourah-alotaibi</p></div>
+          <a href="https://github.com/nourah-alotaibi" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 md:gap-4 group">
+            <div className={`w-7 h-7 md:w-11 md:h-11 rounded-lg md:rounded-xl flex items-center justify-center ${isDark ? "bg-gradient-to-br from-[rgba(139,92,246,0.2)] to-[rgba(168,85,247,0.2)] border border-[rgba(139,92,246,0.3)] text-[#c4b5fd]" : "bg-purple-100 border border-purple-200 text-purple-600"}`}><Globe className="w-3 h-3 md:w-5 md:h-5" /></div>
+            <div><p className={`text-[0.55rem] md:text-xs font-medium ${isDark ? "text-[#a78bfa]" : "text-purple-500"}`}>GitHub</p><p className={`text-[0.6rem] md:text-sm group-hover:underline ${isDark ? "text-[#f5f3ff]" : "text-purple-900"}`}>@nourah-alotaibi</p></div>
           </a>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`py-12 px-6 text-center border-t relative z-10 ${isDark ? "border-[rgba(139,92,246,0.1)]" : "border-purple-100"}`}>
-        <p className={`text-sm ${isDark ? "text-[rgba(148,163,184,0.6)]" : "text-gray-500"}`}>© 2025 Nourah Alotaibi. Passionate about AI innovation and education.</p>
-        <p className={`mt-3 text-sm italic ${isDark ? "text-[rgba(196,181,253,0.5)]" : "text-purple-400"}`}>"Technology is best when it brings people together and creates meaningful impact."</p>
+      <footer className={`py-4 md:py-12 px-3 md:px-6 text-center border-t relative z-10 ${isDark ? "border-[rgba(139,92,246,0.1)]" : "border-purple-100"}`}>
+        <p className={`text-[0.6rem] md:text-sm ${isDark ? "text-[rgba(148,163,184,0.6)]" : "text-gray-500"}`}>© 2025 Nourah Alotaibi. Passionate about AI innovation and education.</p>
+        <p className={`mt-1 md:mt-3 text-[0.6rem] md:text-sm italic ${isDark ? "text-[rgba(196,181,253,0.5)]" : "text-purple-400"}`}>"Technology is best when it brings people together and creates meaningful impact."</p>
       </footer>
     </div>
   );

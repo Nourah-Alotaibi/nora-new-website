@@ -500,6 +500,224 @@
   }
 }
 
+/* ── Mobile Phone Mode ─────────────────────────────── */
+
+/* Hide by default (desktop) */
+.mobile-profile-circle {
+  display: none;
+}
+
+/* ── Mobile Orb ───────────────────────────────────── */
+.mobile-orb-wrap {
+  display: none;
+  position: relative;
+  place-items: center;
+}
+
+.mobile-halo {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(285px, 85vw, 330px);
+  height: clamp(285px, 85vw, 330px);
+  border-radius: 50%;
+  border: 1px dashed rgba(192, 132, 252, 0.4);
+  animation: mobileHaloSpin 26s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes mobileHaloSpin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.mobile-orb {
+  position: relative;
+  width: clamp(240px, 72vw, 285px);
+  height: clamp(240px, 72vw, 285px);
+  border-radius: 50%;
+  display: grid;
+  place-items: end center;
+  background: radial-gradient(circle at 50% 35%, rgba(192,132,252,.35), rgba(88,28,135,.5) 55%, rgba(20,6,45,.9) 100%);
+  box-shadow:
+    0 0 0 2px rgba(216,180,254,.85),
+    0 0 22px 3px rgba(192,132,252,.9),
+    0 0 60px 12px rgba(168,85,247,.7),
+    0 0 110px 28px rgba(147,51,234,.45),
+    inset 0 0 40px rgba(216,180,254,.3);
+  animation: mobileOrbPulse 3.6s ease-in-out infinite;
+  overflow: hidden;
+}
+
+@keyframes mobileOrbPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px rgba(216,180,254,.85),
+      0 0 22px 3px rgba(192,132,252,.9),
+      0 0 60px 12px rgba(168,85,247,.7),
+      0 0 110px 28px rgba(147,51,234,.45),
+      inset 0 0 40px rgba(216,180,254,.3);
+  }
+  50% {
+    box-shadow:
+      0 0 0 2px rgba(240,230,255,1),
+      0 0 34px 6px rgba(216,180,254,1),
+      0 0 90px 22px rgba(168,85,247,.9),
+      0 0 160px 42px rgba(147,51,234,.6),
+      inset 0 0 55px rgba(216,180,254,.45);
+  }
+}
+
+.mobile-orb::before {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  background: conic-gradient(from 0deg,
+    transparent 0deg, rgba(255,255,255,.28) 30deg,
+    transparent 80deg, transparent 250deg,
+    rgba(216,180,254,.22) 300deg, transparent 340deg);
+  animation: mobileOrbSweep 7s linear infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+@keyframes mobileOrbSweep {
+  to { transform: rotate(360deg); }
+}
+
+.mobile-orb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 22%, rgba(255,255,255,.4), transparent 42%);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.mobile-orb img {
+  position: relative;
+  z-index: 2;
+  height: 96%;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom;
+}
+
+/* ── Mobile Retro Grid ────────────────────────────── */
+.mobile-grid-wrap {
+  display: none;
+  position: absolute;
+  left: -60%; right: -60%; bottom: 0;
+  height: 18%;
+  perspective: 150px;
+  perspective-origin: 50% 0%;
+  z-index: 1;
+}
+
+.mobile-grid {
+  position: absolute;
+  inset: 0;
+  transform: rotateX(74deg);
+  transform-origin: 50% 0%;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(168,85,247,.7) 0px, rgba(168,85,247,.7) 3px, transparent 3px, transparent 80px),
+    repeating-linear-gradient(0deg, rgba(147,51,234,.6) 0px, rgba(147,51,234,.6) 2px, transparent 2px, transparent 60px);
+  filter: drop-shadow(0 0 6px rgba(168,85,247,.6)) drop-shadow(0 0 14px rgba(126,34,206,.35));
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.4) 20%, #000 50%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.4) 20%, #000 50%, #000 100%);
+  animation: mobileGridRoll 2.6s linear infinite;
+}
+
+@keyframes mobileGridRoll {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 0, 0 60px; }
+}
+
+/* Show floating images on desktop */
+.hero-float-desktop {
+  display: block;
+}
+
+@keyframes profileGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 5px rgba(139, 92, 246, 0.35),
+      0 0 25px rgba(139, 92, 246, 0.55),
+      0 0 55px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 0 8px rgba(168, 85, 247, 0.45),
+      0 0 40px rgba(168, 85, 247, 0.65),
+      0 0 80px rgba(196, 181, 253, 0.4);
+  }
+}
+
+@keyframes starsFade {
+  0%, 100% {
+    opacity: 0.7;
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  33% {
+    opacity: 1;
+    transform: translateX(6px) translateY(-10px) rotate(45deg);
+  }
+  66% {
+    opacity: 0.4;
+    transform: translateX(-6px) translateY(-18px) rotate(135deg);
+  }
+}
+
+@media (max-width: 767px) {
+  /* Show orb and grid on mobile */
+  .mobile-orb-wrap {
+    display: grid;
+    margin: 0 auto 28px auto;
+  }
+
+  .mobile-grid-wrap {
+    display: block;
+  }
+
+  /* Show circular profile photo */
+  .mobile-profile-circle {
+    display: block;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 3px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+      0 0 0 5px rgba(139, 92, 246, 0.35),
+      0 0 25px rgba(139, 92, 246, 0.55),
+      0 0 55px rgba(168, 85, 247, 0.3);
+    margin: 0 auto 28px auto;
+    animation: profileGlow 3s ease-in-out infinite;
+  }
+
+  /* Hide large floating desktop images */
+  .hero-float-desktop {
+    display: none !important;
+  }
+
+  /* Enhanced fading tiny stars for mobile */
+  .magical-hero::before {
+    background:
+      radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+      radial-gradient(circle at 75% 65%, rgba(255, 255, 255, 0.7) 1px, transparent 1px),
+      radial-gradient(circle at 45% 85%, rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+      radial-gradient(circle at 88% 18%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+      radial-gradient(circle at 8%  92%, rgba(255, 255, 255, 0.7) 1px, transparent 1px),
+      radial-gradient(circle at 55% 45%, rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+      radial-gradient(circle at 32% 12%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+      radial-gradient(circle at 65% 78%, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+    background-size: 90px 90px, 130px 130px, 170px 170px, 110px 110px, 160px 160px, 75px 75px, 120px 120px, 145px 145px;
+    animation: starsFade 6s ease-in-out infinite;
+  }
+}
+/* ────────────────────────────────────────────────────── */
+
 /* Magical Glow Effects */
 .magical-glow {
   box-shadow: 

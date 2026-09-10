@@ -237,5 +237,10 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
+    watch: {
+      // File events from the Windows drive don't reach WSL; poll instead.
+      usePolling: true,
+      interval: 300,
+    },
   },
 });
