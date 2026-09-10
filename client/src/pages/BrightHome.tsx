@@ -118,7 +118,7 @@ export default function BrightHome() {
                   Nourah’s studio
                   <br />
                   <em className="hero-idea-line">
-                    Welcome to the inside of my brain
+                    Welcome to the home of my ideas
                   </em>
                 </h1>
                 <div className="hero-role-caption">NOURAH ALOTAIBI · COMPUTER ENGINEER &amp; AI DEVELOPER</div>
