@@ -101,8 +101,11 @@ export default function PigmentCanvas({ palette }: { palette: Palette }) {
     a.globalAlpha = 1;
     function render() {
       ctx!.clearRect(0, 0, w, h);
-      ctx!.filter = "grayscale(1) opacity(0.3)";
+      // Keep the unpainted layer faint even in browsers without canvas filters.
+      ctx!.globalAlpha = 0.3;
+      ctx!.filter = "grayscale(1)";
       ctx!.drawImage(art, 0, 0);
+      ctx!.globalAlpha = 1;
       ctx!.filter = "none";
       l.clearRect(0, 0, w, h);
       l.globalCompositeOperation = "source-over";
@@ -159,6 +162,9 @@ export default function PigmentCanvas({ palette }: { palette: Palette }) {
       render();
     };
     const start = (e: PointerEvent) => {
+      if (!e.isPrimary) return;
+      e.preventDefault();
+      prev = null;
       down = true;
       canvas.setPointerCapture(e.pointerId);
       move(e);
@@ -184,6 +190,7 @@ export default function PigmentCanvas({ palette }: { palette: Palette }) {
     canvas.addEventListener("pointerdown", start);
     canvas.addEventListener("pointerup", end);
     canvas.addEventListener("pointercancel", end);
+    canvas.addEventListener("lostpointercapture", end);
     canvas.addEventListener("pointerleave", end);
     setPainted(false);
     render();
@@ -192,6 +199,7 @@ export default function PigmentCanvas({ palette }: { palette: Palette }) {
       canvas.removeEventListener("pointerdown", start);
       canvas.removeEventListener("pointerup", end);
       canvas.removeEventListener("pointercancel", end);
+      canvas.removeEventListener("lostpointercapture", end);
       canvas.removeEventListener("pointerleave", end);
     };
   }, [palette]);
@@ -207,7 +215,7 @@ export default function PigmentCanvas({ palette }: { palette: Palette }) {
         <span>
           {painted
             ? "A little more color in the world."
-            : "Your cursor is the brush."}
+            : "Your finger or cursor is the brush."}
         </span>
         <div>
           <button type="button" onClick={() => controls.current.reveal()}>

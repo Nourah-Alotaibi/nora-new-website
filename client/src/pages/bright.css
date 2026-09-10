@@ -730,7 +730,9 @@
   height: auto;
   aspect-ratio: 1000/660;
   cursor: crosshair;
-  touch-action: pan-y;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
   background: #f4f1e9;
 }
 .painting-footer {
