@@ -543,6 +543,21 @@ export function mountStory(host: HTMLDivElement, chapter: number) {
         tooth.rotation.z = a;
       }
       box(1.4, 0.05, 0.2, peach, 0.6, 0.14, 1.1).rotation.y = -0.2;
+      // A molded yellow engineering hard hat beside the building.
+      const hardHat = new THREE.Group();
+      hardHat.position.set(1.25, 0.16, -0.65);
+      hardHat.rotation.y = -0.25;
+      world.add(hardHat);
+      const brim = mesh(new THREE.CylinderGeometry(0.59, 0.6, 0.07, 48), 0xe8b82e, 0, 0, 0.07, hardHat);
+      brim.scale.z = 1.12;
+      const shell = mesh(new THREE.SphereGeometry(0.49, 40, 24, 0, Math.PI * 2, 0, Math.PI / 2), 0xffcf3f, 0, 0.025, 0, hardHat);
+      shell.scale.set(1, 0.9, 1.08);
+      const ridge = mesh(new THREE.TorusGeometry(0.495, 0.025, 8, 40, Math.PI), 0xffdc65, 0, 0.025, 0, hardHat);
+      ridge.rotation.y = Math.PI / 2;
+      ridge.scale.y = 0.9;
+      for (const side of [-1, 1])
+        for (let vent = 0; vent < 3; vent++)
+          box(0.025, 0.045, 0.075, 0xa77b22, side * 0.465, 0.13, -0.14 + vent * 0.12, hardHat);
       break;
     }
     case 1: {

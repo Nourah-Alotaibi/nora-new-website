@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const descriptions = [
-  "A miniature university building, engineering gear, and drafting ruler",
+  "A miniature university building, engineering gear, drafting ruler, and yellow engineering hard hat",
   "A light-blue computer displaying print('Hello world!'), floating 3D stars, and a little coffee cup",
   "A mechanical engine followed by a raised arrow pointing to a computer",
   "A teacher standing beside the board with an arm raised to explain, two student seats, and lesson books",
