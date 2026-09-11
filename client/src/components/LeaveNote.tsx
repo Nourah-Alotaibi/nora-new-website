@@ -14,7 +14,7 @@ export default function LeaveNote() {
   useEffect(() => {
     const update = () => {
       const hero = document.querySelector(theme === "light" ? ".studio-hero" : "#hero");
-      setVisible(Boolean(hero && hero.getBoundingClientRect().bottom <= 0 && !document.querySelector(".pour-intro") && !document.querySelector("dialog[open]")));
+      setVisible(Boolean(hero && hero.getBoundingClientRect().bottom <= 0 && !document.querySelector(".pour-intro") && !document.querySelector("dialog[open]:not(.note-panel)")));
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -66,6 +66,13 @@ export default function LeaveNote() {
       <span className="note-sparkles" aria-hidden="true"><i>✧</i><i>✦</i><i>✧</i></span>
     </button>
     <dialog ref={dialog} className="note-panel" aria-labelledby="note-heading" aria-describedby="note-description"
+      onKeyDown={event => {
+        if (event.key !== "Tab") return;
+        const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), input, textarea, a[href]'));
+        const first = items[0], last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }}
       onClose={() => { setOpen(false); if (trigger.current?.getBoundingClientRect()) trigger.current?.focus({ preventScroll: true }); }}
       onClick={event => { if (event.target === event.currentTarget) {
         const rect = event.currentTarget.getBoundingClientRect();
