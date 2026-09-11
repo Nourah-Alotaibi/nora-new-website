@@ -1015,7 +1015,7 @@ function ProjectsSection() {
           <span className="pa-title-line2">I’ve built.</span>
         </h2>
         <p className="pa-subtitle" style={{ color: isDark ? "rgba(196,181,253,0.45)" : "rgba(80,60,140,0.5)" }}>
-          There’s more on GitHub, including security and CTF projects.
+          There’s more on GitHub.
         </p>
         <a href="https://github.com/nourah-alotaibi" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", fontSize: 14, textDecoration: "underline", textUnderlineOffset: 4 }}>More on GitHub</a>
         <div className="pa-divider" />

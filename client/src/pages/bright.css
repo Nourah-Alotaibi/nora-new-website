@@ -4,7 +4,13 @@
   --studio-muted: #657063;
   --studio-line: #d8dccd;
   color: var(--studio-ink);
-  background: var(--studio-paper);
+  background: linear-gradient(
+    90deg,
+    #eee8dc 0%,
+    var(--studio-paper) 5%,
+    var(--studio-paper) 95%,
+    #eee8dc 100%
+  );
   font-family: Inter, Arial, sans-serif;
   font-size: 16px;
   overflow: clip;
@@ -2684,11 +2690,12 @@
 }
 
 
-.bright-site .hero-role-caption { font-size:10px; letter-spacing:.1em; line-height:1.7; color:#68715f; margin:14px 0 18px; }
+.bright-site .hero-role-caption { font-size:12px; font-weight:700; letter-spacing:.08em; line-height:1.7; color:#68715f; margin:14px 0 18px; }
+.bright-site .hero-study-caption { display:block; margin-top:6px; font-weight:500; letter-spacing:.01em; }
 .bright-site .studio-actions .studio-button,.bright-site .studio-actions .studio-text-link { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 16px; min-height:40px; border-radius:999px; font-size:12px; }
 .bright-site .studio-actions .studio-text-link { border:1px solid #bbc5aa; background:#eeefdf; }
 @media(max-width:700px) {
-  .bright-site .studio-intro > .hero-role-caption { order:0; margin:0; font-size:9px; letter-spacing:.06em; }
+  .bright-site .studio-intro > .hero-role-caption { order:0; margin:0; font-size:11px; letter-spacing:.06em; }
   .bright-site .studio-hero-grid { gap:14px; }
   .bright-site .studio-intro > .studio-actions { display:flex; flex-wrap:wrap; gap:8px; }
   .bright-site .studio-actions .studio-button,.bright-site .studio-actions .studio-text-link { padding:9px 12px; font-size:11px; min-height:38px; }
@@ -3033,9 +3040,9 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
   .bright-site .play-copy .paint-instruction { order:2; }
   .bright-site .play-copy .studio-fun-fact {
     order:0;
-    min-height:32px;
-    padding:5px 12px;
-    margin:0 4px 24px;
+    min-height:28px;
+    padding:4px 9px;
+    margin:20px 4px 36px;
     font-size:11px;
     line-height:1.4;
     border-radius:18px;
@@ -3043,4 +3050,88 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
   }
   .bright-site .studio-fun-fact.desk-sparkle-button::before,
   .bright-site .studio-fun-fact.desk-sparkle-button::after { font-size:12px; }
+}
+
+/* Enlarge the glass inside the existing TV casing; retain its sizing grid. */
+.bright-site .project-film::after {
+  content:"";
+  position:static;
+  inset:auto;
+  height:auto;
+  border:0;
+  display:block;
+  grid-column:1;
+  grid-row:2;
+  width:100%;
+  aspect-ratio:4/3;
+  visibility:hidden;
+  pointer-events:none;
+}
+.bright-site .project-film .project-screen {
+  contain:size;
+  width:calc(100% + 111px);
+  height:calc(100% + 26px);
+  min-width:0;
+  min-height:0;
+  aspect-ratio:auto;
+  margin-top:-8px;
+  margin-left:-12px;
+  border-width:3px;
+  border-radius:23px / 20px;
+}
+.bright-site .project-film .vintage-tv-tuning {
+  visibility:hidden;
+  pointer-events:none;
+}
+.bright-site .project-film .tv-dial { position:relative; }
+.bright-site .project-film .tv-dial::after {
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+}
+@media(max-width:700px) {
+  .bright-site .project-film .project-screen {
+    width:calc(100% + 64px);
+    margin-left:-4px;
+    border-width:2px;
+    border-radius:17px / 15px;
+  }
+}
+
+.bright-site .project-film .film-meta > span:last-child { margin-right:62px; }
+.bright-site .tv-compact-controls { position:absolute;top:12px;right:15px;display:flex;gap:5px;z-index:2; }
+.bright-site .tv-compact-controls button { display:grid;place-items:center;width:24px;height:24px;min-height:24px;padding:0;border:1px solid var(--tv-accent);border-radius:50%;background:var(--tv-shell);color:var(--tv-edge);font-size:15px;line-height:1;cursor:pointer; }
+.bright-site .tv-compact-controls button:focus-visible { outline:2px solid var(--tv-edge);outline-offset:2px; }
+@media(max-width:700px) { .bright-site .tv-compact-controls { top:5px;right:13px; } }
+
+/* Compact TV with clear project navigation beside the casing. */
+.bright-site .project-film {
+  width:80%;max-width:420px;margin-left:auto;margin-right:auto;
+  grid-template-columns:minmax(0,1fr);padding:16px 12px 12px;
+}
+.bright-site .project-film::after,
+.bright-site .project-film .vintage-tv-tuning { display:none; }
+.bright-site .project-film .project-screen {
+  width:100%;height:auto;aspect-ratio:16/10;margin:0;border-width:3px;border-radius:18px;
+}
+.bright-site .project-film .film-meta { font-size:8px;margin:0 2px 10px; }
+.bright-site .project-film .film-meta > span:last-child { margin-right:0; }
+.bright-site .project-film .film-caption { margin-top:9px;padding-top:6px;font-size:8px;line-height:1.4; }
+.bright-site .project-film .film-work-in-progress:last-child { font-size:8px;line-height:1.4; }
+.bright-site .project-film .tv-play { width:28px;height:28px;min-height:28px;font-size:12px; }
+.bright-site .tv-compact-controls {
+  top:50%;left:-42px;right:-42px;transform:translateY(-50%);
+  justify-content:space-between;pointer-events:none;
+}
+.bright-site .tv-compact-controls button {
+  width:36px;height:36px;min-height:36px;font-size:23px;font-weight:600;
+  pointer-events:auto;border:1px solid var(--tv-edge);
+  box-shadow:0 2px 5px #28392e24;
+}
+@media(max-width:700px) {
+  .bright-site .project-film { width:calc(100% - 72px);max-width:240px;padding:13px 9px 10px; }
+  .bright-site .project-film .project-screen { border-width:2px;border-radius:14px; }
+  .bright-site .tv-compact-controls { top:50%;left:-37px;right:-37px; }
+  .bright-site .tv-compact-controls button { width:32px;height:36px;min-height:36px;font-size:22px; }
 }

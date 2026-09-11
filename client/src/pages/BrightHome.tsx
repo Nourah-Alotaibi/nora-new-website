@@ -122,9 +122,12 @@ export default function BrightHome() {
                     Welcome to the home of my ideas
                   </em>
                 </h1>
-                <div className="hero-role-caption">NOURAH ALOTAIBI · COMPUTER ENGINEER &amp; AI DEVELOPER</div>
+                <div className="hero-role-caption">
+                  NOURAH ALOTAIBI · COMPUTER ENGINEER &amp; AI DEVELOPER
+                  <span className="hero-study-caption"><span aria-hidden="true">⏳</span> Currently studying for a master’s in AI and Data Science.</span>
+                </div>
                 <p>
-                  I enjoy building AI systems, working with data, getting creative with websites, and solving CTFs (cybersecurity challenges). Coding is my hobby, so most ideas somehow end up becoming projects.
+                  I enjoy building AI systems, working with data, getting creative with websites, and solving CTFs (cybersecurity challenges). Coding is my hobby, so most ideas eventually end up becoming projects.
                 </p>
                 <div className="studio-actions">
                   <a className="studio-button" href="#work">
@@ -177,14 +180,13 @@ export default function BrightHome() {
           >
             <div className="studio-section-top">
               <span className="section-index">01 / SELECTED WORK</span>
-              <span>IDEAS, BROUGHT INTO THE WORLD</span>
             </div>
             <div className="section-intro">
               <h2 id="work-title">
                 A few things <em>I’ve built.</em>
               </h2>
               <p>
-                There’s more on GitHub, including security and CTF projects.
+                There’s more on GitHub.
               </p>
             </div>
             <a className="studio-text-link" href="https://github.com/nourah-alotaibi" target="_blank" rel="noopener noreferrer">More on GitHub</a>
@@ -272,7 +274,7 @@ export default function BrightHome() {
                       />
                     ) : null}
                   </div>
-                  <div className="vintage-tv-tuning">
+                  <div className="vintage-tv-tuning" aria-hidden="true">
                     <span className="tv-channel">CH {p.number}</span>
                     <button type="button" className="tv-dial" aria-label="Previous project channel" onClick={()=>setActive((active+PA_PROJECTS.length-1)%PA_PROJECTS.length)}><span aria-hidden="true">−</span></button>
                     <span className="tv-channel">TUNE</span>
@@ -280,6 +282,10 @@ export default function BrightHome() {
                     <span className="tv-speaker" aria-hidden="true" />
                     <span className="tv-brand">STUDIO TV</span>
                   </div>
+                  <nav className="tv-compact-controls" aria-label="Project TV channels">
+                    <button type="button" title="Previous project" aria-label="Previous project channel" onClick={()=>setActive((active+PA_PROJECTS.length-1)%PA_PROJECTS.length)}>←</button>
+                    <button type="button" title="Next project" aria-label="Next project channel" onClick={()=>setActive((active+1)%PA_PROJECTS.length)}>→</button>
+                  </nav>
                   <div className="film-caption">
                     <span className={!p.video ? "film-work-in-progress" : undefined}>
                       {p.video
