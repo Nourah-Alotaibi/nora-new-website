@@ -14,19 +14,15 @@ export default function LeaveNote() {
 
   useEffect(() => {
     const update = () => {
-      const hero = document.querySelector(theme === "light" ? ".studio-hero" : "#hero");
-      // Arrive in the space after the hero as that boundary enters the viewport.
-      const pastHeroAtButton = hero && hero.getBoundingClientRect().bottom <= window.innerHeight - 72;
-      setVisible(Boolean(window.scrollY > 8 && pastHeroAtButton && !document.querySelector(".pour-intro") && !document.querySelector("dialog[open]:not(.note-panel)")));
+      // Stay available everywhere once the page and opening experience finish.
+      setVisible(document.readyState === "complete" && !document.querySelector(".pour-intro"));
     };
     update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    window.addEventListener("load", update);
     const observer = new MutationObserver(update);
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["open"] });
+    observer.observe(document.body, { childList: true, subtree: true });
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      window.removeEventListener("load", update);
       observer.disconnect();
     };
   }, [theme]);

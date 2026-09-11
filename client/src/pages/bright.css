@@ -2955,7 +2955,7 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
   .bright-site .project-story { padding:16px 14px 24px; min-width:0; }
   .bright-site .project-story h3 { font-size:23px; line-height:1.2; margin:6px 0 9px; }
   .bright-site .project-story h4 { font-size:13px; line-height:1.5; margin:0 0 14px; font-weight:600; }
-  .bright-site .project-story p { font-size:12px; line-height:1.7; margin:0 0 12px !important; overflow-wrap:break-word; }
+  .bright-site .project-story p { font-size:11px; line-height:1.75; margin:0 0 12px !important; overflow-wrap:break-word; }
   .bright-site .project-category { font-size:9px; letter-spacing:.13em; }
   .bright-site .project-recognitions { margin:16px 0 10px; padding:8px 0; }
   .bright-site .project-recognitions li { font-size:11px; line-height:1.6; margin:7px 0; padding:9px 10px 9px 21px; border-radius:10px; overflow-wrap:break-word; }
@@ -2989,4 +2989,58 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
   .bright-site .is-current .canvas-frame > .project-film-reel { transform:rotate(0deg); }
   .bright-site .canvas-frame > svg:not(.project-film-reel) { display:block; width:100%; height:auto; }
   .bright-site .frame-edge { transform:none; }
+}
+
+/* Each television borrows its enamel and trim from its project cover. */
+.bright-site .project-film {
+  border-color:var(--tv-accent);
+  background:radial-gradient(ellipse at 15% 0%,#fffef6bb,transparent 55%),
+    repeating-linear-gradient(98deg,#ffffff0a 0 1px,#00000008 1px 2px),
+    linear-gradient(112deg,color-mix(in srgb,var(--tv-shell),white 28%),var(--tv-shell) 66%,var(--tv-accent));
+  box-shadow:inset 2px 3px 2px #fffdf5,inset 0 0 0 5px var(--tv-shell),inset 0 0 0 6px var(--tv-accent),inset -8px -9px 16px #26302b25,
+    3px 2px 0 var(--tv-accent),6px 4px 0 var(--tv-edge),9px 6px 0 var(--tv-edge),10px 8px 0 var(--tv-shell),13px 18px 22px -9px #26302b55,0 30px 30px -21px #26302b66;
+}
+.bright-site .project-film .tv-handle { border-color:var(--tv-accent); }
+.bright-site .project-film .tv-feet i { background:linear-gradient(100deg,var(--tv-shell),var(--tv-accent) 70%,var(--tv-edge)); }
+.bright-site .project-film .vintage-tv-tuning { border-left-color:var(--tv-accent); }
+.bright-site .project-film .tv-dial {
+  background:radial-gradient(circle at 36% 27%,#ffffff66,transparent 64%),repeating-conic-gradient(var(--tv-edge) 0deg 3deg,var(--tv-shell) 4deg 7deg);
+  border-color:var(--tv-edge);
+  box-shadow:inset 0 0 0 2px var(--tv-edge),inset 0 0 0 5px var(--tv-shell),2px 3px 0 var(--tv-edge),3px 5px 7px #26302b55;
+}
+.bright-site .project-film .tv-dial span { background:linear-gradient(90deg,var(--tv-shell),var(--tv-accent)); border-color:var(--tv-edge); }
+.bright-site .project-film .tv-brand,
+.bright-site .project-film .tv-channel { color:var(--tv-edge); }
+
+.bright-site .film-caption > .film-work-in-progress:last-child { font-size:10px; line-height:1.5; }
+
+.bright-site .project-image-open { position:relative;display:block;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in; }
+.bright-site .project-image-open > span { position:absolute;right:8px;bottom:8px;padding:4px 8px;border-radius:12px;background:#faf7ede8;color:#304335;font-size:10px;line-height:1.4; }
+.project-image-viewer { width:min(1100px,94vw);max-width:94vw;padding:12px;border:1px solid #b8c4ae;border-radius:16px;background:#faf7ed;color:#304335; }
+.project-image-viewer::backdrop { background:#18231dcc; }
+.project-image-tools { display:flex;align-items:center;gap:8px;padding-bottom:10px; }
+.project-image-tools button { min-width:44px;min-height:44px;border:1px solid #b8c4ae;border-radius:22px;background:#edf0df;color:inherit;cursor:pointer; }
+.project-image-tools button:last-child { margin-left:auto;font-size:24px; }
+.project-image-tools button:disabled { opacity:.4;cursor:default; }
+.project-image-viewer :focus-visible,.project-image-open:focus-visible { outline:2px solid #536947;outline-offset:-2px; }
+.project-image-scroll { overflow:auto;max-height:70dvh;overscroll-behavior:contain;background:#e9eadf; }
+.project-image-scroll img { display:block;max-width:none;height:auto; }
+.project-image-viewer > p { font-size:12px;line-height:1.5;margin:10px 0 0; }
+
+@media(max-width:700px) {
+  .bright-site .play-copy { display:flex;flex-direction:column;align-items:flex-start; }
+  .bright-site .play-copy .studio-palette { order:1; }
+  .bright-site .play-copy .paint-instruction { order:2; }
+  .bright-site .play-copy .studio-fun-fact {
+    order:0;
+    min-height:32px;
+    padding:5px 12px;
+    margin:0 4px 24px;
+    font-size:11px;
+    line-height:1.4;
+    border-radius:18px;
+    box-shadow:0 2px 0 #c0cba9,0 0 12px #bed58a80,0 0 24px #e4ce8659;
+  }
+  .bright-site .studio-fun-fact.desk-sparkle-button::before,
+  .bright-site .studio-fun-fact.desk-sparkle-button::after { font-size:12px; }
 }

@@ -23,6 +23,7 @@ import ProjectGallery, {
   artColors,
 } from "@/components/bright/ProjectGallery";
 import StoryJourney from "@/components/bright/StoryJourney";
+import ProjectImageZoom from "@/components/bright/ProjectImageZoom";
 
 function PlainText({ text }: { text: string }) {
   return (
@@ -239,7 +240,11 @@ export default function BrightHome() {
                   </div>
                   <a href="#work">Back to the shelf ↑</a>
                 </header>
-                <div className="project-film">
+                <div className="project-film" style={{
+                  "--tv-shell": artColors[active][0],
+                  "--tv-accent": artColors[active][1],
+                  "--tv-edge": artColors[active][2],
+                } as React.CSSProperties}>
                   <span className="tv-handle" aria-hidden="true" />
                   <span className="tv-feet" aria-hidden="true"><i /><i /></span>
                   <div className="film-meta">
@@ -260,13 +265,12 @@ export default function BrightHome() {
                         preload="metadata"
                         aria-label={`${p.title} project demo`}
                       />
-                    ) : (
-                      <img
+                    ) : p.image ? (
+                      <ProjectImageZoom
                         src={p.image}
                         alt="RISE trading platform interface"
-                        loading="lazy"
                       />
-                    )}
+                    ) : null}
                   </div>
                   <div className="vintage-tv-tuning">
                     <span className="tv-channel">CH {p.number}</span>
@@ -277,10 +281,10 @@ export default function BrightHome() {
                     <span className="tv-brand">STUDIO TV</span>
                   </div>
                   <div className="film-caption">
-                    <span>
+                    <span className={!p.video ? "film-work-in-progress" : undefined}>
                       {p.video
                         ? "A closer look · Play the project film"
-                        : "In the making · Interface preview"}
+                        : "A work in progress…"}
                     </span>
                     {p.video && <button className="tv-play" aria-label={filmPlaying ? "Pause project film" : "Play project film"} onClick={()=>{const video=projectVideo.current;if(video){if(video.paused) void video.play().catch(()=>{});else video.pause();}}}>{filmPlaying ? "Ⅱ" : "▶"}</button>}
                   </div>
