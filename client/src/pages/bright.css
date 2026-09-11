@@ -2963,3 +2963,18 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
   .bright-site .studio-tags { margin-top:14px; gap:5px; }
   .bright-site .studio-tags span { font-size:9.5px; line-height:1.4; padding:5px 7px; }
 }
+
+/* Keep neighboring covers in the same stacking plane while changing selection. */
+.bright-site .gallery-canvas {
+  transform:translateX(calc(-50% + var(--position) * 95%))
+    scale(calc(1 - var(--distance) * .08))
+    rotate(calc(var(--position) * 2deg));
+  opacity:calc(1 - var(--distance) * .1);
+}
+@media(max-width:700px) {
+  .bright-site .gallery-canvas {
+    transform:translateX(calc(-50% + var(--position) * 72%))
+      scale(calc(1 - var(--distance) * .1))
+      rotate(calc(var(--position) * 2deg));
+  }
+}

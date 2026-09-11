@@ -253,7 +253,7 @@ export default function StoryJourney() {
                   title="Turn to next chapter"
                   onClick={() => setActive(current => Math.min(chapters.length - 1, current + 1))}
                 >
-                  <span aria-hidden="true">↗</span>
+                  
                 </button>
               )}
             </article>

@@ -26,7 +26,7 @@ export function mountMatcha(
   renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.95;
+  renderer.toneMappingExposure = 1.12;
   renderer.domElement.setAttribute("aria-hidden", "true");
   host.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
@@ -35,13 +35,13 @@ export function mountMatcha(
   const pmrem = new THREE.PMREMGenerator(renderer);
   const environmentMap = pmrem.fromScene(environment, 0.06);
   scene.environment = environmentMap.texture;
-  scene.environmentIntensity = 0.55;
+  scene.environmentIntensity = 0.7;
   environment.dispose();
   pmrem.dispose();
   const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 60);
   camera.position.set(7, 8.5, 10.5);
   camera.lookAt(0, 0.2, 0);
-  scene.add(new THREE.HemisphereLight(0xfff5de, 0x655b43, 0.65));
+  scene.add(new THREE.HemisphereLight(0xfff5de, 0x82765c, 0.85));
   const sun = new THREE.DirectionalLight(0xffe4b4, 2.8);
   sun.position.set(-5, 8, -3);
   sun.castShadow = true;
@@ -58,7 +58,7 @@ export function mountMatcha(
   sun.shadow.camera.far = 25;
   sun.shadow.radius = 3;
   scene.add(sun);
-  const fill = new THREE.DirectionalLight(0xe8f0e6, 0.4);
+  const fill = new THREE.DirectionalLight(0xe8f0e6, 0.65);
   fill.position.set(4, 3, 6);
   scene.add(fill);
   const objects = {} as Record<DeskObject, THREE.Group>;
