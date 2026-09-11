@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import { MotionConfig } from "framer-motion";
 import BrightHome, { ModeSwitch } from "./pages/BrightHome";
 import { useTheme } from "./contexts/ThemeContext";
+import LeaveNote from "./components/LeaveNote";
 
 function Portfolio() {
   const { theme } = useTheme();
@@ -24,6 +25,7 @@ function Portfolio() {
           <Home />
         </>
       )}
+      <LeaveNote />
     </>
   );
 }

@@ -106,7 +106,7 @@ export const PA_PROJECTS = [
     number: "01",
     title: "EPICARE",
     subtitle: "Full-Stack AI Healthcare Platform for Epilepsy Care",
-    desc: "A full-stack healthcare platform built for both patients and doctors, combining frontend, backend, patient management, treatment support, and AI in one connected system.\n\nEpicare includes Hayat, an AI assistant designed to help patients and doctors interact with the platform, understand information more easily, and support more personalized epilepsy care.\n\nThe platform was developed using data from [[num:1,000+]] epilepsy patients in Kuwait, through clinical collaboration with [[org:VIVUS Clinic for Neurological Diseases]] and [[org:Al Sabah Hospital]].",
+    desc: "A full-stack epilepsy care platform for patients and doctors, combining patient management, treatment support, and AI.\n\nIts AI assistant, Hayat, helps patients and doctors navigate the platform and understand care information.\n\nThe platform was developed using data from [[num:1,000+]] epilepsy patients in Kuwait, through clinical collaboration with [[org:VIVUS Clinic for Neurological Diseases]] and [[org:Al Sabah Hospital]].",
     recognitions: [
       {
         icon: "🤝",
@@ -147,7 +147,7 @@ export const PA_PROJECTS = [
     number: "02",
     title: "EVA",
     subtitle: "Intelligent Wearable Assistant for People with Specific Needs",
-    desc: "An AI-powered wearable assistant designed to support people with specific needs in everyday life. EVA combines computer vision, NLP and intelligent assistance to help users understand their surroundings, communicate and receive personalized real-time support.\n\nDeveloped through the [[org:UC Berkeley × AUM]] AI & Entrepreneurship Program as both an assistive technology solution and an innovative business concept.",
+    desc: "An AI-powered wearable assistant designed to support people with specific needs in everyday life. EVA combines computer vision, NLP and intelligent assistance to help users understand their surroundings, communicate and receive personalized real-time support.\n\nDeveloped through the [[org:UC Berkeley × AUM]] AI & Entrepreneurship Program as an assistive technology and business concept.",
     recognitions: [
       {
         icon: "🥇",

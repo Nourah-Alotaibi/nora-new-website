@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, type ReactElement, type CSSProperties } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useMemo, type ReactElement, type CSSProperties } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
@@ -185,7 +185,32 @@ const leftOffsets  = ["2%", "7%", "4%", "1%", "5%", "3%", "6%", "2%"];
 const rightOffsets = ["5%", "1%", "6%", "3%", "2%", "7%", "4%", "3%"];
 
 function JourneyCard({ chapter, index }: { chapter: (typeof journeyChapters)[0]; index: number }) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const query = matchMedia("(max-width: 720px)");
+    const paragraph = ref.current?.querySelector<HTMLElement>(".journey-card-content > p");
+    if (!paragraph) return;
+    const reset = () => {
+      paragraph.style.removeProperty("font-size");
+      paragraph.style.removeProperty("line-height");
+      paragraph.style.removeProperty("height");
+    };
+    const fit = () => {
+      reset();
+      if (!query.matches || !document.documentElement.classList.contains("dark")) return;
+      const originalHeight = parseFloat(getComputedStyle(paragraph).height);
+      paragraph.style.fontSize = "0.72rem";
+      paragraph.style.lineHeight = "21px";
+      const lines = Math.round(parseFloat(getComputedStyle(paragraph).height) / 21);
+      // Preserve the exact original text block and therefore every window position.
+      paragraph.style.lineHeight = `${Math.min(22, originalHeight / Math.max(1, lines))}px`;
+      paragraph.style.height = `${originalHeight}px`;
+    };
+    fit();
+    window.addEventListener("resize", fit);
+    document.fonts.ready.then(fit);
+    return () => { window.removeEventListener("resize", fit); reset(); };
+  }, []);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const theme = journeyThemes[index] ?? "future";
   const chapterNum = String(index + 1).padStart(2, "0");
@@ -545,7 +570,7 @@ const PA_PROJECTS = [
     number: "01",
     title: "EPICARE",
     subtitle: "Full-Stack AI Healthcare Platform for Epilepsy Care",
-    desc: "A full-stack healthcare platform built for both patients and doctors, combining frontend, backend, patient management, treatment support, and AI in one connected system.\n\nEpicare includes Hayat, an AI assistant designed to help patients and doctors interact with the platform, understand information more easily, and support more personalized epilepsy care.\n\nThe platform was developed using data from [[num:1,000+]] epilepsy patients in Kuwait, through clinical collaboration with [[org:VIVUS Clinic for Neurological Diseases]] and [[org:Al Sabah Hospital]].",
+    desc: "A full-stack epilepsy care platform for patients and doctors, combining patient management, treatment support, and AI.\n\nIts AI assistant, Hayat, helps patients and doctors navigate the platform and understand care information.\n\nThe platform was developed using data from [[num:1,000+]] epilepsy patients in Kuwait, through clinical collaboration with [[org:VIVUS Clinic for Neurological Diseases]] and [[org:Al Sabah Hospital]].",
     recognitions: [
       { icon: "🤝", text: "Clinical Collaboration — [[org:VIVUS Clinic for Neurological Diseases]] & [[org:Al Sabah Hospital]]" },
       { icon: "📊", text: "[[rank:1,000+]] Real Patient Records" },
@@ -567,7 +592,7 @@ const PA_PROJECTS = [
     number: "02",
     title: "EVA",
     subtitle: "Intelligent Wearable Assistant for People with Specific Needs",
-    desc: "An AI-powered wearable assistant designed to support people with specific needs in everyday life. EVA combines computer vision, NLP and intelligent assistance to help users understand their surroundings, communicate and receive personalized real-time support.\n\nDeveloped through the [[org:UC Berkeley × AUM]] AI & Entrepreneurship Program as both an assistive technology solution and an innovative business concept.",
+    desc: "An AI-powered wearable assistant designed to support people with specific needs in everyday life. EVA combines computer vision, NLP and intelligent assistance to help users understand their surroundings, communicate and receive personalized real-time support.\n\nDeveloped through the [[org:UC Berkeley × AUM]] AI & Entrepreneurship Program as an assistive technology and business concept.",
     recognitions: [
       { icon: "🥇", text: "[[rank:1st Place]] — [[org:Gulf Hult Business & Innovation Competition]]" },
       { icon: "🌍", text: "[[rank:Top 12 Globally]] — [[org:Babson College]]" },
@@ -1011,12 +1036,13 @@ function ProjectsSection() {
       <div className="pa-header">
         <span className="pa-eyebrow">// PROJECT ARCHIVE</span>
         <h2 className="pa-title" style={{ color: titleColor }}>
-          <span className="pa-title-line1">SELECTED</span>
-          <span className="pa-title-line2">WORKS</span>
+          <span className="pa-title-line1">A few things</span>
+          <span className="pa-title-line2">I’ve built.</span>
         </h2>
         <p className="pa-subtitle" style={{ color: isDark ? "rgba(196,181,253,0.45)" : "rgba(80,60,140,0.5)" }}>
-          &gt; {PA_PROJECTS.length} projects loaded — arrow or swipe to explore_
+          There’s more on GitHub, including security and CTF projects.
         </p>
+        <a href="https://github.com/nourah-alotaibi" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", fontSize: 14, textDecoration: "underline", textUnderlineOffset: 4 }}>More on GitHub</a>
         <div className="pa-divider" />
       </div>
 

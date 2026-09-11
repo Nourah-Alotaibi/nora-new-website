@@ -99,7 +99,7 @@ export default function BrightHome() {
             className="studio-wordmark"
             aria-label="Nourah Alotaibi home"
           >
-            nourah<span aria-hidden="true">✳</span>
+            nourah
           </a>
           <nav aria-label="Main navigation">
             <a href="#studio">Off the screen</a>
@@ -123,7 +123,7 @@ export default function BrightHome() {
                 </h1>
                 <div className="hero-role-caption">NOURAH ALOTAIBI · COMPUTER ENGINEER &amp; AI DEVELOPER</div>
                 <p>
-                  I enjoy AI, data science, getting overly creative with websites, and playing CTFs (cybersecurity challenges) whenever I feel like solving something difficult. Coding is my hobby, so most ideas somehow end up becoming projects.
+                  I enjoy building AI systems, working with data, getting creative with websites, and solving CTFs (cybersecurity challenges). Coding is my hobby, so most ideas somehow end up becoming projects.
                 </p>
                 <div className="studio-actions">
                   <a className="studio-button" href="#work">
@@ -180,12 +180,13 @@ export default function BrightHome() {
             </div>
             <div className="section-intro">
               <h2 id="work-title">
-                The studio <em>collection.</em>
+                A few things <em>I’ve built.</em>
               </h2>
               <p>
-                Pick a cover. There’s a project behind every one.
+                There’s more on GitHub, including security and CTF projects.
               </p>
             </div>
+            <a className="studio-text-link" href="https://github.com/nourah-alotaibi" target="_blank" rel="noopener noreferrer">More on GitHub</a>
             <div
               className="project-exhibition"
               style={
@@ -304,7 +305,7 @@ export default function BrightHome() {
                   <ul className="project-recognitions">
                     {p.recognitions.map((r, i) => (
                       <li key={i}>
-                        <span aria-hidden="true">↗</span>
+                        
                         <PlainText text={r.text} />
                       </li>
                     ))}
@@ -415,7 +416,7 @@ export default function BrightHome() {
         </main>
         <footer className="studio-footer">
           <a className="studio-wordmark" href="#main">
-            nourah<span aria-hidden="true">✳</span>
+            nourah
           </a>
           <span>© {new Date().getFullYear()} Nourah Alotaibi</span>
           <span>A little science. A little art. A lot of heart.</span>

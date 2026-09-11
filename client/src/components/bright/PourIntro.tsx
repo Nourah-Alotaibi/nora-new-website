@@ -163,7 +163,7 @@ export default function PourIntro({
       className={`pour-intro${leaving ? " pour-intro-out" : ""}`}
       role="dialog"
       aria-modal="true"
-      aria-label="Matcha pour introduction"
+      aria-label="Introduction"
       onKeyDown={e => {
         if (e.key === "Escape") {
           onComplete();
@@ -176,19 +176,19 @@ export default function PourIntro({
       }}
     >
       <div className="pour-brand">
-        nourah <span>✳</span>
+        nourah
       </div>
       <div className="pour-title">
         <span>A FRESH PERSPECTIVE</span>
         <p>
           Something good
           <br />
-          is <em>pouring in.</em>
+          is <em>on its way.</em>
         </p>
       </div>
       <canvas ref={canvas} aria-hidden="true" />
-      <span className="pour-caption">{started ? "A little matcha. A new beginning." : "One tap to begin with sound."}</span>
-      {!started && <button id="begin-pour" className="begin-pour" type="button" disabled={loading || (!audioReady && !audioError)} onPointerDown={e=>{if(e.isPrimary && e.button===0 && audioReady) void begin();}} onClick={begin}>{loading || (!audioReady && !audioError) ? "Preparing your matcha…" : audioError ? "Try again · tap to pour" : "Tap to pour 🍵"}</button>}
+      <span className="pour-caption">{started ? "Preparing..." : "One tap to begin with sound."}</span>
+      {!started && <button id="begin-pour" className="begin-pour" type="button" disabled={loading || (!audioReady && !audioError)} onPointerDown={e=>{if(e.isPrimary && e.button===0 && audioReady) void begin();}} onClick={begin}>{loading ? "Preparing..." : "Tap"}</button>}
       <button ref={skip} type="button" onClick={onComplete}>
         Skip intro ↗
       </button>

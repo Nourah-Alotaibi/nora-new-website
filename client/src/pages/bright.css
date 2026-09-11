@@ -491,15 +491,14 @@
 .project-recognitions li {
   display: block;
   position: relative;
-  padding-left: 19px;
+  padding-left: 0;
   font-size: 11px;
   line-height: 1.7;
   margin: 8px 0;
 }
 .project-recognitions li > span {
-  position: absolute;
-  left: 0;
-  color: var(--studio-accent);
+  position: static;
+  color: inherit;
 }
 .project-recognitions strong {
   font-weight: 600;
