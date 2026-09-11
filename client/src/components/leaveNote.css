@@ -37,3 +37,55 @@
  .note-trigger.is-visible { animation:none; translate:none; }
  .note-sparkles i { animation:none; opacity:.8; }
 }
+
+/* A brighter invitation, with a separate comfortable dismiss target. */
+.note-trigger {
+  background:linear-gradient(135deg,#ffffff 0%,#fffbed 42%,#f5e8b5 100%);
+  color:#64573d;
+  border-color:#e3d7af;
+  font-weight:400;
+}
+.note-trigger-label { font-family:Georgia,"Times New Roman",serif; font-style:italic; font-weight:400; font-size:15px; }
+.note-dark .note-trigger {
+  background:linear-gradient(135deg,#b39aef,#819bee);
+  color:#201834;
+  border-color:#c3b1f5;
+}
+.note-dismiss {
+  position:fixed; z-index:41; right:17px;
+  bottom:calc(max(26px,env(safe-area-inset-bottom)) + 52px);
+  width:44px; height:44px; display:grid; place-items:center;
+  padding:0; border:0; background:transparent; color:var(--note-ink);
+  cursor:pointer;
+}
+.note-dismiss span {
+  display:grid; place-items:center; width:22px; height:22px;
+  border:1px solid var(--note-border); border-radius:50%;
+  background:var(--note-bg); font:18px/1 Arial,sans-serif;
+  box-shadow:0 2px 5px #10121a18;
+}
+@media(max-width:600px) {
+  .note-trigger { width:auto; height:48px; min-height:48px; padding:0 16px; gap:7px; font-size:13px; }
+  .note-trigger.is-visible { animation-name:note-fly-mobile; }
+  .note-trigger-label { display:inline; }
+  .note-dismiss { right:2px; bottom:calc(64px + env(safe-area-inset-bottom)); }
+}
+
+@keyframes note-fly-mobile { 0%,100% { translate:0 0; } 50% { translate:-2px -9px; box-shadow:0 0 17px var(--note-halo),0 0 38px var(--note-halo-wide),0 8px 18px #10121a16; } }
+@media(prefers-reduced-motion:reduce) { .note-trigger.is-visible { animation:none; translate:none; } }
+
+.note-light .note-trigger::before {
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(110deg,transparent 35%,#ffffffa6 49%,transparent 63%);
+  background-size:300% 100%; background-position:150% 0;
+  animation:note-shine 5s ease-in-out infinite;
+}
+@keyframes note-shine {
+  0%,65% { background-position:150% 0; opacity:0; }
+  70% { opacity:.8; }
+  95%,100% { background-position:-50% 0; opacity:0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .note-light .note-trigger::before { animation:none; opacity:0; }
+}
