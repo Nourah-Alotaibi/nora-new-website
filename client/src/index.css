@@ -2807,3 +2807,8 @@
 .pa-recognition-dot { flex: 0 0 8px; color: #c5b3e8; font-size: .7rem; text-align: center; }
 .pa-recognition-item > span:last-child { min-width: 0; }
 .pa-recognition-item { line-height: 1.55; }
+
+/* Mobile chapter descriptions: natural height lets the lines breathe. */
+@media(max-width:720px) {
+  .dark .journey-card-content > p { font-size:12px;line-height:1.95; }
+}

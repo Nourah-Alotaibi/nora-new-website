@@ -4,6 +4,17 @@
   "outputDirectory": "dist/public",
   "routes": [
     {
+      "src": "/(n-1350c3164f9571a92386ede205b5e6e17aa891a12291d21a|s-20bbf1274fbb9e796eb540bad32c3931ae0dd27ebf3dee27)",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow, noarchive",
+        "Cache-Control": "private, no-store",
+        "Referrer-Policy": "no-referrer",
+        "X-Frame-Options": "DENY",
+        "Content-Security-Policy": "frame-ancestors 'none'"
+      },
+      "continue": true
+    },
+    {
       "handle": "filesystem"
     },
     {

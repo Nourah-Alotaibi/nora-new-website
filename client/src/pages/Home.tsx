@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useRef, useMemo, type ReactElement, type CSSProperties } from "react";
+import { useState, useEffect, useRef, useMemo, type ReactElement, type CSSProperties } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
@@ -186,31 +186,6 @@ const rightOffsets = ["5%", "1%", "6%", "3%", "2%", "7%", "4%", "3%"];
 
 function JourneyCard({ chapter, index }: { chapter: (typeof journeyChapters)[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  useLayoutEffect(() => {
-    const query = matchMedia("(max-width: 720px)");
-    const paragraph = ref.current?.querySelector<HTMLElement>(".journey-card-content > p");
-    if (!paragraph) return;
-    const reset = () => {
-      paragraph.style.removeProperty("font-size");
-      paragraph.style.removeProperty("line-height");
-      paragraph.style.removeProperty("height");
-    };
-    const fit = () => {
-      reset();
-      if (!query.matches || !document.documentElement.classList.contains("dark")) return;
-      const originalHeight = parseFloat(getComputedStyle(paragraph).height);
-      paragraph.style.fontSize = "0.72rem";
-      paragraph.style.lineHeight = "21px";
-      const lines = Math.round(parseFloat(getComputedStyle(paragraph).height) / 21);
-      // Preserve the exact original text block and therefore every window position.
-      paragraph.style.lineHeight = `${Math.min(22, originalHeight / Math.max(1, lines))}px`;
-      paragraph.style.height = `${originalHeight}px`;
-    };
-    fit();
-    window.addEventListener("resize", fit);
-    document.fonts.ready.then(fit);
-    return () => { window.removeEventListener("resize", fit); reset(); };
-  }, []);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const theme = journeyThemes[index] ?? "future";
   const chapterNum = String(index + 1).padStart(2, "0");
@@ -1345,7 +1320,7 @@ function MobileHero() {
           </div>
 
           <p className="mh2-desc">
-            I build AI systems from local to cloud, design web experiences, enjoy solving CTFs (cyber security challenges).
+            I build AI systems that run locally and in the cloud, design web experiences, and enjoy solving CTFs (cybersecurity challenges).
           </p>
 
           <div className="mh2-actions">
@@ -1600,7 +1575,7 @@ export default function Home() {
               Computer Engineer | AI Developer
             </h2>
             <p className={`dh-hero-desc text-[0.55rem] leading-4 mb-2 md:text-base md:leading-7 md:mb-6 ${isDark ? "text-[rgba(203,213,225,0.8)]" : "text-gray-600"}`}>
-              I build AI systems from local to cloud, design web experiences, enjoy solving CTFs (cyber security challenges).
+              I build AI systems that run locally and in the cloud, design web experiences, and enjoy solving CTFs (cybersecurity challenges).
             </p>
             <a href="#projects" className="premium-btn inline-flex items-center gap-1 md:gap-2 px-2.5 py-1 md:px-6 md:py-3 rounded-full font-semibold text-[0.55rem] md:text-sm text-white">
               <Sparkles className="w-2.5 h-2.5 md:w-4 md:h-4" />
