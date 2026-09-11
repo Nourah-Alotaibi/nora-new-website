@@ -14,7 +14,9 @@ export default function LeaveNote() {
   useEffect(() => {
     const update = () => {
       const hero = document.querySelector(theme === "light" ? ".studio-hero" : "#hero");
-      setVisible(Boolean(hero && hero.getBoundingClientRect().bottom <= 0 && !document.querySelector(".pour-intro") && !document.querySelector("dialog[open]:not(.note-panel)")));
+      // Arrive in the space after the hero as that boundary enters the viewport.
+      const pastHeroAtButton = hero && hero.getBoundingClientRect().bottom <= window.innerHeight - 72;
+      setVisible(Boolean(window.scrollY > 8 && pastHeroAtButton && !document.querySelector(".pour-intro") && !document.querySelector("dialog[open]:not(.note-panel)")));
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -63,7 +65,7 @@ export default function LeaveNote() {
       tabIndex={visible ? 0 : -1} aria-hidden={!visible} aria-label="Leave a note" aria-haspopup="dialog"
       onClick={() => { setStatus("idle"); dialog.current?.showModal(); setOpen(true); }}>
       <span aria-hidden="true">📝</span><span className="note-trigger-label">Leave a note</span>
-      <span className="note-sparkles" aria-hidden="true"><i>✧</i><i>✦</i><i>✧</i></span>
+      <span className="note-sparkles" aria-hidden="true"><i>✨</i><i>✨</i><i>✨</i></span>
     </button>
     <dialog ref={dialog} className="note-panel" aria-labelledby="note-heading" aria-describedby="note-description"
       onKeyDown={event => {
@@ -87,7 +89,6 @@ export default function LeaveNote() {
           <input id="note-name" name="name" autoComplete="name" maxLength={100} />
           <label htmlFor="note-message">Your note <span>— required</span></label>
           <textarea id="note-message" name="note" required maxLength={4000} rows={5} />
-          {!endpoint && <p className="note-error" role="status">Note delivery is not connected yet. Please try again later.</p>}
           {status === "error" && <p className="note-error" role="alert">Your note wasn’t sent. Please try again.</p>}
           <button className="note-send" type="submit" disabled={!endpoint || status === "sending"}>{status === "sending" ? "Sending…" : "Send note"}</button>
         </form>}
