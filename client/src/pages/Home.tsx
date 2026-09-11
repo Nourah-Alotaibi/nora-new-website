@@ -1174,7 +1174,7 @@ function ProjectsSection() {
           <div className="pa-recognitions">
             {proj.recognitions.map((r, ri) => (
               <div key={ri} className="pa-recognition-item">
-                <span className="pa-recognition-icon">{r.icon}</span>
+                <span className="pa-recognition-dot" aria-hidden="true">•</span>
                 <span>{renderText(r.text)}</span>
               </div>
             ))}

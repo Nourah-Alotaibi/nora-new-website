@@ -28,8 +28,8 @@ function PlainText({ text }: { text: string }) {
   return (
     <>
       {text.split(/(\[\[(?:org|num|rank):[^\]]+\]\])/).map((part, i) => {
-        const match = part.match(/^\[\[(?:org|num|rank):(.+)\]\]$/);
-        return match ? <strong key={i}>{match[1]}</strong> : part;
+        const match = part.match(/^\[\[(org|num|rank):(.+)\]\]$/);
+        return match ? <strong key={i} className={`project-emphasis-${match[1]}`}>{match[2]}</strong> : part;
       })}
     </>
   );

@@ -2909,3 +2909,26 @@
 .bright-site .matcha-fact-content p { font-size:16px;line-height:1.5;margin:0 0 20px; }
 .bright-site .matcha-fact-content img { display:block;width:100%;height:auto;border-radius:3px;box-shadow:0 3px 12px #70664822; }
 body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
+
+/* Small editorial accents for project facts and recognition lists. */
+.bright-site .project-story .project-emphasis-org { color: #486789; font-weight: 650; }
+.bright-site .project-story .project-emphasis-num { color: #8c4e69; font-weight: 750; }
+.bright-site .project-story .project-emphasis-rank { color: #76542c; font-weight: 750; }
+.bright-site .project-story h4 { color: #536a45; font-weight: 650; }
+.bright-site .project-recognitions li { padding-inline-start: 20px; }
+.bright-site .project-recognitions li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 4px;
+  top: .7em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #71855e;
+}
+.bright-site .studio-tags span:nth-child(3n + 1) { color: #486789; background: #e7edf2; }
+.bright-site .studio-tags span:nth-child(3n + 2) { color: #80516a; background: #f0e6eb; }
+@media (max-width: 700px) {
+  .bright-site .project-recognitions li { padding-inline-start: 25px; }
+  .bright-site .project-recognitions li::before { inset-inline-start: 12px; top: calc(12px + .7em); }
+}
