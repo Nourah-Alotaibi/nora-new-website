@@ -7,6 +7,7 @@ export default function LeaveNote() {
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const [visible, setVisible] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const endpoint = import.meta.env.VITE_NOTE_ENDPOINT as string | undefined;
@@ -61,12 +62,13 @@ export default function LeaveNote() {
   }
 
   return <div className={`leave-note-widget note-${theme}`}>
-    <button ref={trigger} type="button" className={`note-trigger${visible ? " is-visible" : ""}`}
-      tabIndex={visible ? 0 : -1} aria-hidden={!visible} aria-label="Leave a note" aria-haspopup="dialog"
+    <button ref={trigger} type="button" className={`note-trigger${visible && !dismissed ? " is-visible" : ""}`}
+      tabIndex={visible && !dismissed ? 0 : -1} aria-hidden={!visible || dismissed} aria-label="Leave a note" aria-haspopup="dialog"
       onClick={() => { setStatus("idle"); dialog.current?.showModal(); setOpen(true); }}>
       <span aria-hidden="true">📝</span><span className="note-trigger-label">Leave a note</span>
       <span className="note-sparkles" aria-hidden="true"><i>✨</i><i>✨</i><i>✨</i></span>
     </button>
+    {visible && !dismissed && <button type="button" className="note-dismiss" aria-label="Hide note button" onClick={() => setDismissed(true)}><span aria-hidden="true">×</span></button>}
     <dialog ref={dialog} className="note-panel" aria-labelledby="note-heading" aria-describedby="note-description"
       onKeyDown={event => {
         if (event.key !== "Tab") return;
@@ -81,8 +83,8 @@ export default function LeaveNote() {
         if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) close();
       } }}>
       <button className="note-close" type="button" aria-label="Close note" onClick={close}>×</button>
-      <h2 id="note-heading">Leave a note</h2>
-      <p id="note-description">Something about my website, my work, or just a thought.</p>
+      <h2 id="note-heading">Your turn…</h2>
+      <p id="note-description">I made a whole website. You can have this little box. Tell me anything—about me, the website, or whatever’s on your mind.</p>
       {status === "success" ? <p className="note-success" role="status">Thanks for leaving a note.</p> :
         <form onSubmit={send}>
           <label htmlFor="note-name">Your name <span>— optional</span></label>

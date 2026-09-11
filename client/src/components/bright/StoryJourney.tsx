@@ -245,6 +245,17 @@ export default function StoryJourney() {
                   </button>
                 </div>
               </div>
+              {active < chapters.length - 1 && (
+                <button
+                  type="button"
+                  className="book-page-corner"
+                  aria-label="Turn to next chapter"
+                  title="Turn to next chapter"
+                  onClick={() => setActive(current => Math.min(chapters.length - 1, current + 1))}
+                >
+                  <span aria-hidden="true">↗</span>
+                </button>
+              )}
             </article>
           </>
         )}

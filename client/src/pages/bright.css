@@ -2932,3 +2932,34 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
   .bright-site .project-recognitions li { padding-inline-start: 25px; }
   .bright-site .project-recognitions li::before { inset-inline-start: 12px; top: calc(12px + .7em); }
 }
+
+/* Dashes distinguish separate description points without crowding the text. */
+.bright-site .project-description-point { position:relative; padding-inline-start:1em; }
+.bright-site .project-description-point::before { content:"-"; position:absolute; inset-inline-start:0; color:var(--studio-accent); }
+
+/* A folded page corner doubles as a comfortable next-chapter target. */
+.journey-book .story-postcard { position:relative; }
+.book-page-corner {
+  position:absolute; right:0; bottom:0; z-index:3;
+  width:52px; height:52px; padding:0; border:0;
+  border-radius:0 0 18px 0; cursor:pointer; color:#536947;
+  background:linear-gradient(135deg,transparent 48%,#fffdf0 49%,#dedec6 100%);
+  transition:filter .2s ease;
+}
+.book-page-corner span { position:absolute; right:8px; bottom:7px; font-size:20px; }
+.book-page-corner:hover { filter:brightness(1.07); }
+.book-page-corner:focus-visible { outline:2px solid #536947; outline-offset:-3px; }
+
+/* Compact mobile project copy, with a consistent inset from the case edges. */
+@media (max-width:700px) {
+  .bright-site .project-story { padding:16px 14px 24px; min-width:0; }
+  .bright-site .project-story h3 { font-size:23px; line-height:1.2; margin:6px 0 9px; }
+  .bright-site .project-story h4 { font-size:13px; line-height:1.5; margin:0 0 14px; font-weight:600; }
+  .bright-site .project-story p { font-size:12px; line-height:1.7; margin:0 0 12px !important; overflow-wrap:break-word; }
+  .bright-site .project-category { font-size:9px; letter-spacing:.13em; }
+  .bright-site .project-recognitions { margin:16px 0 10px; padding:8px 0; }
+  .bright-site .project-recognitions li { font-size:11px; line-height:1.6; margin:7px 0; padding:9px 10px 9px 21px; border-radius:10px; overflow-wrap:break-word; }
+  .bright-site .project-recognitions li::before { inset-inline-start:9px; top:calc(9px + .7em); width:3px; height:3px; }
+  .bright-site .studio-tags { margin-top:14px; gap:5px; }
+  .bright-site .studio-tags span { font-size:9.5px; line-height:1.4; padding:5px 7px; }
+}

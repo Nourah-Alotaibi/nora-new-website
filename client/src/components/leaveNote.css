@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
+
 .leave-note-widget { --note-bg:#faf7ed; --note-ink:#304335; --note-border:#d5d3bf; --note-accent:#536947; --note-glow:#ead5a466; --note-halo:#e5bf65b3; --note-halo-wide:#e5ce8273; }
 .note-dark { --note-bg:#191a2bef; --note-ink:#eeedf7; --note-border:#555074; --note-accent:#b6a7df; --note-glow:#797ade40; --note-halo:#ab8cffb3; --note-halo-wide:#6c8aff80; }
 .note-trigger { position:fixed; right:28px; bottom:max(26px,env(safe-area-inset-bottom)); z-index:40; display:flex; align-items:center; gap:8px; min-height:48px; padding:10px 17px; border:1px solid var(--note-border); border-radius:24px; background:var(--note-bg); color:var(--note-ink); box-shadow:0 0 12px var(--note-halo),0 0 30px var(--note-halo-wide),0 5px 14px #10121a16; font-family:inherit; font-size:13px; font-weight:500; line-height:1.4; opacity:0; visibility:hidden; transform:translateY(12px); pointer-events:none; transition:opacity .55s ease,transform .55s ease,visibility .55s; }
@@ -38,18 +40,25 @@
  .note-sparkles i { animation:none; opacity:.8; }
 }
 
-/* A brighter invitation, with a separate comfortable dismiss target. */
-.note-trigger {
-  background:linear-gradient(135deg,#ffffff 0%,#fffbed 42%,#f5e8b5 100%);
-  color:#64573d;
-  border-color:#e3d7af;
-  font-weight:400;
-}
-.note-trigger-label { font-family:Georgia,"Times New Roman",serif; font-style:italic; font-weight:400; font-size:15px; }
+/* Soft stationery colors with a regular-weight handwritten invitation. */
+.note-trigger,
 .note-dark .note-trigger {
-  background:linear-gradient(135deg,#b39aef,#819bee);
-  color:#201834;
-  border-color:#c3b1f5;
+  background:linear-gradient(135deg,#fffdf7 0%,#fdf4cb 48%,#fdf4cb 100%);
+  color:#796348;
+  border-color:#e3d9b9;
+  font-weight:400;
+  --note-halo:#e6d99b45;
+  --note-halo-wide:#e6d99b24;
+}
+.leave-note-widget .note-trigger .note-trigger-label {
+  font-family:"Dancing Script","Segoe Script","Snell Roundhand",cursive;
+  font-style:normal;
+  font-weight:500;
+  font-synthesis:none;
+  font-size:20px;
+  line-height:1.2;
+  text-shadow:none;
+  -webkit-text-stroke:0;
 }
 .note-dismiss {
   position:fixed; z-index:41; right:17px;

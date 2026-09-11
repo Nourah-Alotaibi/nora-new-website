@@ -298,7 +298,7 @@ export default function BrightHome() {
                   </h3>
                   <h4>{p.subtitle}</h4>
                   {p.desc.split("\n\n").map((para, i) => (
-                    <p key={i}>
+                    <p key={i} className={p.desc.includes("\n\n") ? "project-description-point" : undefined}>
                       <PlainText text={para} />
                     </p>
                   ))}
