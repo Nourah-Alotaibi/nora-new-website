@@ -2978,3 +2978,15 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
       rotate(calc(var(--position) * 2deg));
   }
 }
+
+/* Avoid nested 3D compositing for SVG covers on mobile browsers. */
+@media(max-width:700px) {
+  .bright-site .gallery-wall { perspective:none; }
+  .bright-site .gallery-canvas,
+  .bright-site .canvas-frame { transform-style:flat; backface-visibility:visible; }
+  .bright-site .canvas-frame { isolation:isolate; }
+  .bright-site .canvas-frame > .project-film-reel { z-index:0; transform:rotate(-12deg); }
+  .bright-site .is-current .canvas-frame > .project-film-reel { transform:rotate(0deg); }
+  .bright-site .canvas-frame > svg:not(.project-film-reel) { display:block; width:100%; height:auto; }
+  .bright-site .frame-edge { transform:none; }
+}
