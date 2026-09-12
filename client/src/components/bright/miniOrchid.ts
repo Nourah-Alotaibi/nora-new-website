@@ -93,9 +93,9 @@ export function makeMiniOrchid() {
   function petal(length:number,width:number) {
     const shape=new THREE.Shape();shape.moveTo(-width*.11,0);
     // Broad quarter-circle / shield silhouette of the actual molded LEGO petal.
-    shape.quadraticCurveTo(-width*.56,length*.15,-width*.49,length*.57);
-    shape.quadraticCurveTo(-width*.37,length*.84,0,length);
-    shape.quadraticCurveTo(width*.37,length*.84,width*.49,length*.57);
+    shape.quadraticCurveTo(-width*.61,length*.18,-width*.53,length*.62);
+    shape.quadraticCurveTo(-width*.28,length*.91,width*.07,length);
+    shape.quadraticCurveTo(width*.48,length*.82,width*.53,length*.54);
     shape.quadraticCurveTo(width*.56,length*.15,width*.11,0);shape.closePath();
     const geo=new THREE.ExtrudeGeometry(shape,{depth:.022,bevelEnabled:true,bevelSize:.005,bevelThickness:.005,bevelSegments:2,curveSegments:14,steps:1});
     const pos=geo.attributes.position;for(let i=0;i<pos.count;i++){const t=pos.getY(i)/length;pos.setZ(i,pos.getZ(i)+.055*t*t);}geo.computeVertexNormals();return geo;
@@ -126,7 +126,13 @@ export function makeMiniOrchid() {
     const nozzle=mesh(bloom,new THREE.TorusGeometry(.010,.004,6,18),ivory,0,.008,.198);
     nozzle.name="Hollow ivory flower column";
     const crossbar=mesh(bloom,new THREE.CylinderGeometry(.010,.010,.064,12),ivory,0,.008,.135);crossbar.rotation.z=Math.PI/2;
-    for(let j=0;j<3;j++){const a=(j-1)*.8;const lip=mesh(bloom,petal(.105,.065),orange,0,-.036,.11);lip.rotation.set(.8,0,Math.PI+a);}
+    // The orange lip is a three-lobed molded piece with rounded, glossy ends.
+    const lipShape=new THREE.Shape();lipShape.moveTo(-.025,.018);
+    lipShape.bezierCurveTo(-.11,.025,-.10,-.055,-.047,-.057);
+    lipShape.bezierCurveTo(-.045,-.115,.045,-.115,.047,-.057);
+    lipShape.bezierCurveTo(.10,-.055,.11,.025,.025,.018);lipShape.closePath();
+    const lip=mesh(bloom,new THREE.ExtrudeGeometry(lipShape,{depth:.019,bevelEnabled:true,bevelSize:.008,bevelThickness:.006,bevelSegments:3,curveSegments:12}),orange,0,-.026,.135);
+    lip.rotation.x=.65;lip.scale.set(.70,.70,1);
   });
   const tip=new THREE.Vector3(1.24,2.36,0);rod(root,stalk[6],tip,.016,green);
   for(let i=0;i<3;i++) {
