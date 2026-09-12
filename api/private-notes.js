@@ -1,5 +1,6 @@
-// Owner-only management of the existing private_notes table.
-// Use the publishable key + verified user's JWT so Supabase RLS remains active.
+import { createHmac, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
+// Per-instance throttle supplements the host's network-level protections.
+const attempts = new Map();
 const COOKIE = "nourah_notes_session";
 const REFRESH_COOKIE = "nourah_notes_refresh";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -34,69 +35,56 @@ export default async function handler(req, res) {
       return res.status(415).json({ error: "Request not allowed" });
   }
   const url = process.env.SUPABASE_URL?.replace(/\/$/, "");
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY;
-  const admin = process.env.NOTES_ADMIN_USER_ID;
-  if (!url || !key || !UUID.test(admin || "")) return action === "login"
+  const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const passcodeHash = process.env.NOTES_PASSCODE_HASH;
+  if (!url || !key || !/^[a-f0-9]{32}:[a-f0-9]{128}$/.test(passcodeHash || "")) return action === "login"
     ? res.status(503).json({ error: "Unlocking is unavailable. Try again later." }) : notFound(res);
-  const request = (path, options = {}, token) => fetch(`${url}${path}`, {
-    ...options, headers: { apikey: key, "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers },
+  // Signing is bound to both secrets: rotating either invalidates existing sessions.
+  const sign = value => createHmac('sha256', key).update(passcodeHash + ':' + value).digest('hex');
+  const equal = (a, b) => a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b));
+  const request = (path, options = {}) => fetch(`${url}${path}`, {
+    ...options, headers: { apikey: key, "Content-Type": "application/json",
+      ...(key.startsWith('sb_secret_') ? {} : { Authorization: `Bearer ${key}` }), ...options.headers },
     signal: AbortSignal.timeout(10000),
   });
   try {
     if (action === "login") {
       let data;
       try { data = body(req); } catch { return res.status(400).json({ error: "Unable to unlock." }); }
-      const email = process.env.NOTES_ADMIN_EMAIL;
-      if (!email) return res.status(503).json({ error: "Unlocking is unavailable. Try again later." });
       if (typeof data.password !== "string" || !data.password || data.password.length > 1024)
         return res.status(400).json({ error: "Unable to unlock." });
-      const response = await request("/auth/v1/token?grant_type=password", { method: "POST", body: JSON.stringify({ email, password: data.password }) });
-      if (!response.ok) return res.status(response.status === 429 ? 429 : 401).json({ error: "Unable to unlock. Check your passcode or try again later." });
-      const session = await response.json();
-      if (session.user?.id !== admin || typeof session.access_token !== "string") {
-        // Do not leave an unauthorized session active after a valid password login.
-        if (session.access_token) await request("/auth/v1/logout?scope=local", { method: "POST" }, session.access_token);
-        cookie(res);
-        return res.status(401).json({ error: "Unable to unlock. Check your passcode or try again later." });
+      const ip = req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown';
+      const now = Date.now();
+      for (const [address, entry] of attempts) if (entry.until <= now) attempts.delete(address);
+      const attempt = attempts.get(ip) || { count: 0, until: now + 900000 };
+      if (attempt.count >= 5) {
+        res.setHeader('Retry-After', String(Math.ceil((attempt.until - now) / 1000)));
+        return res.status(429).json({ error: 'Too many attempts. Please try again later.' });
       }
-      cookie(res, session.access_token, Math.max(1, Math.min(3600, Number(session.expires_in) || 3600)), session.refresh_token);
+      attempt.count++;
+      attempts.set(ip, attempt);
+      const [salt, expected] = passcodeHash.split(':');
+      const actual = scryptSync(data.password, salt, 64).toString('hex');
+      if (!equal(actual, expected)) return res.status(401).json({ error: "Unable to unlock. Check your passcode or try again later." });
+      attempts.delete(ip);
+      const payload = `${Math.floor(Date.now() / 1000) + 86400}.${randomBytes(24).toString('hex')}`;
+      cookie(res, `${payload}.${sign(payload)}`, 86400);
       return res.status(200).json({ authorized: true });
     }
-    let token, refresh;
-    try {
-      const read = name => decodeURIComponent((req.headers.cookie || "").split(";").map(x => x.trim()).find(x => x.startsWith(`${name}=`))?.slice(name.length + 1) || "");
-      token = read(COOKIE); refresh = read(REFRESH_COOKIE);
-    }
-    catch { return notFound(res); }
     if (action === "logout") {
       cookie(res);
-      if (!token && refresh) {
-        const response = await request("/auth/v1/token?grant_type=refresh_token", { method: "POST", body: JSON.stringify({ refresh_token: refresh }) });
-        if (response.ok) token = (await response.json()).access_token;
-      }
-      if (token) await request("/auth/v1/logout?scope=local", { method: "POST" }, token);
       return res.status(200).json({ signedOut: true });
     }
-    // Never trust a decoded JWT, browser flag, email, or user-submitted ID.
-    let user = token ? await request("/auth/v1/user", {}, token) : null;
-    if ((!user || user.status === 401 || user.status === 403) && refresh) {
-      const response = await request("/auth/v1/token?grant_type=refresh_token", { method: "POST", body: JSON.stringify({ refresh_token: refresh }) });
-      if (!response.ok) {
-        if (response.status >= 500 || response.status === 429) return res.status(502).json({ error: "Unable to connect. Please try again." });
-        cookie(res); return notFound(res);
-      }
-      const session = await response.json();
-      if (session.user?.id !== admin || !session.access_token || !session.refresh_token) { cookie(res); return notFound(res); }
-      token = session.access_token;
-      user = await request("/auth/v1/user", {}, token);
-      if (user.ok) cookie(res, token, Math.max(1, Math.min(3600, Number(session.expires_in) || 3600)), session.refresh_token);
-    }
-    if (!user) return notFound(res);
-    if (!user.ok) {
-      if (user.status >= 500) return res.status(502).json({ error: "Unable to connect. Please try again." });
+    let token;
+    try {
+      token = decodeURIComponent((req.headers.cookie || '').split(';').map(x => x.trim()).find(x => x.startsWith(`${COOKIE}=`))?.slice(COOKIE.length + 1) || '');
+    } catch { return notFound(res); }
+    const parts = token.split('.');
+    if (parts.length !== 3 || !/^\d+$/.test(parts[0]) || !/^[a-f0-9]{48}$/.test(parts[1]) ||
+        !/^[a-f0-9]{64}$/.test(parts[2]) || Number(parts[0]) <= Date.now() / 1000 ||
+        Number(parts[0]) > Date.now() / 1000 + 86400 || !equal(sign(`${parts[0]}.${parts[1]}`), parts[2])) {
       cookie(res); return notFound(res);
     }
-    if ((await user.json()).id !== admin) { cookie(res); return notFound(res); }
     if (action === "session") return res.status(200).json({ authorized: true });
     if (action === "notes") {
       const filter = req.query.filter || "all";
