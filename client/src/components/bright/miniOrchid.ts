@@ -5,12 +5,12 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 export function makeMiniOrchid() {
   const root = new THREE.Group();
   root.name = "Mini Orchid · 10343";
-  const plastic = (color: number, roughness = .3) => new THREE.MeshPhysicalMaterial({
-    color, roughness, metalness: 0, clearcoat: .4, clearcoatRoughness: .26,
+  const plastic = (color: number, roughness = .26) => new THREE.MeshPhysicalMaterial({
+    color, roughness, metalness: 0, clearcoat: .52, clearcoatRoughness: .21,
   });
   const clay = plastic(0xd7a077, .4), wood = plastic(0x774325, .36);
   const green = plastic(0x064f32), lime = plastic(0x94b839);
-  const peach = plastic(0xffd6aa), pink = plastic(0xe899c8);
+  const peach = plastic(0xf6ce9f), pink = plastic(0xe899c8);
   const magenta = plastic(0xa74890), orange = plastic(0xb95717);
   const ivory = plastic(0xfff1d9), recess = plastic(0xc29165, .5);
   const clipMat = plastic(0x28312c), gold = new THREE.MeshStandardMaterial({color:0xcba554, metalness:.68, roughness:.28});
@@ -27,7 +27,8 @@ export function makeMiniOrchid() {
   }
   // Four-piece turned bowl and wood-effect foot, with separate gold belt tiles.
   const bowlProfile=[[.22,.17],[.29,.19],[.36,.25],[.415,.34],[.438,.45],[.44,.58],[.423,.63],[.35,.66],[.30,.64],[.30,.58]].map(([x,y])=>new THREE.Vector2(x,y));
-  for(let i=0;i<4;i++) mesh(root,new THREE.LatheGeometry(bowlProfile,24,i*Math.PI/2+.003,Math.PI/2-.006),clay);
+  const smoothBowl = new THREE.SplineCurve(bowlProfile).getPoints(64);
+  for(let i=0;i<4;i++) mesh(root,new THREE.LatheGeometry(smoothBowl,32,i*Math.PI/2+.004,Math.PI/2-.008),clay);
   mesh(root,new THREE.CylinderGeometry(.435,.40,.085,64),wood,0,.115,0);
   ring(root,.403,.026,wood,0,.16,0);
   for(let i=0;i<4;i++) {
@@ -47,8 +48,11 @@ export function makeMiniOrchid() {
   // Four broad molded leaves: two tall blades, two low horizontal pieces.
   function leaf(length:number,width:number) {
     const shape=new THREE.Shape();shape.moveTo(-width*.15,0);
-    shape.bezierCurveTo(-width*.48,length*.35,-width*.55,length*.85,0,length);
-    shape.bezierCurveTo(width*.55,length*.85,width*.48,length*.35,width*.15,0);shape.closePath();
+    shape.lineTo(-width*.36,length*.24);
+    shape.bezierCurveTo(-width*.55,length*.61,-width*.53,length*.87,-width*.22,length*.97);
+    shape.quadraticCurveTo(0,length*1.04,width*.22,length*.97);
+    shape.bezierCurveTo(width*.53,length*.87,width*.55,length*.61,width*.36,length*.24);
+    shape.lineTo(width*.15,0);shape.closePath();
     const geo=new THREE.ExtrudeGeometry(shape,{depth:.022,bevelEnabled:true,bevelThickness:.011,bevelSize:.012,bevelSegments:3,curveSegments:16,steps:1});
     const pos=geo.attributes.position;
     for(let i=0;i<pos.count;i++){const t=pos.getY(i)/length;pos.setZ(i,pos.getZ(i)+.12*Math.sin(t*Math.PI*.8)-Math.abs(pos.getX(i))*.19);}
@@ -59,11 +63,18 @@ export function makeMiniOrchid() {
     mesh(g,leaf(len,w),green);
     const seam=new THREE.CatmullRomCurve3([new THREE.Vector3(0,.02,.038),new THREE.Vector3(0,len*.5,.15),new THREE.Vector3(0,len*.95,.12)]);
     mesh(g,new THREE.TubeGeometry(seam,16,.0035,4,false),green);
+    // Small mounting plate and stud under each molded leaf.
+    mesh(g,new RoundedBoxGeometry(.09,.12,.035,2,.006),green,0,.05,-.025);
+    const stud=mesh(g,new THREE.CylinderGeometry(.027,.027,.028,16),green,0,.07,-.052);stud.rotation.x=Math.PI/2;
   });
 
   const stalk=[[-.04,.65,0],[-.04,1.08,0],[.04,1.42,0],[.21,1.74,0],[.44,2.04,0],[.73,2.24,0],[1.00,2.34,0]].map(p=>new THREE.Vector3(...p as [number,number,number]));
   for(let i=0;i<stalk.length-1;i++) {
     rod(root,stalk[i],stalk[i+1],.033,green);
+    const direction=stalk[i+1].clone().sub(stalk[i]);
+    const collar=mesh(root,new THREE.CylinderGeometry(.041,.041,.065,16),clipMat);
+    collar.position.copy(stalk[i]).addScaledVector(direction,.72);
+    collar.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction.normalize());
     const node=mesh(root,new THREE.CylinderGeometry(.052,.052,.05,12),green,...stalk[i].toArray() as [number,number,number]);node.rotation.x=Math.PI/2;
     const socket=ring(root,.027,.009,clipMat,stalk[i].x,stalk[i].y,.033);socket.rotation.x=0;
   }
@@ -73,10 +84,13 @@ export function makeMiniOrchid() {
 
   // Three broad pointed petals, two recessed boat-shaped sepals and a pink throat.
   function petal(length:number,width:number) {
-    const shape=new THREE.Shape();shape.moveTo(-.025,0);
-    shape.quadraticCurveTo(-width*.65,length*.38,0,length);
-    shape.quadraticCurveTo(width*.65,length*.38,.025,0);shape.closePath();
-    const geo=new THREE.ExtrudeGeometry(shape,{depth:.014,bevelEnabled:true,bevelSize:.006,bevelThickness:.006,bevelSegments:2,curveSegments:14,steps:1});
+    const shape=new THREE.Shape();shape.moveTo(-width*.11,0);
+    // Broad quarter-circle / shield silhouette of the actual molded LEGO petal.
+    shape.quadraticCurveTo(-width*.56,length*.15,-width*.49,length*.57);
+    shape.quadraticCurveTo(-width*.37,length*.84,0,length);
+    shape.quadraticCurveTo(width*.37,length*.84,width*.49,length*.57);
+    shape.quadraticCurveTo(width*.56,length*.15,width*.11,0);shape.closePath();
+    const geo=new THREE.ExtrudeGeometry(shape,{depth:.022,bevelEnabled:true,bevelSize:.005,bevelThickness:.005,bevelSegments:2,curveSegments:14,steps:1});
     const pos=geo.attributes.position;for(let i=0;i<pos.count;i++){const t=pos.getY(i)/length;pos.setZ(i,pos.getZ(i)+.055*t*t);}geo.computeVertexNormals();return geo;
   }
   const bloomPositions=[[-.25,1.32,.11],[.17,1.49,.12],[.16,1.98,.09],[.58,2.08,.12],[.89,2.37,.05]];
@@ -85,7 +99,11 @@ export function makeMiniOrchid() {
     const bloom=new THREE.Group();root.add(bloom);bloom.position.set(x,y,z);bloom.rotation.set(-.22,.18+(i%2)*.15,(i%2?-.1:.08));
     const back=mesh(bloom,new THREE.TorusGeometry(.09,.012,8,24),gold,0,0,-.035);
     back.name="Flower connector loop";
-    [0,1.12,-1.12].forEach(a=>{const m=mesh(bloom,petal(.27,.23),peach,0,0,0);m.rotation.z=a;});
+    [0,1.20,-1.20].forEach(a=>{const m=mesh(bloom,petal(.29,.245),peach,0,0,0);m.rotation.z=a;m.rotation.x=-.10;
+      const mount=new THREE.Group();bloom.add(mount);mount.rotation.z=a;
+      mesh(mount,new RoundedBoxGeometry(.065,.073,.044,2,.005),recess,0,.035,-.032);
+      const peg=mesh(mount,new THREE.CylinderGeometry(.016,.016,.055,12),peach,0,.045,-.074);peg.rotation.x=Math.PI/2;
+    });
     [-2.48,2.48].forEach(a=>{
       const sepal=new THREE.Group();bloom.add(sepal);sepal.rotation.z=a;
       mesh(sepal,petal(.22,.12),peach,0,0,.025);
@@ -97,7 +115,10 @@ export function makeMiniOrchid() {
     });
     [-.60,0,.60].forEach(a=>{const m=mesh(bloom,petal(.13,.09),pink,0,.007,.056);m.rotation.z=a;});
     mesh(bloom,new THREE.TorusGeometry(.036,.013,8,24),magenta,0,.009,.091);
-    const pin=mesh(bloom,new THREE.CylinderGeometry(.012,.012,.11,12),ivory,0,.008,.145);pin.rotation.x=Math.PI/2;
+    const pin=mesh(bloom,new THREE.CylinderGeometry(.014,.014,.10,16),ivory,0,.008,.145);pin.rotation.x=Math.PI/2;
+    const nozzle=mesh(bloom,new THREE.TorusGeometry(.010,.004,6,18),ivory,0,.008,.198);
+    nozzle.name="Hollow ivory flower column";
+    const crossbar=mesh(bloom,new THREE.CylinderGeometry(.010,.010,.064,12),ivory,0,.008,.135);crossbar.rotation.z=Math.PI/2;
     for(let j=0;j<3;j++){const a=(j-1)*.8;const lip=mesh(bloom,petal(.105,.065),orange,0,-.036,.11);lip.rotation.set(.8,0,Math.PI+a);}
   });
   const tip=new THREE.Vector3(1.24,2.36,0);rod(root,stalk[6],tip,.016,green);
