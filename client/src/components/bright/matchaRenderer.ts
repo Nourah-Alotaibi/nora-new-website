@@ -1,5 +1,6 @@
 import { constrainDeskPosition, deskRadii, onLaptopBase } from "./deskPhysics";
 import { createDeskSounds } from "./deskSounds";
+import { makeMiniOrchid } from "./miniOrchid";
 import { makeLaptop } from "./laptopModel";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
@@ -689,87 +690,7 @@ export function mountMatcha(
     wake();
   }
   const plant = object("plant", -2.65, -0.4);
-  add(
-    plant,
-    new THREE.CylinderGeometry(0.45, 0.33, 0.66, 48),
-    new THREE.MeshPhysicalMaterial({ color: 0xc79973, roughness: 0.63, metalness: 0, clearcoat: 0.16, clearcoatRoughness: 0.55, envMapIntensity: 0.8 }),
-    0,
-    0.34,
-    0
-  );
-  add(
-    plant,
-    new THREE.CylinderGeometry(0.4, 0.4, 0.03, 48),
-    material(0x504638),
-    0,
-    0.68,
-    0
-  );
-  // Molded botanical pieces: thick pink petals, visible connectors and angular leaves.
-  const stemMat = material(0x176447, .28);
-  const leafMat = new THREE.MeshPhysicalMaterial({color:0x237655, roughness:.28, clearcoat:.55, flatShading:true});
-  const pinks = [0xf3a9cf,0xea8abe,0xc54b90].map(color => new THREE.MeshPhysicalMaterial({color,roughness:.25,clearcoat:.65,clearcoatRoughness:.22}));
-  for(let i=0;i<6;i++){
-    const angle=i*2.39996;
-    const shape=new THREE.Shape();
-    shape.moveTo(0,0);shape.lineTo(-.14,.22);shape.lineTo(0,.51);shape.lineTo(.14,.22);shape.closePath();
-    const geo=new THREE.ExtrudeGeometry(shape,{depth:.026,bevelEnabled:true,bevelSize:.008,bevelThickness:.008,bevelSegments:1,steps:1});
-    const leaf=add(plant,geo,leafMat,Math.cos(angle)*.19,.86+(i%3)*.10,Math.sin(angle)*.19);
-    leaf.rotation.set(-.85,angle,.15);
-  }
-  // Closed molded shells with rounded tops, overlap gaps and a swept inner curl.
-  function roseShell(radius:number, height:number, sweep:number, curl:number, bud=false) {
-    const vertices:number[]=[], indices:number[]=[];
-    const across=24, up=12, thickness=.012;
-    for(let side=0;side<2;side++) for(let j=0;j<=up;j++) for(let i=0;i<=across;i++) {
-      const u=i/across,v=j/up, edge=Math.sin(Math.PI*u);
-      const angle=(u-.5)*sweep+curl*v*v;
-      const r=radius*(bud ? .55+.46*Math.sin(v*Math.PI*.91) : .63+.46*Math.sin(v*Math.PI*.67))+(side===0?thickness/2:-thickness/2);
-      const y=height*v*(.79+.21*Math.pow(edge,.45));
-      vertices.push(Math.sin(angle)*r,y,Math.cos(angle)*r);
-    }
-    const stride=across+1, face=stride*(up+1);
-    for(let side=0;side<2;side++) for(let j=0;j<up;j++) for(let i=0;i<across;i++) {
-      const a=side*face+j*stride+i,b=a+1,c=a+stride,d=c+1;
-      if(side===0) indices.push(a,b,c,b,d,c); else indices.push(a,c,b,b,c,d);
-    }
-    const seam=(a:number,b:number)=>indices.push(a,a+face,b,b,a+face,b+face);
-    for(let i=0;i<across;i++){seam(i+1,i);seam(up*stride+i,up*stride+i+1);}
-    for(let j=0;j<up;j++){seam(j*stride,(j+1)*stride);seam((j+1)*stride+across,j*stride+across);}
-    const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geo.setIndex(indices);geo.computeVertexNormals();return geo;
-  }
-  const creamPetal=new THREE.MeshPhysicalMaterial({color:0xffeed6,roughness:.28,clearcoat:.48});
-  const peachPetal=new THREE.MeshPhysicalMaterial({color:0xeeb99c,roughness:.27,clearcoat:.5});
-  [[.28,1.44,.26],[-.25,1.65,.13],[.07,1.87,-.17]].forEach(([x,y,z],flower)=>{
-    add(plant,new THREE.CylinderGeometry(.025,.025,y-.7,10),stemMat,x,(y+.7)/2,z);
-    for(let j=0;j<3;j++) add(plant,new THREE.CylinderGeometry(.037,.037,.035,10),stemMat,x,.84+j*.23,z);
-    const rose=new THREE.Group();rose.position.set(x,y-.07,z);rose.rotation.set(.32,flower*1.7,-.17+flower*.16);plant.add(rose);
-    add(rose,new THREE.CylinderGeometry(.13,.065,.055,10),stemMat,0,0,0);
-    const budding=flower===2;
-    // Four broad outer pieces and two staggered inner whorls retain the brick-built silhouette.
-    for(let layer=0;layer<3;layer++){
-      const radius=[.213,.151,.094][layer]*(budding?.86:1);
-      const height=[.205,.18,.145][layer]*(budding?1.12:1);
-      for(let j=0;j<4;j++){
-        const petal=add(rose,roseShell(radius,height,layer===0?1.65:1.9,layer===0?.12:.50,budding),pinks[layer===0?0:layer===1?1:2],0,layer*.038,0);
-        petal.rotation.y=j*Math.PI/2+layer*.67+flower*.25;
-      }
-    }
-    // Raised hollow center, with a pale peach/ivory spiral on the open roses.
-    const heartMaterial=flower===0?creamPetal:pinks[2];
-    const heart=add(rose,new THREE.TorusGeometry(.026,.008,8,28),heartMaterial,0,.223,0);heart.rotation.x=-Math.PI/2;
-    const points:THREE.Vector3[]=[];
-    for(let i=0;i<=90;i++){
-      const t=i/90,a=t*Math.PI*4.1,r=.014+t*.054;
-      points.push(new THREE.Vector3(Math.sin(a)*r,.221-t*.031,Math.cos(a)*r));
-    }
-    add(rose,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points),90,.008,6,false),flower===0?peachPetal:pinks[1]);
-    // Small molded connector tabs peek between the petal bases.
-    for(let j=0;j<4;j++){
-      const a=j*Math.PI/2+.3;
-      const tab=add(rose,new RoundedBoxGeometry(.034,.047,.029,2,.005),pinks[1],Math.sin(a)*.12,.045,Math.cos(a)*.12);tab.rotation.y=a;
-    }
-  });
+  plant.add(makeMiniOrchid());
   const floor = add(
     scene,
     new THREE.PlaneGeometry(30, 30),
@@ -937,7 +858,7 @@ export function mountMatcha(
   const spillRay = new THREE.Raycaster();
   let spillIndex = 0, spillTravel = 0, tiltX = 0, tiltZ = 0;
   const surfaceObjects = [desk, mat, saucer, laptop.group];
-  function spillMatcha(amount = 0.055, fromAnimation = false) {
+  function spillMatcha(amount = 0.025, fromAnimation = false) {
     if (action || inspecting || drinkRemaining <= 0) return;
     if (amount > 0.12 && !reduced) { queuedPour = Math.min(drinkRemaining, amount); wake(); return; }
     discoverDesk();
@@ -1126,7 +1047,7 @@ export function mountMatcha(
         cameraFocus.distanceTo(targetFocus) > 0.001;
     }
     if (queuedPour > 0) {
-      const portion = Math.min(queuedPour, dt * 0.55);
+      const portion = Math.min(queuedPour, dt * 0.12);
       queuedPour -= portion;
       spillMatcha(portion, true);
     }
@@ -1365,7 +1286,7 @@ export function mountMatcha(
         tiltX = THREE.MathUtils.clamp(dz * 3, -0.35, 0.35);
         tiltZ = THREE.MathUtils.clamp(-dx * 3, -0.35, 0.35);
         spillTravel += Math.hypot(dx, dz);
-        if (spillTravel > 0.14) { spillMatcha(Math.min(0.12, spillTravel * 0.16)); spillTravel = 0; }
+        if (spillTravel > 0.25) { spillMatcha(Math.min(0.012, spillTravel * 0.025)); spillTravel = 0; }
       }
       wake(); return;
     }
