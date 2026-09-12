@@ -368,21 +368,21 @@ export function mountMatcha(
   }
   const cookie = object("cookie", 1.45, 0.65);
   const bakedTexture = texture(c => {
-    c.fillStyle = "#ffe1a1";
+    c.fillStyle = "#fff3df";
     c.fillRect(0, 0, 1024, 1024);
     // Broad toasted islands stay visible even when the cookie is small on screen.
     for (let i = 0; i < 95; i++) {
       const x = random(i + 1200) * 1024, y = random(i + 4200) * 1024;
       const r = 18 + random(i + 2100) * 65;
       const patch = c.createRadialGradient(x, y, 0, x, y, r);
-      patch.addColorStop(0, i % 3 ? "#ae631b65" : "#fff4cf90");
-      patch.addColorStop(1, "#d4964000");
+      patch.addColorStop(0, i % 3 ? "#ad896548" : "#fff9ed90");
+      patch.addColorStop(1, "#c4a17b00");
       c.fillStyle = patch;
       c.fillRect(x - r, y - r, r * 2, r * 2);
     }
     for (let i = 0; i < 6500; i++) {
       const x = random(i + 2200) * 1024, y = random(i + 5200) * 1024;
-      c.fillStyle = i % 3 ? "#99571e38" : "#fff6d5a0";
+      c.fillStyle = i % 3 ? "#92745238" : "#fff9eca0";
       c.beginPath();
       c.ellipse(x, y, 0.8 + random(i + 3100) * 3.2,
         0.6 + random(i + 4100) * 2, random(i) * Math.PI, 0, Math.PI * 2);
@@ -396,7 +396,7 @@ export function mountMatcha(
       c.translate(x, y);
       c.rotate(random(i + 8500) * Math.PI * 2);
       for (const lip of [true, false]) {
-        c.strokeStyle = lip ? "#fff2c590" : "#8a4a2270";
+        c.strokeStyle = lip ? "#fff6e590" : "#88674865";
         c.lineWidth = lip ? 5 : 2.2;
         c.beginPath();
         c.moveTo(0, lip ? -2 : 0);
@@ -516,8 +516,8 @@ export function mountMatcha(
         0,
         0.75
       );
-      const c = new THREE.Color(0xf1c787).lerp(
-        new THREE.Color(0xad612d),
+      const c = new THREE.Color(0xe9cda5).lerp(
+        new THREE.Color(0xb48c63),
         baked
       );
       c.toArray(colors, i * 3);
