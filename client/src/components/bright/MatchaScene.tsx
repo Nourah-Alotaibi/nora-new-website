@@ -18,6 +18,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
   const [inspecting, setInspecting] = useState(false);
   const inspectButton = useRef<HTMLButtonElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+  const [projectInfoVisible, setProjectInfoVisible] = useState(true);
   const [projectIndex, setProjectIndex] = useState(0);
   const activeProject = laptopProjects[projectIndex];
   const [lidOpen, setLidOpen] = useState(true);
@@ -52,10 +53,11 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
             host.current,
             !!reduce,
             setBites,
-            setInspecting,
+            value => { setInspecting(value); if (value) setProjectInfoVisible(true); },
             action => ritualAction.current(action),
             setProjectIndex,
-            () => setStatus("LEGO fan 🌸")
+            () => setStatus("LEGO fan 🌸"),
+            setProjectInfoVisible
           );
           setReady(true);
           setStatus("A desk for slow mornings & curious ideas.");
@@ -116,6 +118,15 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
       )?.focus();
     };
   }, [inspecting]);
+  useEffect(() => {
+    if (!inspecting) return;
+    const outside = (event: PointerEvent) => {
+      const target = event.target;
+      if (target instanceof Element && !target.closest(".matcha-stage, .laptop-project-info, .laptop-inspection button, .laptop-inspection a")) setProjectInfoVisible(false);
+    };
+    document.addEventListener("pointerdown", outside);
+    return () => document.removeEventListener("pointerdown", outside);
+  }, [inspecting]);
   async function prepare() {
     const current = desk.current;
     if (!current) return;
@@ -171,7 +182,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
               Close ×
             </button>
           </div>
-          <section className="laptop-project-info" aria-live="polite" aria-atomic="true">
+          <section className="laptop-project-info" hidden={!projectInfoVisible} aria-live="polite" aria-atomic="true">
             <span>PROJECT {projectIndex + 1} / {laptopProjects.length}</span>
             <h2>{activeProject.title}</h2>
             <p>{activeProject.description}</p>

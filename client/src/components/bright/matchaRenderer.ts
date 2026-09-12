@@ -16,7 +16,8 @@ export function mountMatcha(
   onInspect: (value: boolean) => void,
   onRitualAction: (action: "brew" | "ice" | "stir") => void,
   onProject: (index: number) => void,
-  onPlantClick: () => void
+  onPlantClick: () => void,
+  onProjectInfo: (visible: boolean) => void
 ) {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
@@ -1240,6 +1241,7 @@ export function mountMatcha(
     locate(e);
     const laptopHit = ray.intersectObject(laptop.group, true)[0];
     const hit = ray.intersectObjects(Object.values(objects), true)[0];
+    if (inspecting) onProjectInfo(Boolean(laptopHit));
     const keyIndex = laptopHit ? laptop.keyFromObject(laptopHit.object) : null;
     if (keyIndex !== null && (inspecting || !hit || laptopHit!.distance < hit.distance)) {
       laptop.pressKey(keyIndex);
