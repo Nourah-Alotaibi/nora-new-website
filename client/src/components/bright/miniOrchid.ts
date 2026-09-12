@@ -67,19 +67,29 @@ export function makeMiniOrchid() {
 
   // Dense closed shells give the molded pieces real cross-sectional curvature.
   // Unlike a bent outline extrusion, every point across the face follows the cup.
-  function moldedBlade(length:number,width:number,kind:"leaf"|"petal") {
+  function moldedBlade(length:number,width:number,kind:"leaf"|"petal"|"throat") {
     const rows=36,cols=20,stride=cols+1,count=(rows+1)*stride;
     const positions:number[]=[],indices:number[]=[];
     const isLeaf=kind==="leaf",thickness=isLeaf?.025:.022;
+    // LEGO's peach pieces have a defined shoulder and tapering shield silhouette.
+    // Short softened joins retain the molded corners rather than an oval outline.
+    const shieldProfile=[[0,.055],[.12,.35],[.25,.50],[.55,.32],[1,.003]];
+    const shieldWidth=(t:number)=>{
+      const end=shieldProfile.findIndex(p=>p[0]>=t);
+      if(end<=0)return shieldProfile[0][1];
+      const [a,wa]=shieldProfile[end-1],[b,wb]=shieldProfile[end];
+      const u=(t-a)/(b-a),blend=.78*u+.22*u*u*(3-2*u);
+      return wa+(wb-wa)*blend;
+    };
     for(let side=0;side<2;side++)for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){
       const t=j/rows,u=i/cols*2-1;
       const outline=isLeaf
         ? .045*(1-t)+.5*Math.pow(Math.sin(Math.PI*t),.55)
-        : .055*(1-t)+.56*Math.pow(Math.sin(Math.PI*t),.78)*(1.16-.36*t);
+        : kind==="petal" ? shieldWidth(t) : .055*(1-t)+.56*Math.pow(Math.sin(Math.PI*t),.78)*(1.16-.36*t);
       const halfWidth=width*Math.max(.003,outline);
-      const x=u*halfWidth;
+      const x=u*halfWidth+(kind==="petal"?width*.08*t*t:0);
       const bend=isLeaf?.16*Math.sin(t*Math.PI*.85)-.06*t*t:.09*t*t;
-      const cup=isLeaf?.045*(1-u*u)*Math.sin(Math.PI*t):.066*u*u*Math.sin(Math.PI*t);
+      const cup=isLeaf?.045*(1-u*u)*Math.sin(Math.PI*t):(kind==="petal"?.043:.066)*u*u*Math.sin(Math.PI*t);
       const crown=(side===0?1:-1)*thickness*.5*Math.sqrt(1-.72*u*u);
       positions.push(x,length*t,bend+cup+crown);
     }
@@ -131,8 +141,8 @@ export function makeMiniOrchid() {
   [.91,1.27].forEach(y=>{const c=mesh(root,new RoundedBoxGeometry(.14,.06,.085,2,.012),clipMat,-.075,y,-.01);c.rotation.z=-.08;});
 
   // Three broad pointed petals, two recessed boat-shaped sepals and a pink throat.
-  function petal(length:number,width:number) {
-    return moldedBlade(length,width,"petal");
+  function petal(length:number,width:number, rounded=false) {
+    return moldedBlade(length,width,rounded?"throat":"petal");
   }
   const bloomPositions=[[-.28,1.24,.15],[.20,1.55,.17],[.08,2.02,.13],[.64,2.06,.19],[1.00,2.43,.08]];
   bloomPositions.forEach(([x,y,z],i)=>{
@@ -140,7 +150,7 @@ export function makeMiniOrchid() {
     const bloom=new THREE.Group();root.add(bloom);bloom.position.set(x,y,z);bloom.rotation.set(-.13,.05+(i%2)*.19,(i%2?-.12:.10));bloom.scale.setScalar(1.08);
     const back=mesh(bloom,new THREE.TorusGeometry(.09,.012,8,24),gold,0,0,-.035);
     back.name="Flower connector loop";
-    [0,1.32,-1.32].forEach((a,petalIndex)=>{const m=mesh(bloom,petal(petalIndex===0?.31:.285,petalIndex===0?.225:.27),[peach,peachEdge],-Math.sin(a)*.04,Math.cos(a)*.04,-.012);m.rotation.z=a;m.rotation.x=petalIndex===0?-.22:.12;m.rotation.y=petalIndex===1?-.22:petalIndex===2?.22:0;
+    [0,1.32,-1.32].forEach((a,petalIndex)=>{const m=mesh(bloom,petal(petalIndex===0?.265:.245,petalIndex===0?.19:.215),[peach,peachEdge],-Math.sin(a)*.052,Math.cos(a)*.052,-.012);m.rotation.z=a;m.rotation.x=petalIndex===0?-.22:.12;m.rotation.y=petalIndex===1?-.22:petalIndex===2?.22:0;
       const mount=new THREE.Group();bloom.add(mount);mount.rotation.z=a;
       mesh(mount,new RoundedBoxGeometry(.065,.073,.044,2,.005),recess,0,.035,-.032);
       const peg=mesh(mount,new THREE.CylinderGeometry(.016,.016,.055,12),peach,0,.045,-.074);peg.rotation.x=Math.PI/2;
@@ -163,7 +173,7 @@ export function makeMiniOrchid() {
     });
     [-.60,0,.60].forEach(a=>{
       const throat=new THREE.Group();bloom.add(throat);throat.position.set(0,.007,.056);throat.rotation.z=a;
-      mesh(throat,petal(.135,.083),[pink,pinkEdge]);
+      mesh(throat,petal(.135,.083,true),[pink,pinkEdge]);
       const ridge=new THREE.CatmullRomCurve3([new THREE.Vector3(0,.028,.028),new THREE.Vector3(0,.075,.053),new THREE.Vector3(0,.116,.063)]);
       mesh(throat,new THREE.TubeGeometry(ridge,12,.006,8,false),pink);
     });
