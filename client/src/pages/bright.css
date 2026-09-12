@@ -2691,7 +2691,7 @@
 
 
 .bright-site .hero-role-caption { font-size:12px; font-weight:700; letter-spacing:.08em; line-height:1.7; color:#68715f; margin:14px 0 18px; }
-.bright-site .hero-study-caption { display:block; margin-top:6px; font-weight:500; letter-spacing:.01em; }
+.bright-site .hero-study-caption { display:block; margin-top:6px; font-size:1.15em; font-weight:500; letter-spacing:.01em; }
 .bright-site .studio-actions .studio-button,.bright-site .studio-actions .studio-text-link { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 16px; min-height:40px; border-radius:999px; font-size:12px; }
 .bright-site .studio-actions .studio-text-link { border:1px solid #bbc5aa; background:#eeefdf; }
 @media(max-width:700px) {
@@ -3107,7 +3107,7 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
 
 /* Compact TV with clear project navigation beside the casing. */
 .bright-site .project-film {
-  width:80%;max-width:420px;margin-left:auto;margin-right:auto;
+  width:86%;max-width:450px;margin-left:auto;margin-right:auto;
   grid-template-columns:minmax(0,1fr);padding:16px 12px 12px;
 }
 .bright-site .project-film::after,
