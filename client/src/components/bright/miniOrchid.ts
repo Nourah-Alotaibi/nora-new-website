@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
 // Custom geometry studied from LEGO 10343's official assembly manual, pp. 34–40.
@@ -10,12 +9,12 @@ export function makeMiniOrchid() {
   // calibrated for the desk's warm 2.8-intensity sun and ACES exposure of 1.12.
   const plastic = (color:number, roughness=.29, reflectance=.72) => {
     const m=new THREE.MeshPhysicalMaterial({color,roughness,metalness:0,
-      clearcoat:.28,clearcoatRoughness:.28,ior:1.46,specularIntensity:.8,envMapIntensity:.28});
+      clearcoat:.7,clearcoatRoughness:.17,ior:1.46,specularIntensity:1,envMapIntensity:.55});
     m.color.multiplyScalar(reflectance);
     return m;
   };
   const clay=plastic(0xcf895b,.34,.65), wood=plastic(0x6e4031,.29,.8);
-  const green=plastic(0x075532,.25,.8), leafGreen=plastic(0x12332b,.3,.83);
+  const green=plastic(0x087443,.2,.88), leafGreen=plastic(0x126342,.22,.9);
   const lime=plastic(0xafc95c,.32);
   const peach=plastic(0xf6cab2,.28,.66), pink=plastic(0xfa9cd0,.23,.72);
   const magenta=plastic(0xce398f,.23,.78), orange=plastic(0xfb791c,.19,.8);
@@ -66,24 +65,44 @@ export function makeMiniOrchid() {
   mesh(root,new THREE.CylinderGeometry(.30,.30,.02,40),wood,0,.622,0);
   for(let i=0;i<15;i++) {const a=i*2.39996,r=.08+(i%3)*.071; mesh(root,new THREE.CylinderGeometry(.031,.031,.025,10),wood,Math.sin(a)*r,.648,Math.cos(a)*r);}
 
-  // Four broad molded leaves: two tall blades, two low horizontal pieces.
-  function leaf(length:number,width:number) {
-    const shape=new THREE.Shape();shape.moveTo(-width*.15,0);
-    shape.lineTo(-width*.36,length*.24);
-    shape.bezierCurveTo(-width*.55,length*.61,-width*.53,length*.87,-width*.22,length*.97);
-    shape.quadraticCurveTo(0,length*1.04,width*.22,length*.97);
-    shape.bezierCurveTo(width*.53,length*.87,width*.55,length*.61,width*.36,length*.24);
-    shape.lineTo(width*.15,0);shape.closePath();
-    const geo=new THREE.ExtrudeGeometry(shape,{depth:.022,bevelEnabled:true,bevelThickness:.011,bevelSize:.012,bevelSegments:3,curveSegments:16,steps:1});
-    const pos=geo.attributes.position;
-    for(let i=0;i<pos.count;i++){const t=pos.getY(i)/length;pos.setZ(i,pos.getZ(i)+.12*Math.sin(t*Math.PI*.8)-Math.abs(pos.getX(i))*.19);}
-    geo.deleteAttribute("normal");const smooth=mergeVertices(geo,1e-5);smooth.computeVertexNormals();geo.dispose();return smooth;
+  // Dense closed shells give the molded pieces real cross-sectional curvature.
+  // Unlike a bent outline extrusion, every point across the face follows the cup.
+  function moldedBlade(length:number,width:number,kind:"leaf"|"petal") {
+    const rows=36,cols=20,stride=cols+1,count=(rows+1)*stride;
+    const positions:number[]=[],indices:number[]=[];
+    const isLeaf=kind==="leaf",thickness=isLeaf?.024:.018;
+    for(let side=0;side<2;side++)for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){
+      const t=j/rows,u=i/cols*2-1;
+      const outline=isLeaf
+        ? .045*(1-t)+.5*Math.pow(Math.sin(Math.PI*t),.55)
+        : .055*(1-t)+.56*Math.pow(Math.sin(Math.PI*t),.78)*(1.16-.36*t);
+      const halfWidth=width*Math.max(.003,outline);
+      const x=u*halfWidth;
+      const bend=isLeaf?.16*Math.sin(t*Math.PI*.85)-.06*t*t:.09*t*t;
+      const cup=isLeaf?.045*(1-u*u)*Math.sin(Math.PI*t):.066*u*u*Math.sin(Math.PI*t);
+      const crown=(side===0?1:-1)*thickness*.5*Math.sqrt(1-.9*u*u);
+      positions.push(x,length*t,bend+cup+crown);
+    }
+    for(let side=0;side<2;side++)for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+      const a=side*count+j*stride+i,b=a+1,c=a+stride,d=c+1;
+      if(side===0)indices.push(a,b,c,b,d,c);else indices.push(a,c,b,b,c,d);
+    }
+    const faceCount=indices.length;
+    const edge=(a:number,b:number)=>indices.push(a,a+count,b,b,a+count,b+count);
+    for(let i=0;i<cols;i++){edge(i,i+1);edge(rows*stride+i+1,rows*stride+i);}
+    for(let j=0;j<rows;j++){edge((j+1)*stride,j*stride);edge(j*stride+cols,(j+1)*stride+cols);}
+    const geometry=new THREE.BufferGeometry();
+    geometry.setAttribute("position",new THREE.Float32BufferAttribute(positions,3));geometry.setIndex(indices);
+    geometry.addGroup(0,faceCount,0);geometry.addGroup(faceCount,indices.length-faceCount,1);
+    geometry.computeVertexNormals();return geometry;
   }
-  [[-.08,.66,.02,.08,.99,1.08,.33],[.06,.66,-.08,-.08,-.51,1.17,.37],[-.05,.67,.10,1.45,.60,.53,.34],[.10,.67,.05,1.38,-1.10,.57,.33]].forEach(([x,y,z,rx,rz,len,w])=>{
+  // Two spreading glossy leaves on separate hinged mounts.
+  [[-.08,.66,.02,-.08,1.01,1.08,.29],[.06,.66,-.08,-.17,-.53,1.15,.37]].forEach(([x,y,z,rx,rz,len,w])=>{
     const g=new THREE.Group();root.add(g);g.position.set(x,y,z);g.rotation.set(rx,0,rz);
-    mesh(g,leaf(len,w),[leafGreen,leafEdge]);
-    const seam=new THREE.CatmullRomCurve3([new THREE.Vector3(0,.02,.038),new THREE.Vector3(0,len*.5,.15),new THREE.Vector3(0,len*.95,.12)]);
-    mesh(g,new THREE.TubeGeometry(seam,16,.0025,4,false),leafGreen);
+    mesh(g,moldedBlade(len,w,"leaf"),[leafGreen,leafEdge]);
+    const seamPoints=[];
+    for(let i=0;i<=24;i++){const t=.05+i/24*.9;seamPoints.push(new THREE.Vector3(0,len*t,.16*Math.sin(t*Math.PI*.85)-.06*t*t+.045*Math.sin(Math.PI*t)+.013));}
+    mesh(g,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(seamPoints),32,.0018,4,false),leafGreen);
     // Small mounting plate and stud under each molded leaf.
     mesh(g,new RoundedBoxGeometry(.09,.12,.035,2,.006),green,0,.05,-.025);
     const stud=mesh(g,new THREE.CylinderGeometry(.027,.027,.028,16),green,0,.07,-.052);stud.rotation.x=Math.PI/2;
@@ -105,22 +124,15 @@ export function makeMiniOrchid() {
 
   // Three broad pointed petals, two recessed boat-shaped sepals and a pink throat.
   function petal(length:number,width:number) {
-    const shape=new THREE.Shape();shape.moveTo(-width*.11,0);
-    // Broad quarter-circle / shield silhouette of the actual molded LEGO petal.
-    shape.quadraticCurveTo(-width*.61,length*.18,-width*.53,length*.62);
-    shape.quadraticCurveTo(-width*.28,length*.91,width*.07,length);
-    shape.quadraticCurveTo(width*.48,length*.82,width*.53,length*.54);
-    shape.quadraticCurveTo(width*.56,length*.15,width*.11,0);shape.closePath();
-    const geo=new THREE.ExtrudeGeometry(shape,{depth:.027,bevelEnabled:true,bevelSize:.004,bevelThickness:.004,bevelSegments:2,curveSegments:14,steps:1});
-    const pos=geo.attributes.position;for(let i=0;i<pos.count;i++){const t=pos.getY(i)/length;pos.setZ(i,pos.getZ(i)+.055*t*t);}geo.deleteAttribute("normal");const smooth=mergeVertices(geo,1e-5);smooth.computeVertexNormals();geo.dispose();return smooth;
+    return moldedBlade(length,width,"petal");
   }
   const bloomPositions=[[-.28,1.24,.15],[.20,1.55,.17],[.08,2.02,.13],[.64,2.06,.19],[1.00,2.43,.08]];
   bloomPositions.forEach(([x,y,z],i)=>{
     const anchor=stalk[i<2?2:i<4?4:5];rod(root,anchor,new THREE.Vector3(x,y,z),.024,green);
-    const bloom=new THREE.Group();root.add(bloom);bloom.position.set(x,y,z);bloom.rotation.set(-.13,.05+(i%2)*.19,(i%2?-.12:.10));bloom.scale.setScalar(1.17);
+    const bloom=new THREE.Group();root.add(bloom);bloom.position.set(x,y,z);bloom.rotation.set(-.13,.05+(i%2)*.19,(i%2?-.12:.10));bloom.scale.setScalar(1.08);
     const back=mesh(bloom,new THREE.TorusGeometry(.09,.012,8,24),gold,0,0,-.035);
     back.name="Flower connector loop";
-    [0,1.34,-1.34].forEach(a=>{const m=mesh(bloom,petal(.29,.245),[peach,peachEdge],-Math.sin(a)*.022,Math.cos(a)*.022,0);m.rotation.z=a;m.rotation.x=-.17;
+    [0,1.32,-1.32].forEach((a,petalIndex)=>{const m=mesh(bloom,petal(petalIndex===0?.31:.285,petalIndex===0?.225:.27),[peach,peachEdge],-Math.sin(a)*.04,Math.cos(a)*.04,-.012);m.rotation.z=a;m.rotation.x=petalIndex===0?-.22:.12;m.rotation.y=petalIndex===1?-.22:petalIndex===2?.22:0;
       const mount=new THREE.Group();bloom.add(mount);mount.rotation.z=a;
       mesh(mount,new RoundedBoxGeometry(.065,.073,.044,2,.005),recess,0,.035,-.032);
       const peg=mesh(mount,new THREE.CylinderGeometry(.016,.016,.055,12),peach,0,.045,-.074);peg.rotation.x=Math.PI/2;
