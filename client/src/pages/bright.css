@@ -3113,7 +3113,7 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
 .bright-site .project-film::after,
 .bright-site .project-film .vintage-tv-tuning { display:none; }
 .bright-site .project-film .project-screen {
-  width:100%;height:auto;aspect-ratio:16/10;margin:0;border-width:3px;border-radius:18px;
+  width:calc(100% - 8px);height:auto;aspect-ratio:16/10;margin:0 4px;border-width:3px;border-radius:18px;
 }
 .bright-site .project-film .film-meta { font-size:8px;margin:0 2px 10px; }
 .bright-site .project-film .film-meta > span:last-child { margin-right:0; }
