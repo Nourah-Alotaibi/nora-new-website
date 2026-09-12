@@ -57,7 +57,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
             value => { setInspecting(value); if (value) setProjectInfoVisible(true); },
             action => ritualAction.current(action),
             setProjectIndex,
-            () => setStatus("LEGO fan 🌸"),
+            () => setStatus("LEGO collection — This is my favorite LEGO set."),
             setProjectInfoVisible
           );
           setReady(true);

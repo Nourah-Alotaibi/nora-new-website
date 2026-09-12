@@ -16,7 +16,7 @@ export function makeMiniOrchid() {
   const clay=plastic(0xcf895b,.34,.65), wood=plastic(0x6e4031,.29,.8);
   const green=plastic(0x087443,.2,.88), leafGreen=plastic(0x126342,.22,.9);
   const lime=plastic(0xafc95c,.32);
-  const peach=plastic(0xf6cab2,.28,.66), pink=plastic(0xfa9cd0,.23,.72);
+  const peach=plastic(0xf6cab2,.28,.66), pink=plastic(0xf68fca,.21,.74);
   const magenta=plastic(0xce398f,.23,.78), orange=plastic(0xfb791c,.19,.8);
   const ivory=plastic(0xfff1df,.25,.88), recess=plastic(0xb78968,.43,.68);
   // Counter the warm environment's color compression without tinting the rest of the desk.
@@ -32,8 +32,8 @@ export function makeMiniOrchid() {
     const side=face.clone();side.color.multiplyScalar(shade);side.roughness=.32;
     side.clearcoat=.32;return side;
   };
-  const peachEdge=moldedEdge(peach,.77), leafEdge=moldedEdge(leafGreen,.66);
-  const pinkEdge=moldedEdge(pink,.78), orangeEdge=moldedEdge(orange,.73);
+  const peachEdge=moldedEdge(peach,.72), leafEdge=moldedEdge(leafGreen,.66);
+  const pinkEdge=moldedEdge(pink,.72), orangeEdge=moldedEdge(orange,.73);
   function mesh(parent: THREE.Object3D, geo: THREE.BufferGeometry, mat: THREE.Material | THREE.Material[], x=0,y=0,z=0) {
     const m=new THREE.Mesh(geo,mat); m.position.set(x,y,z); m.castShadow=m.receiveShadow=true; parent.add(m); return m;
   }
@@ -70,7 +70,7 @@ export function makeMiniOrchid() {
   function moldedBlade(length:number,width:number,kind:"leaf"|"petal") {
     const rows=36,cols=20,stride=cols+1,count=(rows+1)*stride;
     const positions:number[]=[],indices:number[]=[];
-    const isLeaf=kind==="leaf",thickness=isLeaf?.024:.018;
+    const isLeaf=kind==="leaf",thickness=isLeaf?.025:.022;
     for(let side=0;side<2;side++)for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){
       const t=j/rows,u=i/cols*2-1;
       const outline=isLeaf
@@ -80,7 +80,7 @@ export function makeMiniOrchid() {
       const x=u*halfWidth;
       const bend=isLeaf?.16*Math.sin(t*Math.PI*.85)-.06*t*t:.09*t*t;
       const cup=isLeaf?.045*(1-u*u)*Math.sin(Math.PI*t):.066*u*u*Math.sin(Math.PI*t);
-      const crown=(side===0?1:-1)*thickness*.5*Math.sqrt(1-.9*u*u);
+      const crown=(side===0?1:-1)*thickness*.5*Math.sqrt(1-.72*u*u);
       positions.push(x,length*t,bend+cup+crown);
     }
     for(let side=0;side<2;side++)for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
@@ -91,6 +91,14 @@ export function makeMiniOrchid() {
     const edge=(a:number,b:number)=>indices.push(a,a+count,b,b,a+count,b+count);
     for(let i=0;i<cols;i++){edge(i,i+1);edge(rows*stride+i+1,rows*stride+i);}
     for(let j=0;j<rows;j++){edge((j+1)*stride,j*stride);edge(j*stride+cols,(j+1)*stride+cols);}
+    // Separate rim normals keep the molded face-to-edge break crisp while
+    // preserving the smooth curved faces and their broad glossy highlights.
+    const rimVertices=new Map<number,number>();
+    for(let i=faceCount;i<indices.length;i++) {
+      const source=indices[i];let rim=rimVertices.get(source);
+      if(rim===undefined){rim=positions.length/3;positions.push(positions[source*3],positions[source*3+1],positions[source*3+2]);rimVertices.set(source,rim);}
+      indices[i]=rim;
+    }
     const geometry=new THREE.BufferGeometry();
     geometry.setAttribute("position",new THREE.Float32BufferAttribute(positions,3));geometry.setIndex(indices);
     geometry.addGroup(0,faceCount,0);geometry.addGroup(faceCount,indices.length-faceCount,1);
@@ -157,7 +165,7 @@ export function makeMiniOrchid() {
       const throat=new THREE.Group();bloom.add(throat);throat.position.set(0,.007,.056);throat.rotation.z=a;
       mesh(throat,petal(.135,.083),[pink,pinkEdge]);
       const ridge=new THREE.CatmullRomCurve3([new THREE.Vector3(0,.028,.028),new THREE.Vector3(0,.075,.053),new THREE.Vector3(0,.116,.063)]);
-      mesh(throat,new THREE.TubeGeometry(ridge,12,.005,6,false),pink);
+      mesh(throat,new THREE.TubeGeometry(ridge,12,.006,8,false),pink);
     });
     mesh(bloom,new THREE.TorusGeometry(.036,.013,8,24),magenta,0,.009,.091);
     const pin=mesh(bloom,new THREE.CylinderGeometry(.014,.014,.10,16),ivory,0,.008,.145);pin.rotation.x=Math.PI/2;
