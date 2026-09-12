@@ -1,7 +1,7 @@
 export const laptopProjects = [
   { title: "Noor", description: "A personal Windows AI assistant that lets me interact with and control my computer and PC using voice, different AI models, and built-in productivity tools.", image: "/laptop/projects/noor.png" as string | null, github: "https://github.com/Nourah-Alotaibi/noor-desktop-assistant" as string | null },
   { title: "DecafShot", description: "Decaffeinated. De-AI’d. A cybersecurity toolkit that automates CTF testing and flag hunting. No generative AI, no LLMs, just security tools getting to work.", image: "/laptop/projects/decafshot.png" as string | null, github: "https://github.com/Nourah-Alotaibi/DecafShot-No-AI-CTF-tool" as string | null },
-  { title: "Project RISE", description: "An interactive project currently being developed.", image: "/rise-trade.png" as string | null, github: null as string | null },
+  { title: "Project RISE", description: "An AI trading project that trades crypto, including Bitcoin, and gold for you. Currently being tested in paper trading mode with simulated funds.", image: "/rise-trade.png" as string | null, github: null as string | null },
 ];
 export type LaptopKey = { label: string; upper?: string; width?: number; icon?: string; split?: boolean };
 const letters = (text: string): LaptopKey[] => text.split(" ").map(label => ({ label }));
