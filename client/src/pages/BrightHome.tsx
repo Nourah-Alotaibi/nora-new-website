@@ -429,7 +429,6 @@ export default function BrightHome() {
             nourah
           </a>
           <span>© {new Date().getFullYear()} Nourah Alotaibi</span>
-          <span>A little science. A little art. A lot of heart.</span>
           <button
             type="button"
             className="replay-pour"
