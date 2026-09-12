@@ -144,7 +144,7 @@ export function makeLaptop(wake: () => void, onProject: (index: number) => void)
         if(projectIndex===index) fitScreen(index);
         wake();
       });
-      t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;textures.push(t);return t;
+      t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=16;textures.push(t);return t;
     }
     return canvasTexture(c=>{
       c.fillStyle="#11151c";c.fillRect(0,0,1600,1000);

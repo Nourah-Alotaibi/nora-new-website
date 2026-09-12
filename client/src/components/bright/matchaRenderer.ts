@@ -1342,6 +1342,7 @@ export function mountMatcha(
   }
   function resize() {
     const b = host.getBoundingClientRect();
+    renderer.setPixelRatio(inspecting ? Math.min(Math.max(devicePixelRatio, 2), 3) : Math.min(devicePixelRatio, innerWidth < 700 ? 1.25 : 1.75));
     renderer.setSize(b.width, b.height, false);
     camera.aspect = b.width / b.height;
     camera.fov = 42;

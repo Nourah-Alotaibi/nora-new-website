@@ -92,7 +92,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
       if (e.key === "Tab") {
         const buttons = Array.from(
           document.querySelectorAll<HTMLButtonElement>(
-            ".laptop-inspection button"
+            ".laptop-inspection button, .laptop-inspection a[href]"
           )
         );
         const first = buttons[0],
@@ -177,6 +177,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
             <p>{activeProject.description}</p>
             {activeProject.github && <a className="laptop-github-link" href={activeProject.github} target="_blank" rel="noopener noreferrer">Check full project on GitHub ↗</a>}
             {!activeProject.image && <p className="laptop-placeholder-note">Screenshot not supplied yet.</p>}
+            {activeProject.image && <p><a className="laptop-github-link" href={activeProject.image} target="_blank" rel="noopener noreferrer">View full-size screenshot ↗</a></p>}
             <p className="laptop-key-hint">Tap any 3D key or type a letter to see the next project.</p>
             <button type="button" onClick={() => desk.current?.nextLaptopProject()}>Next project →</button>
           </section>
