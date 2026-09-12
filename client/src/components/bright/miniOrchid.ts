@@ -27,7 +27,15 @@ export function makeMiniOrchid() {
   const clipMat=plastic(0x202b25,.38), gold=new THREE.MeshStandardMaterial({
     color:0xc5a252,metalness:.72,roughness:.27,envMapIntensity:.9,
   });
-  function mesh(parent: THREE.Object3D, geo: THREE.BufferGeometry, mat: THREE.Material, x=0,y=0,z=0) {
+  // Extruded faces and side walls use separate, related colors to reveal actual
+  // molded thickness at desk scale, without painted outlines around the flowers.
+  const moldedEdge=(face:THREE.MeshPhysicalMaterial, shade:number) => {
+    const side=face.clone();side.color.multiplyScalar(shade);side.roughness=.32;
+    side.clearcoat=.32;return side;
+  };
+  const peachEdge=moldedEdge(peach,.77), leafEdge=moldedEdge(leafGreen,.66);
+  const pinkEdge=moldedEdge(pink,.78), orangeEdge=moldedEdge(orange,.73);
+  function mesh(parent: THREE.Object3D, geo: THREE.BufferGeometry, mat: THREE.Material | THREE.Material[], x=0,y=0,z=0) {
     const m=new THREE.Mesh(geo,mat); m.position.set(x,y,z); m.castShadow=m.receiveShadow=true; parent.add(m); return m;
   }
   function rod(parent: THREE.Object3D, a: THREE.Vector3, b: THREE.Vector3, radius: number, mat: THREE.Material) {
@@ -73,7 +81,7 @@ export function makeMiniOrchid() {
   }
   [[-.08,.66,.02,.08,.99,1.08,.33],[.06,.66,-.08,-.08,-.51,1.17,.37],[-.05,.67,.10,1.45,.60,.53,.34],[.10,.67,.05,1.38,-1.10,.57,.33]].forEach(([x,y,z,rx,rz,len,w])=>{
     const g=new THREE.Group();root.add(g);g.position.set(x,y,z);g.rotation.set(rx,0,rz);
-    mesh(g,leaf(len,w),leafGreen);
+    mesh(g,leaf(len,w),[leafGreen,leafEdge]);
     const seam=new THREE.CatmullRomCurve3([new THREE.Vector3(0,.02,.038),new THREE.Vector3(0,len*.5,.15),new THREE.Vector3(0,len*.95,.12)]);
     mesh(g,new THREE.TubeGeometry(seam,16,.0025,4,false),leafGreen);
     // Small mounting plate and stud under each molded leaf.
@@ -103,7 +111,7 @@ export function makeMiniOrchid() {
     shape.quadraticCurveTo(-width*.28,length*.91,width*.07,length);
     shape.quadraticCurveTo(width*.48,length*.82,width*.53,length*.54);
     shape.quadraticCurveTo(width*.56,length*.15,width*.11,0);shape.closePath();
-    const geo=new THREE.ExtrudeGeometry(shape,{depth:.022,bevelEnabled:true,bevelSize:.005,bevelThickness:.005,bevelSegments:2,curveSegments:14,steps:1});
+    const geo=new THREE.ExtrudeGeometry(shape,{depth:.027,bevelEnabled:true,bevelSize:.004,bevelThickness:.004,bevelSegments:2,curveSegments:14,steps:1});
     const pos=geo.attributes.position;for(let i=0;i<pos.count;i++){const t=pos.getY(i)/length;pos.setZ(i,pos.getZ(i)+.055*t*t);}geo.deleteAttribute("normal");const smooth=mergeVertices(geo,1e-5);smooth.computeVertexNormals();geo.dispose();return smooth;
   }
   const bloomPositions=[[-.28,1.24,.15],[.20,1.55,.17],[.08,2.02,.13],[.64,2.06,.19],[1.00,2.43,.08]];
@@ -112,7 +120,7 @@ export function makeMiniOrchid() {
     const bloom=new THREE.Group();root.add(bloom);bloom.position.set(x,y,z);bloom.rotation.set(-.13,.05+(i%2)*.19,(i%2?-.12:.10));bloom.scale.setScalar(1.17);
     const back=mesh(bloom,new THREE.TorusGeometry(.09,.012,8,24),gold,0,0,-.035);
     back.name="Flower connector loop";
-    [0,1.34,-1.34].forEach(a=>{const m=mesh(bloom,petal(.29,.245),peach,-Math.sin(a)*.022,Math.cos(a)*.022,0);m.rotation.z=a;m.rotation.x=-.17;
+    [0,1.34,-1.34].forEach(a=>{const m=mesh(bloom,petal(.29,.245),[peach,peachEdge],-Math.sin(a)*.022,Math.cos(a)*.022,0);m.rotation.z=a;m.rotation.x=-.17;
       const mount=new THREE.Group();bloom.add(mount);mount.rotation.z=a;
       mesh(mount,new RoundedBoxGeometry(.065,.073,.044,2,.005),recess,0,.035,-.032);
       const peg=mesh(mount,new THREE.CylinderGeometry(.016,.016,.055,12),peach,0,.045,-.074);peg.rotation.x=Math.PI/2;
@@ -125,7 +133,7 @@ export function makeMiniOrchid() {
       const lowerHole=new THREE.Path();lowerHole.moveTo(-.023,.032);lowerHole.lineTo(.023,.032);lowerHole.lineTo(.025,.088);lowerHole.lineTo(-.025,.088);lowerHole.closePath();
       const upperHole=new THREE.Path();upperHole.moveTo(-.022,.11);upperHole.lineTo(.022,.11);upperHole.quadraticCurveTo(.015,.148,0,.182);upperHole.quadraticCurveTo(-.015,.148,-.022,.11);upperHole.closePath();
       frameShape.holes.push(lowerHole,upperHole);
-      const frame=mesh(sepal,new THREE.ExtrudeGeometry(frameShape,{depth:.026,bevelEnabled:true,bevelSize:.004,bevelThickness:.004,bevelSegments:2,curveSegments:12}),peach,0,0,.044);
+      const frame=mesh(sepal,new THREE.ExtrudeGeometry(frameShape,{depth:.026,bevelEnabled:true,bevelSize:.004,bevelThickness:.004,bevelSegments:2,curveSegments:12}),[peach,peachEdge],0,0,.044);
       frame.name="Recessed LEGO sepal frame";
       // Set the backing behind the frame so lighting resolves the socket depth.
       const backing=frameShape.clone();backing.holes=[];
@@ -135,7 +143,7 @@ export function makeMiniOrchid() {
     });
     [-.60,0,.60].forEach(a=>{
       const throat=new THREE.Group();bloom.add(throat);throat.position.set(0,.007,.056);throat.rotation.z=a;
-      mesh(throat,petal(.135,.083),pink);
+      mesh(throat,petal(.135,.083),[pink,pinkEdge]);
       const ridge=new THREE.CatmullRomCurve3([new THREE.Vector3(0,.028,.028),new THREE.Vector3(0,.075,.053),new THREE.Vector3(0,.116,.063)]);
       mesh(throat,new THREE.TubeGeometry(ridge,12,.005,6,false),pink);
     });
@@ -149,7 +157,7 @@ export function makeMiniOrchid() {
     lipShape.bezierCurveTo(-.11,.025,-.10,-.055,-.047,-.057);
     lipShape.bezierCurveTo(-.045,-.115,.045,-.115,.047,-.057);
     lipShape.bezierCurveTo(.10,-.055,.11,.025,.025,.018);lipShape.closePath();
-    const lip=mesh(bloom,new THREE.ExtrudeGeometry(lipShape,{depth:.019,bevelEnabled:true,bevelSize:.008,bevelThickness:.006,bevelSegments:3,curveSegments:12}),orange,0,-.026,.135);
+    const lip=mesh(bloom,new THREE.ExtrudeGeometry(lipShape,{depth:.019,bevelEnabled:true,bevelSize:.008,bevelThickness:.006,bevelSegments:3,curveSegments:12}),[orange,orangeEdge],0,-.026,.135);
     lip.rotation.x=.65;lip.scale.set(.70,.70,1);
   });
   const tip=new THREE.Vector3(1.24,2.36,0);rod(root,stalk[6],tip,.016,green);
