@@ -1,26 +1,32 @@
 import * as THREE from "three";
+import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
 // Custom geometry studied from LEGO 10343's official assembly manual, pp. 34–40.
 export function makeMiniOrchid() {
   const root = new THREE.Group();
   root.name = "Mini Orchid · 10343";
-  const plastic = (color: number, roughness = .26) => new THREE.MeshPhysicalMaterial({
-    color, roughness, metalness: 0, clearcoat: .52, clearcoatRoughness: .21,
+  // Median sRGB samples from the supplied photographs. Linear reflectance is
+  // calibrated for the desk's warm 2.8-intensity sun and ACES exposure of 1.12.
+  const plastic = (color:number, roughness=.29, reflectance=.72) => {
+    const m=new THREE.MeshPhysicalMaterial({color,roughness,metalness:0,
+      clearcoat:.28,clearcoatRoughness:.28,ior:1.46,specularIntensity:.8,envMapIntensity:.28});
+    m.color.multiplyScalar(reflectance);
+    return m;
+  };
+  const clay=plastic(0xcf895b,.34,.65), wood=plastic(0x6e4031,.29,.8);
+  const green=plastic(0x075532,.25,.8), leafGreen=plastic(0x12332b,.3,.83);
+  const lime=plastic(0xafc95c,.32);
+  const peach=plastic(0xf6cab2,.28,.66), pink=plastic(0xfa9cd0,.23,.72);
+  const magenta=plastic(0xce398f,.23,.78), orange=plastic(0xfb791c,.19,.8);
+  const ivory=plastic(0xfff1df,.25,.88), recess=plastic(0xb78968,.43,.68);
+  // Counter the warm environment's color compression without tinting the rest of the desk.
+  peach.color.multiply(new THREE.Color().setRGB(1.15,.72,.58));
+  pink.color.multiply(new THREE.Color().setRGB(1.0,.64,.91));
+  orange.color.multiply(new THREE.Color().setRGB(1.0,.62,.45));
+  const clipMat=plastic(0x202b25,.38), gold=new THREE.MeshStandardMaterial({
+    color:0xc5a252,metalness:.72,roughness:.27,envMapIntensity:.9,
   });
-  const clay = plastic(0xd7a077, .4), wood = plastic(0x774325, .36);
-  const green = plastic(0x064f32), lime = plastic(0x94b839);
-  // Saturated molded flower colors retain their color under the warm desk light.
-  // A restrained emissive fill lifts shaded petals; clearcoat supplies the glossy glow.
-  const blossom = (color:number, glow:number) => new THREE.MeshPhysicalMaterial({
-    color, roughness:.19, metalness:0, clearcoat:.95, clearcoatRoughness:.13,
-    ior:1.48, specularIntensity:1.15, envMapIntensity:1.3,
-    emissive:color, emissiveIntensity:glow,
-  });
-  const peach = blossom(0xefbb86,.055), pink = blossom(0xe56fbd,.09);
-  const magenta = blossom(0xb72b87,.045), orange = blossom(0xe56821,.045);
-  const ivory = plastic(0xfff1d9), recess = plastic(0xc29165, .5);
-  const clipMat = plastic(0x28312c), gold = new THREE.MeshStandardMaterial({color:0xcba554, metalness:.68, roughness:.28});
   function mesh(parent: THREE.Object3D, geo: THREE.BufferGeometry, mat: THREE.Material, x=0,y=0,z=0) {
     const m=new THREE.Mesh(geo,mat); m.position.set(x,y,z); m.castShadow=m.receiveShadow=true; parent.add(m); return m;
   }
@@ -63,13 +69,13 @@ export function makeMiniOrchid() {
     const geo=new THREE.ExtrudeGeometry(shape,{depth:.022,bevelEnabled:true,bevelThickness:.011,bevelSize:.012,bevelSegments:3,curveSegments:16,steps:1});
     const pos=geo.attributes.position;
     for(let i=0;i<pos.count;i++){const t=pos.getY(i)/length;pos.setZ(i,pos.getZ(i)+.12*Math.sin(t*Math.PI*.8)-Math.abs(pos.getX(i))*.19);}
-    geo.computeVertexNormals();return geo;
+    geo.deleteAttribute("normal");const smooth=mergeVertices(geo,1e-5);smooth.computeVertexNormals();geo.dispose();return smooth;
   }
-  [[-.08,.66,.02,-.18,-.8,1.04,.32],[.06,.66,-.03,.10,.46,1.13,.36],[-.05,.67,.10,1.25,-.65,.49,.29],[.10,.67,.05,1.30,1.30,.55,.30]].forEach(([x,y,z,rx,rz,len,w])=>{
+  [[-.08,.66,.02,.08,.99,1.08,.33],[.06,.66,-.08,-.08,-.51,1.17,.37],[-.05,.67,.10,1.45,.60,.53,.34],[.10,.67,.05,1.38,-1.10,.57,.33]].forEach(([x,y,z,rx,rz,len,w])=>{
     const g=new THREE.Group();root.add(g);g.position.set(x,y,z);g.rotation.set(rx,0,rz);
-    mesh(g,leaf(len,w),green);
+    mesh(g,leaf(len,w),leafGreen);
     const seam=new THREE.CatmullRomCurve3([new THREE.Vector3(0,.02,.038),new THREE.Vector3(0,len*.5,.15),new THREE.Vector3(0,len*.95,.12)]);
-    mesh(g,new THREE.TubeGeometry(seam,16,.0035,4,false),green);
+    mesh(g,new THREE.TubeGeometry(seam,16,.0025,4,false),leafGreen);
     // Small mounting plate and stud under each molded leaf.
     mesh(g,new RoundedBoxGeometry(.09,.12,.035,2,.006),green,0,.05,-.025);
     const stud=mesh(g,new THREE.CylinderGeometry(.027,.027,.028,16),green,0,.07,-.052);stud.rotation.x=Math.PI/2;
@@ -98,29 +104,41 @@ export function makeMiniOrchid() {
     shape.quadraticCurveTo(width*.48,length*.82,width*.53,length*.54);
     shape.quadraticCurveTo(width*.56,length*.15,width*.11,0);shape.closePath();
     const geo=new THREE.ExtrudeGeometry(shape,{depth:.022,bevelEnabled:true,bevelSize:.005,bevelThickness:.005,bevelSegments:2,curveSegments:14,steps:1});
-    const pos=geo.attributes.position;for(let i=0;i<pos.count;i++){const t=pos.getY(i)/length;pos.setZ(i,pos.getZ(i)+.055*t*t);}geo.computeVertexNormals();return geo;
+    const pos=geo.attributes.position;for(let i=0;i<pos.count;i++){const t=pos.getY(i)/length;pos.setZ(i,pos.getZ(i)+.055*t*t);}geo.deleteAttribute("normal");const smooth=mergeVertices(geo,1e-5);smooth.computeVertexNormals();geo.dispose();return smooth;
   }
-  const bloomPositions=[[-.25,1.32,.11],[.17,1.49,.12],[.16,1.98,.09],[.58,2.08,.12],[.89,2.37,.05]];
+  const bloomPositions=[[-.28,1.24,.15],[.20,1.55,.17],[.08,2.02,.13],[.64,2.06,.19],[1.00,2.43,.08]];
   bloomPositions.forEach(([x,y,z],i)=>{
     const anchor=stalk[i<2?2:i<4?4:5];rod(root,anchor,new THREE.Vector3(x,y,z),.024,green);
-    const bloom=new THREE.Group();root.add(bloom);bloom.position.set(x,y,z);bloom.rotation.set(-.22,.18+(i%2)*.15,(i%2?-.1:.08));
+    const bloom=new THREE.Group();root.add(bloom);bloom.position.set(x,y,z);bloom.rotation.set(-.13,.05+(i%2)*.19,(i%2?-.12:.10));bloom.scale.setScalar(1.17);
     const back=mesh(bloom,new THREE.TorusGeometry(.09,.012,8,24),gold,0,0,-.035);
     back.name="Flower connector loop";
-    [0,1.20,-1.20].forEach(a=>{const m=mesh(bloom,petal(.29,.245),peach,0,0,0);m.rotation.z=a;m.rotation.x=-.10;
+    [0,1.34,-1.34].forEach(a=>{const m=mesh(bloom,petal(.29,.245),peach,-Math.sin(a)*.022,Math.cos(a)*.022,0);m.rotation.z=a;m.rotation.x=-.17;
       const mount=new THREE.Group();bloom.add(mount);mount.rotation.z=a;
       mesh(mount,new RoundedBoxGeometry(.065,.073,.044,2,.005),recess,0,.035,-.032);
       const peg=mesh(mount,new THREE.CylinderGeometry(.016,.016,.055,12),peach,0,.045,-.074);peg.rotation.x=Math.PI/2;
     });
     [-2.48,2.48].forEach(a=>{
       const sepal=new THREE.Group();bloom.add(sepal);sepal.rotation.z=a;
-      mesh(sepal,petal(.22,.12),peach,0,0,.025);
-      const inset=mesh(sepal,petal(.15,.072),recess,0,.023,.049);
-      const rib=mesh(sepal,new THREE.BoxGeometry(.012,.13,.014),peach,0,.10,.069);rib.rotation.x=.18;
-      mesh(sepal,new RoundedBoxGeometry(.08,.065,.035,2,.004),peach,0,.049,.07);
-      const hole=mesh(sepal,new THREE.TorusGeometry(.018,.007,6,16),recess,0,.05,.093);hole.name="Molded sepal socket";
-      inset.name="Recessed sepal underside";
+      const frameShape=new THREE.Shape();frameShape.moveTo(-.025,0);
+      frameShape.quadraticCurveTo(-.076,.085,0,.22);
+      frameShape.quadraticCurveTo(.076,.085,.025,0);frameShape.closePath();
+      const lowerHole=new THREE.Path();lowerHole.moveTo(-.023,.032);lowerHole.lineTo(.023,.032);lowerHole.lineTo(.025,.088);lowerHole.lineTo(-.025,.088);lowerHole.closePath();
+      const upperHole=new THREE.Path();upperHole.moveTo(-.022,.11);upperHole.lineTo(.022,.11);upperHole.quadraticCurveTo(.015,.148,0,.182);upperHole.quadraticCurveTo(-.015,.148,-.022,.11);upperHole.closePath();
+      frameShape.holes.push(lowerHole,upperHole);
+      const frame=mesh(sepal,new THREE.ExtrudeGeometry(frameShape,{depth:.026,bevelEnabled:true,bevelSize:.004,bevelThickness:.004,bevelSegments:2,curveSegments:12}),peach,0,0,.044);
+      frame.name="Recessed LEGO sepal frame";
+      // Set the backing behind the frame so lighting resolves the socket depth.
+      const backing=frameShape.clone();backing.holes=[];
+      mesh(sepal,new THREE.ExtrudeGeometry(backing,{depth:.008,bevelEnabled:false,curveSegments:12}),recess,0,0,.016);
+      const hole=mesh(sepal,new THREE.TorusGeometry(.014,.005,6,16),peach,0,.056,.043);hole.name="Molded sepal socket";
+
     });
-    [-.60,0,.60].forEach(a=>{const m=mesh(bloom,petal(.13,.09),pink,0,.007,.056);m.rotation.z=a;});
+    [-.60,0,.60].forEach(a=>{
+      const throat=new THREE.Group();bloom.add(throat);throat.position.set(0,.007,.056);throat.rotation.z=a;
+      mesh(throat,petal(.135,.083),pink);
+      const ridge=new THREE.CatmullRomCurve3([new THREE.Vector3(0,.028,.028),new THREE.Vector3(0,.075,.053),new THREE.Vector3(0,.116,.063)]);
+      mesh(throat,new THREE.TubeGeometry(ridge,12,.005,6,false),pink);
+    });
     mesh(bloom,new THREE.TorusGeometry(.036,.013,8,24),magenta,0,.009,.091);
     const pin=mesh(bloom,new THREE.CylinderGeometry(.014,.014,.10,16),ivory,0,.008,.145);pin.rotation.x=Math.PI/2;
     const nozzle=mesh(bloom,new THREE.TorusGeometry(.010,.004,6,18),ivory,0,.008,.198);
