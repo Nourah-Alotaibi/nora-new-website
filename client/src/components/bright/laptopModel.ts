@@ -250,6 +250,7 @@ export function makeLaptop(wake: () => void, onProject: (index: number) => void)
     group,
     keys,
     keyLabels,
+    screenPosition() { return panel.getWorldPosition(new THREE.Vector3()); },
     pressKey,
     nextProject() { pressKey(keyLabels.indexOf("Space")); },
     keyFromObject(object: THREE.Object3D) {

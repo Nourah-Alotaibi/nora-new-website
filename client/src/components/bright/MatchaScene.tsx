@@ -232,7 +232,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
               Reset
             </button>
           </nav>
-          <small>Drag to turn · Escape to return to the desk</small>
+          <small>Scroll or pinch to zoom · + / − to zoom · Drag to turn · Escape to return</small>
         </div>
       )}
       <div className="matcha-caption">

@@ -999,6 +999,7 @@ export function mountMatcha(
         ? laptop.group.position.clone().add(new THREE.Vector3(0, 0.65, 0))
         : new THREE.Vector3(0, 0.45, 0)
     );
+    if (inspecting) targetFocus.lerp(laptop.screenPosition(), THREE.MathUtils.clamp((zoomLevel - 1) / .8, 0, 1));
     targetPosition.set(
       Math.sin(yaw) * Math.cos(pitch) * radius,
       Math.sin(pitch) * radius,
@@ -1014,7 +1015,7 @@ export function mountMatcha(
     }
   }
   function zoom(delta: number) {
-    zoomLevel = THREE.MathUtils.clamp(zoomLevel + delta, 0.75, 1.8);
+    zoomLevel = THREE.MathUtils.clamp(zoomLevel + delta, 0.75, inspecting ? 4 : 1.8);
     updateCamera();
     wake();
   }
