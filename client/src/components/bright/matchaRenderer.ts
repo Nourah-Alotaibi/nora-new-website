@@ -351,7 +351,7 @@ export function mountMatcha(
     transmission: 0.4,
     thickness: 0.02,
   });
-  for (let i = 0; i < 28; i++) {
+  for (let i = 0; i < 65; i++) {
     const angle = i * 2.39996,
       y = 0.35 + (i % 9) * 0.15,
       r = 0.6 + y * 0.062;
@@ -368,49 +368,57 @@ export function mountMatcha(
   }
   const cookie = object("cookie", 1.45, 0.65);
   const bakedTexture = texture(c => {
-    c.fillStyle = "#fff5dd";
+    c.fillStyle = "#ffe1a1";
     c.fillRect(0, 0, 1024, 1024);
-    for (let i = 0; i < 1800; i++) {
-      const x = random(i + 1200) * 1024,
-        y = random(i + 4200) * 1024;
-      c.fillStyle = i % 3 ? "#aa703018" : "#ffffff60";
+    // Broad toasted islands stay visible even when the cookie is small on screen.
+    for (let i = 0; i < 95; i++) {
+      const x = random(i + 1200) * 1024, y = random(i + 4200) * 1024;
+      const r = 18 + random(i + 2100) * 65;
+      const patch = c.createRadialGradient(x, y, 0, x, y, r);
+      patch.addColorStop(0, i % 3 ? "#ae631b65" : "#fff4cf90");
+      patch.addColorStop(1, "#d4964000");
+      c.fillStyle = patch;
+      c.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+    for (let i = 0; i < 6500; i++) {
+      const x = random(i + 2200) * 1024, y = random(i + 5200) * 1024;
+      c.fillStyle = i % 3 ? "#99571e38" : "#fff6d5a0";
       c.beginPath();
-      c.ellipse(
-        x,
-        y,
-        1 + random(i + 2100) * 3,
-        1 + random(i + 3100) * 2,
-        random(i) * Math.PI,
-        0,
-        Math.PI * 2
-      );
+      c.ellipse(x, y, 0.8 + random(i + 3100) * 3.2,
+        0.6 + random(i + 4100) * 2, random(i) * Math.PI, 0, Math.PI * 2);
       c.fill();
     }
-    // Short, irregular baked creases, rather than a repeating surface pattern.
-    c.lineWidth = 1.4;
-    c.strokeStyle = "#a5733c38";
-    for (let i = 0; i < 40; i++) {
-      const x = random(i + 6500) * 1024,
-        y = random(i + 7500) * 1024;
-      c.beginPath();
-      c.moveTo(x, y);
-      c.lineTo(x + 5, y + 3);
-      c.lineTo(x + 9, y - 2);
-      c.lineTo(x + 15, y + 1);
-      c.stroke();
+    // Fine branching fissures with a pale raised lip, like fresh baked dough.
+    c.lineCap = "round";
+    for (let i = 0; i < 115; i++) {
+      const x = random(i + 6500) * 1024, y = random(i + 7500) * 1024;
+      c.save();
+      c.translate(x, y);
+      c.rotate(random(i + 8500) * Math.PI * 2);
+      for (const lip of [true, false]) {
+        c.strokeStyle = lip ? "#fff2c590" : "#8a4a2270";
+        c.lineWidth = lip ? 5 : 2.2;
+        c.beginPath();
+        c.moveTo(0, lip ? -2 : 0);
+        c.lineTo(8, 4); c.lineTo(17, 1); c.lineTo(26, 7);
+        c.lineTo(36 + random(i + 9500) * 16, 4);
+        c.moveTo(17, 1); c.lineTo(21, -7);
+        c.stroke();
+      }
+      c.restore();
     }
   });
   const biscuitMat = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     vertexColors: true,
-    roughness: 0.86,
+    roughness: 0.93,
     map: bakedTexture,
     bumpMap: bakedTexture,
-    bumpScale: 0.022,
+    bumpScale: 0.045,
   });
   const crumbMat = material(0xc39761, 0.94);
-  const chipMats = [0x493027, 0x604032, 0x39281f, 0x705040].map(c =>
-    material(c, 0.72)
+  const chipMats = [0x32170e, 0x49251a, 0x28140d, 0x623824].map(c =>
+    material(c, 0.38)
   );
   const contactMats = [0.055, 0.075].map(
     opacity =>
@@ -426,7 +434,7 @@ export function mountMatcha(
     return n - Math.floor(n);
   }
   const chips: { x: number; z: number; size: number; seed: number }[] = [];
-  for (let i = 0; chips.length < 19 && i < 200; i++) {
+  for (let i = 0; chips.length < 24 && i < 200; i++) {
     const x = (random(i * 3 + 1) - 0.5) * 1.64,
       z = (random(i * 3 + 2) - 0.5) * 1.64;
     if (
@@ -434,7 +442,7 @@ export function mountMatcha(
       chips.some(p => Math.hypot(x - p.x, z - p.z) < 0.18)
     )
       continue;
-    chips.push({ x, z, size: 0.049 + random(i * 3 + 3) * 0.045, seed: i });
+    chips.push({ x, z, size: 0.06 + random(i * 3 + 3) * 0.052, seed: i });
   }
   let bites = 0;
   const biteAngles = [-0.4, 0.45, -1.25, 1.3, 2.4];
@@ -457,8 +465,8 @@ export function mountMatcha(
       const a = (i / 240) * Math.PI * 2;
       let r =
         0.92 +
-        Math.sin(a * 7 + 0.4) * 0.018 +
-        Math.sin(a * 13) * 0.011 +
+        Math.sin(a * 7 + 0.4) * 0.026 +
+        Math.sin(a * 13) * 0.017 +
         Math.cos(a * 3) * 0.014;
       for (const ba of biteAngles.slice(0, bites)) {
         const d = 0.83,
@@ -508,8 +516,8 @@ export function mountMatcha(
         0,
         0.75
       );
-      const c = new THREE.Color(0xe2ba7e).lerp(
-        new THREE.Color(0xb67c43),
+      const c = new THREE.Color(0xf1c787).lerp(
+        new THREE.Color(0xad612d),
         baked
       );
       c.toArray(colors, i * 3);
@@ -560,7 +568,7 @@ export function mountMatcha(
         0.8 + random(seed + 14) * 0.4
       );
     });
-    for (let i = 0; i < 28; i++) {
+    for (let i = 0; i < 65; i++) {
       const x = (random(i + 600) - 0.5) * 1.65,
         z = (random(i + 800) - 0.5) * 1.65;
       if (
@@ -577,7 +585,7 @@ export function mountMatcha(
         0.161,
         z
       );
-      mark.scale.y = 0.15;
+      mark.scale.y = 0.4;
       mark.castShadow = false;
     }
     for (let i = 0; i < 4; i++) {
