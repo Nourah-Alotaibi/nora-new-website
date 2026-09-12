@@ -1330,7 +1330,7 @@ export function mountMatcha(
     if (!cancelled && !multiGesture && !dragged && !action) {
       if (pendingTap === "bowl") onRitualAction("brew");
       else if (pendingTap === "laptop") inspect(true);
-      else if (dragging === "matcha") onRitualAction(ice.some(m => m.visible) ? "stir" : "ice");
+      else if (dragging === "matcha") onRitualAction(!tea.visible ? "brew" : ice.some(m => m.visible) ? "stir" : "ice");
       else if (dragging === "cookie") bite();
       else if (dragging === "plant") onPlantClick();
     }
