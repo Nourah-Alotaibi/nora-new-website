@@ -62,7 +62,7 @@ export default function LeaveNote() {
       tabIndex={visible && !dismissed ? 0 : -1} aria-hidden={!visible || dismissed} aria-label="Leave a note" aria-haspopup="dialog"
       onClick={() => { setStatus("idle"); dialog.current?.showModal(); setOpen(true); }}>
       <span aria-hidden="true">📝</span><span className="note-trigger-label">Leave a note</span>
-      <span className="note-sparkles" aria-hidden="true"><i>✨</i><i>✨</i><i>✨</i></span>
+      <span className="note-sparkles" aria-hidden="true"><i>✨</i><i>✨</i><i>✨</i><i>✦</i><i>✨</i><i>✧</i><i>✦</i><i>✨</i><i>✧</i></span>
     </button>
     {visible && !dismissed && <button type="button" className="note-dismiss" aria-label="Hide note button" onClick={() => setDismissed(true)}><span aria-hidden="true">×</span></button>}
     <dialog ref={dialog} className="note-panel" aria-labelledby="note-heading" aria-describedby="note-description"

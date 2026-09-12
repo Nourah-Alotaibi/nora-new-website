@@ -98,3 +98,18 @@
 @media(prefers-reduced-motion:reduce) {
   .note-light .note-trigger::before { animation:none; opacity:0; }
 }
+
+/* A brighter halo and a full ring of staggered stationery sparkles. */
+.note-trigger, .note-dark .note-trigger {
+  --note-halo:#efc963b3;
+  --note-halo-wide:#f2d47780;
+  box-shadow:0 0 18px var(--note-halo),0 0 42px var(--note-halo-wide),0 0 65px #f4dc793d,0 5px 14px #10121a16;
+}
+.note-sparkles { color:#d9a330; }
+.note-sparkles i { filter:drop-shadow(0 0 5px #ffe8a4) drop-shadow(0 0 9px #f5cf6e); }
+.note-sparkles i:nth-child(4) { left:28%; top:-8px; font-size:12px; animation-delay:-.7s; }
+.note-sparkles i:nth-child(5) { left:58%; top:-12px; font-size:16px; animation-delay:-2.1s; }
+.note-sparkles i:nth-child(6) { left:-7px; top:45%; font-size:19px; animation-delay:-1.8s; }
+.note-sparkles i:nth-child(7) { left:24%; bottom:-5px; font-size:12px; animation-delay:-3.1s; }
+.note-sparkles i:nth-child(8) { left:55%; bottom:-10px; font-size:15px; animation-delay:-.4s; }
+.note-sparkles i:nth-child(9) { right:-5px; top:45%; font-size:15px; animation-delay:-2.6s; }
