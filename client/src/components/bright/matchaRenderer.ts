@@ -2,6 +2,7 @@ import { createDeskSounds } from "./deskSounds";
 import { makeLaptop } from "./laptopModel";
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { TessellateModifier } from "three/addons/modifiers/TessellateModifier.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 export type DeskObject = "matcha" | "cookie" | "plant";
@@ -369,21 +370,21 @@ export function mountMatcha(
   }
   const cookie = object("cookie", 1.45, 0.65);
   const bakedTexture = texture(c => {
-    c.fillStyle = "#fff3df";
+    c.fillStyle = "#edcfaa";
     c.fillRect(0, 0, 1024, 1024);
     // Broad toasted islands stay visible even when the cookie is small on screen.
     for (let i = 0; i < 95; i++) {
       const x = random(i + 1200) * 1024, y = random(i + 4200) * 1024;
       const r = 18 + random(i + 2100) * 65;
       const patch = c.createRadialGradient(x, y, 0, x, y, r);
-      patch.addColorStop(0, i % 3 ? "#ad896548" : "#fff9ed90");
+      patch.addColorStop(0, i % 3 ? "#946b4670" : "#f6dfbc55");
       patch.addColorStop(1, "#c4a17b00");
       c.fillStyle = patch;
       c.fillRect(x - r, y - r, r * 2, r * 2);
     }
     for (let i = 0; i < 6500; i++) {
       const x = random(i + 2200) * 1024, y = random(i + 5200) * 1024;
-      c.fillStyle = i % 3 ? "#92745238" : "#fff9eca0";
+      c.fillStyle = i % 3 ? "#92745238" : "#f7dfbb80";
       c.beginPath();
       c.ellipse(x, y, 0.8 + random(i + 3100) * 3.2,
         0.6 + random(i + 4100) * 2, random(i) * Math.PI, 0, Math.PI * 2);
@@ -396,9 +397,10 @@ export function mountMatcha(
       c.save();
       c.translate(x, y);
       c.rotate(random(i + 8500) * Math.PI * 2);
+      c.scale(1.7, 1.7);
       for (const lip of [true, false]) {
-        c.strokeStyle = lip ? "#fff6e590" : "#88674865";
-        c.lineWidth = lip ? 5 : 2.2;
+        c.strokeStyle = lip ? "#f5dcb570" : "#72513795";
+        c.lineWidth = lip ? 7 : 3.5;
         c.beginPath();
         c.moveTo(0, lip ? -2 : 0);
         c.lineTo(8, 4); c.lineTo(17, 1); c.lineTo(26, 7);
@@ -415,7 +417,7 @@ export function mountMatcha(
     roughness: 0.93,
     map: bakedTexture,
     bumpMap: bakedTexture,
-    bumpScale: 0.045,
+    bumpScale: 0.065,
   });
   const crumbMat = material(0xc39761, 0.94);
   const chipMats = [0x32170e, 0x49251a, 0x28140d, 0x623824].map(c =>
@@ -453,6 +455,11 @@ export function mountMatcha(
       .some(
         a => Math.hypot(x - Math.cos(a) * 0.83, y - Math.sin(a) * 0.83) < 0.58
       );
+  }
+  function doughRise(x: number, z: number) {
+    const dome = Math.max(0, 1 - (x * x + z * z) / 0.86);
+    const crag = Math.sin(x * 24 + Math.sin(z * 15)) * Math.cos(z * 27 - x * 9);
+    return dome * (0.055 + crag * 0.014 + Math.sin(x * 48 + z * 31) * 0.005);
   }
   function cookieGeometry() {
     while (cookie.children.length) {
@@ -501,6 +508,9 @@ export function mountMatcha(
       0
     );
     mesh.rotation.x = Math.PI / 2;
+    const flatGeometry = mesh.geometry;
+    mesh.geometry = new TessellateModifier(0.085, 6).modify(flatGeometry);
+    flatGeometry.dispose();
     const pos = mesh.geometry.attributes.position;
     const uv = mesh.geometry.attributes.uv;
     const colors = new Float32Array(pos.count * 3);
@@ -508,6 +518,9 @@ export function mountMatcha(
       const x = pos.getX(i),
         y = pos.getY(i),
         z = pos.getZ(i);
+      // The upper face is negative Z before rotating the cookie onto the board.
+      const rise = doughRise(x, -y);
+      pos.setZ(i, z - rise * (1 - THREE.MathUtils.smoothstep(z, 0, 0.16)));
       uv.setXY(i, x / 2 + 0.5, y / 2 + 0.5);
       const edge = THREE.MathUtils.smoothstep(Math.hypot(x, y), 0.55, 0.95);
       const baked = THREE.MathUtils.clamp(
@@ -517,13 +530,14 @@ export function mountMatcha(
         0,
         0.75
       );
-      const c = new THREE.Color(0xe9cda5).lerp(
-        new THREE.Color(0xb48c63),
+      const c = new THREE.Color(0xd1ac7c).lerp(
+        new THREE.Color(0x946b48),
         baked
       );
       c.toArray(colors, i * 3);
     }
     mesh.geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    mesh.geometry.computeVertexNormals();
     contactMats.forEach((m, i) => {
       const shadow = add(
         cookie,
@@ -555,7 +569,7 @@ export function mountMatcha(
         geo,
         chipMats[seed % 4],
         x,
-        0.151 + random(seed + 8) * 0.018,
+        0.143 + doughRise(x, z) + random(seed + 8) * 0.012,
         z
       );
       chip.rotation.set(
@@ -583,7 +597,7 @@ export function mountMatcha(
         new THREE.SphereGeometry(0.012 + random(i + 900) * 0.008, 5, 3),
         crumbMat,
         x,
-        0.161,
+        0.161 + doughRise(x, z),
         z
       );
       mark.scale.y = 0.4;
