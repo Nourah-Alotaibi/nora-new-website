@@ -1,3 +1,4 @@
+import { laptopProjects, isProjectTypingKey } from "./laptopProjects";
 import { preloadDeskRecordings } from "./deskSounds";
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
@@ -17,6 +18,8 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
   const [inspecting, setInspecting] = useState(false);
   const inspectButton = useRef<HTMLButtonElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+  const [projectIndex, setProjectIndex] = useState(0);
+  const activeProject = laptopProjects[projectIndex];
   const [lidOpen, setLidOpen] = useState(true);
   const [viewMode, setViewMode] = useState(false);
   const [selected, setSelected] = useState<DeskObject>("matcha");
@@ -50,7 +53,8 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
             !!reduce,
             setBites,
             setInspecting,
-            action => ritualAction.current(action)
+            action => ritualAction.current(action),
+            setProjectIndex
           );
           setReady(true);
           setStatus("A desk for slow mornings & curious ideas.");
@@ -78,6 +82,9 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
     document.body.style.overflow = "hidden";
     closeButton.current?.focus();
     const key = (e: KeyboardEvent) => {
+      if (isProjectTypingKey(e, e.target instanceof Element ? e.target : null)) {
+        desk.current?.nextLaptopProject();
+      }
       if (e.key === "Escape") {
         desk.current?.inspect(false);
       }
@@ -163,7 +170,15 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
               Close ×
             </button>
           </div>
-          <p>A little collection of places, projects & possibilities.</p>
+          <section className="laptop-project-info" aria-live="polite" aria-atomic="true">
+            <span>PROJECT {projectIndex + 1} / {laptopProjects.length}</span>
+            <h2>{activeProject.title}</h2>
+            <p>{activeProject.description}</p>
+            {activeProject.github && <a className="laptop-github-link" href={activeProject.github} target="_blank" rel="noopener noreferrer">Check full project on GitHub ↗</a>}
+            {!activeProject.image && <p className="laptop-placeholder-note">Screenshot not supplied yet.</p>}
+            <p className="laptop-key-hint">Tap any 3D key or type a letter to see the next project.</p>
+            <button type="button" onClick={() => desk.current?.nextLaptopProject()}>Next project →</button>
+          </section>
           <nav aria-label="Laptop inspection controls">
             <button
               onClick={() => {

@@ -1,3 +1,4 @@
+import { constrainDeskPosition, deskRadii, onLaptopBase } from "./deskPhysics";
 import { createDeskSounds } from "./deskSounds";
 import { makeLaptop } from "./laptopModel";
 import * as THREE from "three";
@@ -13,7 +14,8 @@ export function mountMatcha(
   reduced: boolean,
   onBite: (count: number) => void,
   onInspect: (value: boolean) => void,
-  onRitualAction: (action: "brew" | "ice" | "stir") => void
+  onRitualAction: (action: "brew" | "ice" | "stir") => void,
+  onProject: (index: number) => void
 ) {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
@@ -416,6 +418,25 @@ export function mountMatcha(
       }
       c.restore();
     }
+    // Deeper, irregular fractures between baked dough mounds.
+    for(let i=0;i<24;i++){
+      const x=160+random(i+23100)*700,y=160+random(i+24100)*700;
+      const angle=random(i+25100)*Math.PI*2,length=75+random(i+26100)*125;
+      c.save();c.translate(x,y);c.rotate(angle);
+      for(const highlight of [true,false]){
+        c.strokeStyle=highlight?"#f5d8ae95":"#7452329a";
+        c.lineWidth=highlight?8:3+random(i+27100)*3;
+        c.beginPath();c.moveTo(0,highlight?-3:0);
+        c.bezierCurveTo(length*.23,-17,length*.36,25,length*.57,7);
+        c.quadraticCurveTo(length*.78,-13,length,10);
+        c.stroke();
+        if(i%3===0){c.lineWidth=2.5;c.beginPath();c.moveTo(length*.57,7);c.quadraticCurveTo(length*.55,28,length*.7,43);c.stroke();}
+      }
+      c.restore();
+    }
+    const toastedRim=c.createRadialGradient(512,512,325,512,512,490);
+    toastedRim.addColorStop(0,"#81522e00");toastedRim.addColorStop(.65,"#81522e13");toastedRim.addColorStop(1,"#73452060");
+    c.fillStyle=toastedRim;c.fillRect(0,0,1024,1024);
   });
   const biscuitMat = new THREE.MeshStandardMaterial({
     color: 0xffffff,
@@ -696,29 +717,46 @@ export function mountMatcha(
     );
     leaf.rotation.set(-0.8, angle, 0.25);
   }
-  const rosePetals = [0xf1c4d0, 0xe8afc0, 0xf8d8df].map(color =>
-    new THREE.MeshStandardMaterial({ color, roughness: 0.86, side: THREE.DoubleSide })
-  );
-  // Three compact, layered roses nestled among the existing leaves.
-  [[0.26, 1.48, 0.26], [-0.23, 1.66, 0.14], [0.10, 1.83, -0.17]].forEach(([x, y, z], flower) => {
-    const stem = add(plant, new THREE.CylinderGeometry(0.012, 0.018, y - 0.7, 6),
-      stemMat, x, (y + 0.7) / 2, z);
-    stem.castShadow = false;
-    const rose = new THREE.Group();
-    rose.position.set(x, y, z);
-    rose.rotation.set(0.18 + flower * 0.08, flower * 1.7, -0.2 + flower * 0.16);
-    plant.add(rose);
-    for (let layer = 0; layer < 3; layer++) {
-      const count = 7 - layer * 2;
-      const radius = 0.09 - layer * 0.032;
-      for (let petal = 0; petal < count; petal++) {
-        const angle = petal / count * Math.PI * 2 + layer * 0.65;
-        const mesh = add(rose, new THREE.SphereGeometry(1, 12, 8, 0, Math.PI * 1.7, 0.3, Math.PI * 0.72),
-          rosePetals[(layer + flower) % 3], Math.cos(angle) * radius,
-          layer * 0.035, Math.sin(angle) * radius);
-        mesh.scale.set(0.11 - layer * 0.022, 0.12 - layer * 0.018, 0.045);
-        mesh.rotation.set(-0.28 + layer * 0.25, Math.PI / 2 - angle, petal % 2 * 0.12);
+  const petalMaterial = new THREE.MeshPhysicalMaterial({
+    color:0xffffff, vertexColors:true, roughness:0.72, side:THREE.DoubleSide,
+    sheen:0.45, sheenColor:new THREE.Color(0xf9e6eb), sheenRoughness:0.85,
+  });
+  function rosePetal(layer:number, seed:number) {
+    const geo=new THREE.PlaneGeometry(1,1,18,22);
+    const positions=geo.attributes.position;
+    const colors=new Float32Array(positions.count*3);
+    const inner=new THREE.Color(0xd48fa8),outer=new THREE.Color(0xf6d9e2);
+    for(let i=0;i<positions.count;i++){
+      const u=positions.getX(i)*2,v=positions.getY(i)+.5;
+      const width=(.028+.11*Math.sin(Math.PI*v*.84))*(1-layer*.13);
+      const x=u*width;
+      const y=v*(.23-layer*.026);
+      // A cupped petal opens and softly rolls back at its upper rim.
+      const z=.045+v*.07+u*u*.065-Math.pow(v,5)*(.065-layer*.012)
+        +Math.sin(u*6+seed)*Math.pow(v,7)*.007;
+      positions.setXYZ(i,x,y,z);
+      inner.clone().lerp(outer,Math.min(1,v*.84+Math.abs(u)*.18)).toArray(colors,i*3);
+    }
+    geo.setAttribute('color',new THREE.BufferAttribute(colors,3));geo.computeVertexNormals();return geo;
+  }
+  [[0.30,1.48,0.29],[-0.26,1.65,0.16],[0.08,1.84,-0.17]].forEach(([x,y,z],flower)=>{
+    const stem=add(plant,new THREE.CylinderGeometry(.012,.017,y-.7,8),stemMat,x,(y+.7)/2,z);stem.castShadow=false;
+    const rose=new THREE.Group();rose.position.set(x,y-.07,z);rose.rotation.set(.30,flower*1.7,-.17+flower*.16);plant.add(rose);
+    // Staggered overlapping whorls create a spiral heart and broad outer petals.
+    for(let layer=0;layer<5;layer++){
+      const count=8-layer;
+      for(let j=0;j<count;j++){
+        const angle=j/count*Math.PI*2+layer*2.39996;
+        const petal=add(rose,rosePetal(layer,flower+j),petalMaterial,0,layer*.025,0);
+        petal.rotation.y=angle;
+        petal.rotation.x=layer===0?-.18:layer*.075;
+        const radius=.07-layer*.014;
+        petal.position.x=Math.sin(angle)*radius;petal.position.z=Math.cos(angle)*radius;
       }
+    }
+    for(let i=0;i<5;i++){
+      const sepal=add(rose,new THREE.ConeGeometry(.025,.11,6),stemMat,Math.sin(i*1.257)*.045,-.015,Math.cos(i*1.257)*.045);
+      sepal.rotation.z=Math.sin(i*1.257)*.5;sepal.rotation.x=Math.cos(i*1.257)*.5;
     }
   });
   const floor = add(
@@ -865,7 +903,7 @@ export function mountMatcha(
     rotating = false;
   let pointerX = 0,
     pointerY = 0;
-  const laptop = makeLaptop(wake);
+  const laptop = makeLaptop(wake, onProject);
   laptop.group.position.set(1.65, 0.24, -1.45);
   laptop.group.rotation.y = Math.PI + 0.08;
   scene.add(laptop.group);
@@ -910,7 +948,7 @@ export function mountMatcha(
     item.time = 0;
     item.active = !reduced;
     spillMaterial.color.set(tea.visible ? 0x719043 : 0xd6c9a5);
-    tiltZ = -0.5;
+    tiltZ = -0.07;
     energy = 1;
     settle = 1;
     wake();
@@ -960,8 +998,9 @@ export function mountMatcha(
     if (value) discoverDesk();
     if (value) {
       savedView = [yaw, pitch, zoomLevel];
-      yaw = 0.32;
-      pitch = 0.35;
+      yaw = Math.PI + 0.08;
+      pitch = 0.46;
+      laptop.setOpen(true);
       zoomLevel = 1;
     } else {
       [yaw, pitch, zoomLevel] = savedView;
@@ -983,13 +1022,13 @@ export function mountMatcha(
     dragging = null;
     host.style.touchAction = "none";
     onInspect(value);
-    updateCamera();
+    resize();
     wake();
   }
   function updateCamera() {
     const radius =
       (inspecting
-        ? Math.max(4.8, 3.9 / camera.aspect)
+        ? Math.max(innerWidth < 760 ? 4.9 : 5.6, 3.5 / camera.aspect)
         : Math.max(12.2, 9.8 / camera.aspect)) / zoomLevel;
     targetFocus.copy(
       inspecting
@@ -1038,6 +1077,22 @@ export function mountMatcha(
     zoom(-e.deltaY * 0.001);
   }
 
+  function restingHeight(name:DeskObject) {
+    const g=objects[name];
+    const base={matcha:.20,cookie:-.07,plant:.015}[name];
+    let surface=.19;
+    if(onLaptopBase(g.position.x,g.position.z))surface=.37;
+    if(name==='matcha' && Math.hypot(g.position.x-saucer.position.x,g.position.z-saucer.position.z)<.4)surface=.318;
+    return surface-base+.01;
+  }
+  function moveObject(name:DeskObject,x:number,z:number){
+    const g=objects[name];
+    const others=Object.entries(objects).map(([key,obj])=>({name:key,x:obj.position.x,z:obj.position.z,radius:deskRadii[key as DeskObject]}));
+    const safe=constrainDeskPosition(name,g.position,{x,z},others);
+    g.position.x=safe.x;g.position.z=safe.z;
+    // Raise first when crossing onto a support, so the base cannot tunnel into it.
+    g.position.y=Math.max(g.position.y,restingHeight(name)+(dragging===name?.24:0));
+  }
   function draw(now: number) {
     frame = 0;
     if (disposed || !visible || document.hidden) return;
@@ -1150,7 +1205,7 @@ export function mountMatcha(
         if (now - actionStart > 1150) finishAction();
       }
       for (const [key, g] of Object.entries(objects)) {
-        const target = dragging === key ? (key === "matcha" ? 2.2 : 0.48) : 0.24;
+        const target = restingHeight(key as DeskObject) + (dragging === key ? .24 : 0);
         g.position.y += (target - g.position.y) * Math.min(1, dt * 12);
       }
     }
@@ -1217,10 +1272,16 @@ export function mountMatcha(
     pointerY = e.clientY;
     dragged = false;
     pendingTap = null;
-    if (inspecting || viewMode) { rotating = true; return; }
     locate(e);
     const laptopHit = ray.intersectObject(laptop.group, true)[0];
     const hit = ray.intersectObjects(Object.values(objects), true)[0];
+    const keyIndex = laptopHit ? laptop.keyFromObject(laptopHit.object) : null;
+    if (keyIndex !== null && (inspecting || !hit || laptopHit!.distance < hit.distance)) {
+      laptop.pressKey(keyIndex);
+      dragged = true;
+      return;
+    }
+    if (inspecting || viewMode) { rotating = true; return; }
     const bowlHit = ray.intersectObject(bowl, true)[0];
     if (bowlHit && (!hit || bowlHit.distance < hit.distance) &&
         (!laptopHit || bowlHit.distance < laptopHit.distance)) {
@@ -1273,12 +1334,12 @@ export function mountMatcha(
       const x = THREE.MathUtils.clamp(hitPoint.x + dragOffset.x, -2.65, 2.65);
       const z = THREE.MathUtils.clamp(hitPoint.z + dragOffset.z, -1.85, 1.85);
       const dx = x - g.position.x, dz = z - g.position.z;
-      g.position.x = x; g.position.z = z;
+      moveObject(dragging,x,z);
       settle = 1;
       if (dragging === "matcha") {
         energy = 0.8;
-        tiltX = THREE.MathUtils.clamp(dz * 3, -0.45, 0.45);
-        tiltZ = THREE.MathUtils.clamp(-dx * 3, -0.55, 0.55);
+        tiltX = THREE.MathUtils.clamp(dz * 3, -0.07, 0.07);
+        tiltZ = THREE.MathUtils.clamp(-dx * 3, -0.07, 0.07);
         spillTravel += Math.hypot(dx, dz);
         if (spillTravel > 0.28) { spillMatcha(); spillTravel = 0; }
       }
@@ -1357,17 +1418,18 @@ export function mountMatcha(
   resize();
   return {
     inspect,
+    nextLaptopProject: laptop.nextProject,
     resetLaptop() {
-      yaw = 0.32;
-      pitch = 0.35;
+      yaw = Math.PI + 0.08;
+      pitch = 0.46;
       zoomLevel = 1;
-      laptop.reset();
+      laptop.setOpen(true);
       updateCamera();
       wake();
     },
     laptopFront() {
       yaw = Math.PI + 0.08;
-      pitch = 0.24;
+      pitch = 0.46;
       laptop.setOpen(true);
       updateCamera();
       wake();
@@ -1396,8 +1458,7 @@ export function mountMatcha(
     nudge(name: DeskObject, dx: number, dz: number) {
       if (action) return;
       const g = objects[name];
-      g.position.x = THREE.MathUtils.clamp(g.position.x + dx, -2.65, 2.65);
-      g.position.z = THREE.MathUtils.clamp(g.position.z + dz, -1.85, 1.85);
+      moveObject(name,g.position.x+dx,g.position.z+dz);
       settle = 1;
       wake();
     },
