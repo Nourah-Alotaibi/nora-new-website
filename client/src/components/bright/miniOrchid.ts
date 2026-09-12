@@ -10,8 +10,15 @@ export function makeMiniOrchid() {
   });
   const clay = plastic(0xd7a077, .4), wood = plastic(0x774325, .36);
   const green = plastic(0x064f32), lime = plastic(0x94b839);
-  const peach = plastic(0xf6ce9f), pink = plastic(0xe899c8);
-  const magenta = plastic(0xa74890), orange = plastic(0xb95717);
+  // Saturated molded flower colors retain their color under the warm desk light.
+  // A restrained emissive fill lifts shaded petals; clearcoat supplies the glossy glow.
+  const blossom = (color:number, glow:number) => new THREE.MeshPhysicalMaterial({
+    color, roughness:.19, metalness:0, clearcoat:.95, clearcoatRoughness:.13,
+    ior:1.48, specularIntensity:1.15, envMapIntensity:1.3,
+    emissive:color, emissiveIntensity:glow,
+  });
+  const peach = blossom(0xefbb86,.055), pink = blossom(0xe56fbd,.09);
+  const magenta = blossom(0xb72b87,.045), orange = blossom(0xe56821,.045);
   const ivory = plastic(0xfff1d9), recess = plastic(0xc29165, .5);
   const clipMat = plastic(0x28312c), gold = new THREE.MeshStandardMaterial({color:0xcba554, metalness:.68, roughness:.28});
   function mesh(parent: THREE.Object3D, geo: THREE.BufferGeometry, mat: THREE.Material, x=0,y=0,z=0) {
