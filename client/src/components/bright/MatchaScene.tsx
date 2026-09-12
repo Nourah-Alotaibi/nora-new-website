@@ -23,6 +23,16 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
   const [ritual, setRitual] = useState<
     "start" | "pouring" | "ice" | "settling" | "welcome"
   >("start");
+  const ritualAction = useRef<(action: "brew" | "ice" | "stir") => void>(() => {});
+  ritualAction.current = action => {
+    if (ritual === "pouring" || ritual === "settling") return;
+    if (action === "brew") void prepare();
+    else if (action === "ice") void ice();
+    else {
+      desk.current?.stir();
+      setStatus("A proper stir. Creamy green, from top to bottom.");
+    }
+  };
   const reduce = useReducedMotion();
   useEffect(() => {
     let cancelled = false;
@@ -39,7 +49,8 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
             host.current,
             !!reduce,
             setBites,
-            setInspecting
+            setInspecting,
+            action => ritualAction.current(action)
           );
           setReady(true);
           setStatus("A desk for slow mornings & curious ideas.");
@@ -105,7 +116,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
     await current.brew();
     if (desk.current !== current) return;
     setRitual("ice");
-    setStatus("Freshly poured. Would you like some ice?");
+    setStatus("Freshly poured. Tap the glass to add ice.");
   }
   async function ice() {
     const current = desk.current;
@@ -114,7 +125,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
     await current.addIce();
     if (desk.current !== current) return;
     setRitual("welcome");
-    setStatus("Welcome—have a matcha. Make yourself at home.");
+    setStatus("Tap the glass again to stir your matcha.");
   }
   return (
     <div className={`matcha-art ${inspecting ? "inspecting-laptop" : ""}`}>

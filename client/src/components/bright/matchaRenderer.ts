@@ -11,7 +11,8 @@ export function mountMatcha(
   host: HTMLDivElement,
   reduced: boolean,
   onBite: (count: number) => void,
-  onInspect: (value: boolean) => void
+  onInspect: (value: boolean) => void,
+  onRitualAction: (action: "brew" | "ice" | "stir") => void
 ) {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
@@ -1084,10 +1085,12 @@ export function mountMatcha(
     );
     ray.setFromCamera(pointer, camera);
   }
+  let dragged = false;
   function down(e: PointerEvent) {
     if (e.button !== 0 || action) return;
     pointerX = e.clientX;
     pointerY = e.clientY;
+    dragged = false;
     if (inspecting || viewMode) {
       rotating = true;
       host.setPointerCapture(e.pointerId);
@@ -1096,6 +1099,12 @@ export function mountMatcha(
     locate(e);
     const laptopHit = ray.intersectObject(laptop.group, true)[0];
     const hit = ray.intersectObjects(Object.values(objects), true)[0];
+    const bowlHit = ray.intersectObject(bowl, true)[0];
+    if (bowlHit && (!hit || bowlHit.distance < hit.distance) &&
+        (!laptopHit || bowlHit.distance < laptopHit.distance)) {
+      onRitualAction("brew");
+      return;
+    }
     if (laptopHit && (!hit || laptopHit.distance < hit.distance)) {
       inspect(true);
       return;
@@ -1116,7 +1125,6 @@ export function mountMatcha(
     host.setPointerCapture(e.pointerId);
     host.style.cursor = "grabbing";
     settle = 1;
-    if (selected === "matcha") stir();
     wake();
   }
   function move(e: PointerEvent) {
@@ -1128,6 +1136,8 @@ export function mountMatcha(
     }
     locate(e);
     if (dragging) {
+      if (Math.hypot(e.clientX - pointerX, e.clientY - pointerY) > 6) dragged = true;
+      if (!dragged) return;
       ray.ray.intersectPlane(dragPlane, hitPoint);
       const g = objects[dragging];
       g.position.x = THREE.MathUtils.clamp(
@@ -1148,7 +1158,8 @@ export function mountMatcha(
     if (e.pointerType === "mouse") {
       settle = 1;
       const hit = ray.intersectObjects(Object.values(objects), true)[0];
-      host.style.cursor = hit ? "grab" : "default";
+      const bowlHit = ray.intersectObject(bowl, true)[0];
+      host.style.cursor = bowlHit && (!hit || bowlHit.distance < hit.distance) ? "pointer" : hit ? "grab" : "default";
       const liquidHit = ray.intersectObject(liquid)[0];
       if (liquidHit) {
         const local = liquid.worldToLocal(liquidHit.point.clone());
@@ -1158,7 +1169,10 @@ export function mountMatcha(
       wake();
     }
   }
-  function up() {
+  function up(e: PointerEvent) {
+    if (e.type !== "pointercancel" && dragging === "matcha" && !dragged && !action) {
+      onRitualAction(ice.some(m => m.visible) ? "stir" : "ice");
+    }
     rotating = false;
     dragging = null;
     settle = 1;
