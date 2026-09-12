@@ -3164,3 +3164,5 @@ body:has(.laptop-inspection) .leave-note-widget { display:none; }
 
 .laptop-github-link { display:inline-block; color:#334b40; text-underline-offset:4px; font-size:14px; margin:2px 0 8px; }
 .laptop-github-link:focus-visible { outline:2px solid #526d53; outline-offset:5px; }
+
+.laptop-project-info .laptop-noor-tagline { color:#aa4f7c; font-size:13px; line-height:1.5; margin:8px 0 12px; }

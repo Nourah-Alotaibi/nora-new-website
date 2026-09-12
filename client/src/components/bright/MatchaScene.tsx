@@ -186,6 +186,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
             <span>PROJECT {projectIndex + 1} / {laptopProjects.length}</span>
             <h2>{activeProject.title}</h2>
             <p>{activeProject.description}</p>
+            {activeProject.title === "Noor" && <p className="laptop-noor-tagline">Like Siri, but for my computer.</p>}
             {activeProject.github && <a className="laptop-github-link" href={activeProject.github} target="_blank" rel="noopener noreferrer">Check full project on GitHub ↗</a>}
             {!activeProject.image && <p className="laptop-placeholder-note">Screenshot not supplied yet.</p>}
             {activeProject.image && <p><a className="laptop-github-link" href={activeProject.image} target="_blank" rel="noopener noreferrer">View full-size screenshot ↗</a></p>}
