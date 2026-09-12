@@ -54,7 +54,8 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
             setBites,
             setInspecting,
             action => ritualAction.current(action),
-            setProjectIndex
+            setProjectIndex,
+            () => setStatus("LEGO fan 🌸")
           );
           setReady(true);
           setStatus("A desk for slow mornings & curious ideas.");

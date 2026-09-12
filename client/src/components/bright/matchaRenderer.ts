@@ -15,7 +15,8 @@ export function mountMatcha(
   onBite: (count: number) => void,
   onInspect: (value: boolean) => void,
   onRitualAction: (action: "brew" | "ice" | "stir") => void,
-  onProject: (index: number) => void
+  onProject: (index: number) => void,
+  onPlantClick: () => void
 ) {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
@@ -680,84 +681,47 @@ export function mountMatcha(
     0.68,
     0
   );
-  const stemMat = material(0x4b5d32);
-  for (let i = 0; i < 7; i++) {
-    const angle = i * 2.39996;
-    const x = Math.cos(angle) * 0.36,
-      z = Math.sin(angle) * 0.36;
-    const stem = add(
-      plant,
-      new THREE.CylinderGeometry(0.012, 0.018, 0.72, 6),
-      stemMat,
-      x * 0.45,
-      0.97,
-      z * 0.45
-    );
-    stem.rotation.set(z * 0.65, 0, -x * 0.65);
-    const shape = new THREE.Shape();
-    shape.moveTo(0, 0);
-    shape.bezierCurveTo(-0.3, 0.15, -0.22, 0.62, 0, 0.83);
-    shape.bezierCurveTo(0.22, 0.62, 0.3, 0.15, 0, 0);
-    const geo = new THREE.ShapeGeometry(shape, 12);
-    const pos = geo.attributes.position;
-    for (let j = 0; j < pos.count; j++)
-      pos.setZ(j, Math.sin(pos.getY(j) * 3.7) * 0.15);
-    geo.computeVertexNormals();
-    const leaf = add(
-      plant,
-      geo,
-      new THREE.MeshStandardMaterial({
-        color: i % 2 ? 0x4e6a37 : 0x6d824a,
-        side: THREE.DoubleSide,
-        roughness: 0.75,
-      }),
-      x,
-      0.97,
-      z
-    );
-    leaf.rotation.set(-0.8, angle, 0.25);
+  // Molded botanical pieces: thick pink petals, visible connectors and angular leaves.
+  const stemMat = material(0x176447, .28);
+  const leafMat = new THREE.MeshPhysicalMaterial({color:0x237655, roughness:.28, clearcoat:.55, flatShading:true});
+  const pinks = [0xf2a5cf,0xe88dbc,0xd96ca7].map(color => new THREE.MeshPhysicalMaterial({color,roughness:.25,clearcoat:.65,clearcoatRoughness:.22}));
+  for(let i=0;i<6;i++){
+    const angle=i*2.39996;
+    const shape=new THREE.Shape();
+    shape.moveTo(0,0);shape.lineTo(-.14,.22);shape.lineTo(0,.51);shape.lineTo(.14,.22);shape.closePath();
+    const geo=new THREE.ExtrudeGeometry(shape,{depth:.026,bevelEnabled:true,bevelSize:.008,bevelThickness:.008,bevelSegments:1,steps:1});
+    const leaf=add(plant,geo,leafMat,Math.cos(angle)*.19,.86+(i%3)*.10,Math.sin(angle)*.19);
+    leaf.rotation.set(-.85,angle,.15);
   }
-  const petalMaterial = new THREE.MeshPhysicalMaterial({
-    color:0xffffff, vertexColors:true, roughness:0.72, side:THREE.DoubleSide,
-    sheen:0.45, sheenColor:new THREE.Color(0xf9e6eb), sheenRoughness:0.85,
-  });
-  function rosePetal(layer:number, seed:number) {
-    const geo=new THREE.PlaneGeometry(1,1,18,22);
-    const positions=geo.attributes.position;
-    const colors=new Float32Array(positions.count*3);
-    const inner=new THREE.Color(0xd48fa8),outer=new THREE.Color(0xf6d9e2);
-    for(let i=0;i<positions.count;i++){
-      const u=positions.getX(i)*2,v=positions.getY(i)+.5;
-      const width=(.028+.11*Math.sin(Math.PI*v*.84))*(1-layer*.13);
-      const x=u*width;
-      const y=v*(.23-layer*.026);
-      // A cupped petal opens and softly rolls back at its upper rim.
-      const z=.045+v*.07+u*u*.065-Math.pow(v,5)*(.065-layer*.012)
-        +Math.sin(u*6+seed)*Math.pow(v,7)*.007;
-      positions.setXYZ(i,x,y,z);
-      inner.clone().lerp(outer,Math.min(1,v*.84+Math.abs(u)*.18)).toArray(colors,i*3);
+  function brickPetal(layer:number){
+    const shape=new THREE.Shape();
+    const w=.14-layer*.029,h=.25-layer*.043;
+    shape.moveTo(-w*.65,0);shape.lineTo(-w,h*.66);
+    shape.quadraticCurveTo(-w,h,w*.1,h);
+    shape.quadraticCurveTo(w,h,w,h*.67);shape.lineTo(w*.65,0);shape.closePath();
+    const geo=new THREE.ExtrudeGeometry(shape,{depth:.022,bevelEnabled:true,bevelSize:.009,bevelThickness:.007,bevelSegments:2,curveSegments:7,steps:4});
+    const pos=geo.attributes.position;
+    for(let i=0;i<pos.count;i++){
+      const x=pos.getX(i),y=pos.getY(i);
+      pos.setZ(i,pos.getZ(i)+.04+Math.pow(x/w,2)*.065+Math.sin(y/h*Math.PI)*.033);
     }
-    geo.setAttribute('color',new THREE.BufferAttribute(colors,3));geo.computeVertexNormals();return geo;
+    geo.computeVertexNormals();return geo;
   }
-  [[0.30,1.48,0.29],[-0.26,1.65,0.16],[0.08,1.84,-0.17]].forEach(([x,y,z],flower)=>{
-    const stem=add(plant,new THREE.CylinderGeometry(.012,.017,y-.7,8),stemMat,x,(y+.7)/2,z);stem.castShadow=false;
-    const rose=new THREE.Group();rose.position.set(x,y-.07,z);rose.rotation.set(.30,flower*1.7,-.17+flower*.16);plant.add(rose);
-    // Staggered overlapping whorls create a spiral heart and broad outer petals.
-    for(let layer=0;layer<5;layer++){
-      const count=8-layer;
+  [[.28,1.44,.26],[-.25,1.65,.13],[.07,1.87,-.17]].forEach(([x,y,z],flower)=>{
+    add(plant,new THREE.CylinderGeometry(.025,.025,y-.7,10),stemMat,x,(y+.7)/2,z);
+    for(let j=0;j<3;j++) add(plant,new THREE.CylinderGeometry(.037,.037,.035,10),stemMat,x,.84+j*.23,z);
+    const rose=new THREE.Group();rose.position.set(x,y-.07,z);rose.rotation.set(.32,flower*1.7,-.17+flower*.16);plant.add(rose);
+    add(rose,new THREE.CylinderGeometry(.13,.065,.055,10),stemMat,0,0,0);
+    for(let layer=0;layer<3;layer++){
+      const count=layer===0?5:4;
       for(let j=0;j<count;j++){
-        const angle=j/count*Math.PI*2+layer*2.39996;
-        const petal=add(rose,rosePetal(layer,flower+j),petalMaterial,0,layer*.025,0);
+        const angle=j/count*Math.PI*2+layer*.85;
+        const petal=add(rose,brickPetal(layer),pinks[(flower+layer)%3],Math.sin(angle)*(.065-layer*.021),layer*.035,Math.cos(angle)*(.065-layer*.021));
         petal.rotation.y=angle;
-        petal.rotation.x=layer===0?-.18:layer*.075;
-        const radius=.07-layer*.014;
-        petal.position.x=Math.sin(angle)*radius;petal.position.z=Math.cos(angle)*radius;
       }
     }
-    for(let i=0;i<5;i++){
-      const sepal=add(rose,new THREE.ConeGeometry(.025,.11,6),stemMat,Math.sin(i*1.257)*.045,-.015,Math.cos(i*1.257)*.045);
-      sepal.rotation.z=Math.sin(i*1.257)*.5;sepal.rotation.x=Math.cos(i*1.257)*.5;
-    }
+    const heart=add(rose,new THREE.TorusGeometry(.042,.013,8,20),pinks[2],0,.17,0);heart.rotation.x=-Math.PI/2;
+    add(rose,new THREE.CylinderGeometry(.023,.023,.033,12),pinks[0],0,.168,0);
   });
   const floor = add(
     scene,
@@ -1368,6 +1332,7 @@ export function mountMatcha(
       else if (pendingTap === "laptop") inspect(true);
       else if (dragging === "matcha") onRitualAction(ice.some(m => m.visible) ? "stir" : "ice");
       else if (dragging === "cookie") bite();
+      else if (dragging === "plant") onPlantClick();
     }
     pendingTap = null; rotating = false; dragging = null;
     if (!pointers.size) multiGesture = false;

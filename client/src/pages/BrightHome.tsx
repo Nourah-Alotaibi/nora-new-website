@@ -183,7 +183,7 @@ export default function BrightHome() {
             </div>
             <div className="section-intro">
               <h2 id="work-title">
-                A few things <em>I’ve built.</em>
+                Current and <em>last projects.</em>
               </h2>
               <p>
                 There’s more on GitHub.
