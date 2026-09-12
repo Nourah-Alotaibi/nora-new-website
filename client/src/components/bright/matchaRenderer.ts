@@ -31,6 +31,8 @@ export function mountMatcha(
   renderer.toneMappingExposure = 1.12;
   renderer.domElement.setAttribute("aria-hidden", "true");
   host.appendChild(renderer.domElement);
+  // Gestures belong to the board; the surrounding page remains scrollable.
+  host.style.touchAction = "none";
   const scene = new THREE.Scene();
   const sounds = createDeskSounds();
   const environment = new RoomEnvironment();
@@ -169,13 +171,17 @@ export function mountMatcha(
   }
   const cup = object("matcha", -0.9, 0.6);
   cup.rotation.y = -0.15;
+  const saucer = new THREE.Group();
+  saucer.position.copy(cup.position);
+  saucer.rotation.y = cup.rotation.y;
+  scene.add(saucer);
   const ceramic = new THREE.MeshStandardMaterial({
     color: 0xe8deca,
     roughness: 0.42,
     metalness: 0.03,
   });
   add(
-    cup,
+    saucer,
     new THREE.CylinderGeometry(1.2, 1.14, 0.095, 80),
     ceramic,
     0,
@@ -183,7 +189,7 @@ export function mountMatcha(
     0
   );
   const saucerRim = add(
-    cup,
+    saucer,
     new THREE.TorusGeometry(1.15, 0.03, 12, 80),
     ceramic,
     0,
@@ -690,6 +696,31 @@ export function mountMatcha(
     );
     leaf.rotation.set(-0.8, angle, 0.25);
   }
+  const rosePetals = [0xf1c4d0, 0xe8afc0, 0xf8d8df].map(color =>
+    new THREE.MeshStandardMaterial({ color, roughness: 0.86, side: THREE.DoubleSide })
+  );
+  // Three compact, layered roses nestled among the existing leaves.
+  [[0.26, 1.48, 0.26], [-0.23, 1.66, 0.14], [0.10, 1.83, -0.17]].forEach(([x, y, z], flower) => {
+    const stem = add(plant, new THREE.CylinderGeometry(0.012, 0.018, y - 0.7, 6),
+      stemMat, x, (y + 0.7) / 2, z);
+    stem.castShadow = false;
+    const rose = new THREE.Group();
+    rose.position.set(x, y, z);
+    rose.rotation.set(0.18 + flower * 0.08, flower * 1.7, -0.2 + flower * 0.16);
+    plant.add(rose);
+    for (let layer = 0; layer < 3; layer++) {
+      const count = 7 - layer * 2;
+      const radius = 0.09 - layer * 0.032;
+      for (let petal = 0; petal < count; petal++) {
+        const angle = petal / count * Math.PI * 2 + layer * 0.65;
+        const mesh = add(rose, new THREE.SphereGeometry(1, 12, 8, 0, Math.PI * 1.7, 0.3, Math.PI * 0.72),
+          rosePetals[(layer + flower) % 3], Math.cos(angle) * radius,
+          layer * 0.035, Math.sin(angle) * radius);
+        mesh.scale.set(0.11 - layer * 0.022, 0.12 - layer * 0.018, 0.045);
+        mesh.rotation.set(-0.28 + layer * 0.25, Math.PI / 2 - angle, petal % 2 * 0.12);
+      }
+    }
+  });
   const floor = add(
     scene,
     new THREE.PlaneGeometry(30, 30),
@@ -838,6 +869,57 @@ export function mountMatcha(
   laptop.group.position.set(1.65, 0.24, -1.45);
   laptop.group.rotation.y = Math.PI + 0.08;
   scene.add(laptop.group);
+  const spillMaterial = new THREE.MeshStandardMaterial({
+    color: 0x719043, roughness: 0.25, transparent: true, opacity: 0.88,
+    depthWrite: false, side: THREE.DoubleSide,
+  });
+  const spillGroup = new THREE.Group();
+  scene.add(spillGroup);
+  const spills = Array.from({ length: 48 }, (_, i) => {
+    const puddle = new THREE.Mesh(new THREE.CircleGeometry(1, 18), spillMaterial);
+    const drop = new THREE.Mesh(new THREE.SphereGeometry(0.038, 8, 6), spillMaterial);
+    puddle.visible = drop.visible = false;
+    puddle.renderOrder = 3;
+    spillGroup.add(puddle, drop);
+    return { puddle, drop, from: new THREE.Vector3(), to: new THREE.Vector3(),
+      time: 0, active: false, size: 0.12 + random(i + 14000) * 0.14 };
+  });
+  const spillRay = new THREE.Raycaster();
+  let spillIndex = 0, spillTravel = 0, tiltX = 0, tiltZ = 0;
+  const surfaceObjects = [desk, mat, saucer, laptop.group];
+  function spillMatcha() {
+    if (action || inspecting) return;
+    discoverDesk();
+    scene.updateMatrixWorld(true);
+    const from = cup.localToWorld(new THREE.Vector3(0.48, 1.94, 0.08));
+    const landing = from.clone().add(new THREE.Vector3(0.15, 0, 0.12));
+    spillRay.set(new THREE.Vector3(landing.x, 8, landing.z), new THREE.Vector3(0, -1, 0));
+    const hit = spillRay.intersectObjects(surfaceObjects, true)[0];
+    if (!hit) return;
+    const item = spills[spillIndex++ % spills.length];
+    const normal = hit.face!.normal.clone().transformDirection(hit.object.matrixWorld);
+    item.to.copy(hit.point).addScaledVector(normal, 0.012);
+    item.from.copy(from);
+    item.puddle.position.copy(item.to);
+    item.puddle.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), normal);
+    item.puddle.rotateZ(random(spillIndex + 18000) * Math.PI);
+    item.puddle.scale.set(item.size, item.size * 0.68, 1);
+    item.puddle.visible = reduced;
+    item.drop.position.copy(from);
+    item.drop.visible = !reduced;
+    item.time = 0;
+    item.active = !reduced;
+    spillMaterial.color.set(tea.visible ? 0x719043 : 0xd6c9a5);
+    tiltZ = -0.5;
+    energy = 1;
+    settle = 1;
+    wake();
+  }
+  function clearSpills() {
+    spills.forEach(p => { p.active = false; p.drop.visible = p.puddle.visible = false; });
+    cup.rotation.x = cup.rotation.z = tiltX = tiltZ = 0;
+    wake();
+  }
   let hintsKnown = false;
   try {
     hintsKnown = localStorage.getItem("nourah-desk-discovered") === "yes";
@@ -899,7 +981,7 @@ export function mountMatcha(
     inspecting = value;
     rotating = false;
     dragging = null;
-    host.style.touchAction = value ? "none" : viewMode ? "none" : "pan-y";
+    host.style.touchAction = "none";
     onInspect(value);
     updateCamera();
     wake();
@@ -948,7 +1030,7 @@ export function mountMatcha(
   }
   function setViewMode(value: boolean) {
     viewMode = value;
-    host.style.touchAction = value ? "none" : "pan-y";
+    host.style.touchAction = "none";
   }
   function wheel(e: WheelEvent) {
     if (!viewMode && !inspecting) return;
@@ -970,6 +1052,21 @@ export function mountMatcha(
         camera.position.distanceTo(targetPosition) > 0.001 ||
         cameraFocus.distanceTo(targetFocus) > 0.001;
     }
+    let spillMoving = false;
+    for (const p of spills) {
+      if (!p.active) continue;
+      p.time += dt;
+      const t = Math.min(1, p.time / 0.42);
+      p.drop.position.lerpVectors(p.from, p.to, t * t);
+      p.drop.scale.set(0.75, 1.5 - t * 0.7, 0.75);
+      if (t === 1) {
+        p.active = false; p.drop.visible = false; p.puddle.visible = true;
+      } else spillMoving = true;
+    }
+    const tilting = Math.abs(cup.rotation.x) + Math.abs(cup.rotation.z) > 0.002;
+    if (!dragging) { tiltX *= Math.exp(-dt * 7); tiltZ *= Math.exp(-dt * 7); }
+    cup.rotation.x = reduced ? 0 : THREE.MathUtils.lerp(cup.rotation.x, tiltX, Math.min(1, dt * 12));
+    cup.rotation.z = reduced ? 0 : THREE.MathUtils.lerp(cup.rotation.z, tiltZ, Math.min(1, dt * 12));
     energy *= Math.exp(-dt * 1.25);
     settle *= Math.exp(-dt * 4);
     if (action === "brew") {
@@ -1053,7 +1150,7 @@ export function mountMatcha(
         if (now - actionStart > 1150) finishAction();
       }
       for (const [key, g] of Object.entries(objects)) {
-        const target = dragging === key ? 0.48 : 0.24;
+        const target = dragging === key ? (key === "matcha" ? 2.2 : 0.48) : 0.24;
         g.position.y += (target - g.position.y) * Math.min(1, dt * 12);
       }
     }
@@ -1073,7 +1170,7 @@ export function mountMatcha(
         action ||
         mixing ||
         cameraMoving ||
-        lidMoving)
+        lidMoving || spillMoving || tilting)
     )
       frame = requestAnimationFrame(draw);
   }
@@ -1100,52 +1197,71 @@ export function mountMatcha(
     ray.setFromCamera(pointer, camera);
   }
   let dragged = false;
+  let pendingTap: "bowl" | "laptop" | null = null;
+  const pointers = new Map<number, { x: number; y: number }>();
+  let multiGesture = false;
+  function gesturePair() {
+    const [a, b] = Array.from(pointers.values());
+    return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2,
+      distance: Math.hypot(a.x - b.x, a.y - b.y), angle: Math.atan2(b.y - a.y, b.x - a.x) };
+  }
   function down(e: PointerEvent) {
     if (e.button !== 0 || action) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    host.setPointerCapture(e.pointerId);
+    if (pointers.size > 1) {
+      multiGesture = true; dragged = true; dragging = null; rotating = false; pendingTap = null;
+      return;
+    }
     pointerX = e.clientX;
     pointerY = e.clientY;
     dragged = false;
-    if (inspecting || viewMode) {
-      rotating = true;
-      host.setPointerCapture(e.pointerId);
-      return;
-    }
+    pendingTap = null;
+    if (inspecting || viewMode) { rotating = true; return; }
     locate(e);
     const laptopHit = ray.intersectObject(laptop.group, true)[0];
     const hit = ray.intersectObjects(Object.values(objects), true)[0];
     const bowlHit = ray.intersectObject(bowl, true)[0];
     if (bowlHit && (!hit || bowlHit.distance < hit.distance) &&
         (!laptopHit || bowlHit.distance < laptopHit.distance)) {
-      onRitualAction("brew");
-      return;
+      pendingTap = "bowl"; return;
     }
     if (laptopHit && (!hit || laptopHit.distance < hit.distance)) {
-      inspect(true);
-      return;
+      pendingTap = "laptop"; return;
     }
-    if (!hit) return;
+    // Dragging an empty part of the board turns the whole scene.
+    if (!hit) { rotating = true; return; }
     let g: THREE.Object3D | null = hit.object;
     while (g && !g.userData.deskObject) g = g.parent;
     if (!g) return;
     selected = g.userData.deskObject;
     discoverDesk();
-    if (selected === "cookie") {
-      bite();
-      return;
-    }
     dragging = selected;
+    spillTravel = 0;
     ray.ray.intersectPlane(dragPlane, hitPoint);
     dragOffset.copy(g.position).sub(hitPoint);
-    host.setPointerCapture(e.pointerId);
     host.style.cursor = "grabbing";
     settle = 1;
     wake();
   }
   function move(e: PointerEvent) {
+    if (pointers.has(e.pointerId) && pointers.size > 1) {
+      const before = gesturePair();
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      const after = gesturePair();
+      const twist = Math.atan2(Math.sin(after.angle - before.angle), Math.cos(after.angle - before.angle));
+      rotate((before.x - after.x) * 0.008 + twist, (after.y - before.y) * 0.006);
+      if (before.distance > 10) zoom((after.distance / before.distance - 1) * zoomLevel);
+      return;
+    }
+    if (multiGesture) return;
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pendingTap && Math.hypot(e.clientX - pointerX, e.clientY - pointerY) > 6) {
+      pendingTap = null; rotating = true; dragged = true;
+    }
     if (rotating) {
       rotate((pointerX - e.clientX) * 0.008, (e.clientY - pointerY) * 0.006);
-      pointerX = e.clientX;
-      pointerY = e.clientY;
+      pointerX = e.clientX; pointerY = e.clientY;
       return;
     }
     locate(e);
@@ -1154,26 +1270,25 @@ export function mountMatcha(
       if (!dragged) return;
       ray.ray.intersectPlane(dragPlane, hitPoint);
       const g = objects[dragging];
-      g.position.x = THREE.MathUtils.clamp(
-        hitPoint.x + dragOffset.x,
-        -2.65,
-        2.65
-      );
-      g.position.z = THREE.MathUtils.clamp(
-        hitPoint.z + dragOffset.z,
-        -1.85,
-        1.85
-      );
+      const x = THREE.MathUtils.clamp(hitPoint.x + dragOffset.x, -2.65, 2.65);
+      const z = THREE.MathUtils.clamp(hitPoint.z + dragOffset.z, -1.85, 1.85);
+      const dx = x - g.position.x, dz = z - g.position.z;
+      g.position.x = x; g.position.z = z;
       settle = 1;
-      if (dragging === "matcha") energy = 0.8;
-      wake();
-      return;
+      if (dragging === "matcha") {
+        energy = 0.8;
+        tiltX = THREE.MathUtils.clamp(dz * 3, -0.45, 0.45);
+        tiltZ = THREE.MathUtils.clamp(-dx * 3, -0.55, 0.55);
+        spillTravel += Math.hypot(dx, dz);
+        if (spillTravel > 0.28) { spillMatcha(); spillTravel = 0; }
+      }
+      wake(); return;
     }
     if (e.pointerType === "mouse") {
       settle = 1;
       const hit = ray.intersectObjects(Object.values(objects), true)[0];
       const bowlHit = ray.intersectObject(bowl, true)[0];
-      host.style.cursor = bowlHit && (!hit || bowlHit.distance < hit.distance) ? "pointer" : hit ? "grab" : "default";
+      host.style.cursor = bowlHit && (!hit || bowlHit.distance < hit.distance) ? "pointer" : "grab";
       const liquidHit = ray.intersectObject(liquid)[0];
       if (liquidHit) {
         const local = liquid.worldToLocal(liquidHit.point.clone());
@@ -1184,11 +1299,17 @@ export function mountMatcha(
     }
   }
   function up(e: PointerEvent) {
-    if (e.type !== "pointercancel" && dragging === "matcha" && !dragged && !action) {
-      onRitualAction(ice.some(m => m.visible) ? "stir" : "ice");
+    if (!pointers.has(e.pointerId)) return;
+    pointers.delete(e.pointerId);
+    const cancelled = e.type === "pointercancel" || e.type === "lostpointercapture";
+    if (!cancelled && !multiGesture && !dragged && !action) {
+      if (pendingTap === "bowl") onRitualAction("brew");
+      else if (pendingTap === "laptop") inspect(true);
+      else if (dragging === "matcha") onRitualAction(ice.some(m => m.visible) ? "stir" : "ice");
+      else if (dragging === "cookie") bite();
     }
-    rotating = false;
-    dragging = null;
+    pendingTap = null; rotating = false; dragging = null;
+    if (!pointers.size) multiGesture = false;
     settle = 1;
     host.style.cursor = "grab";
     wake();
@@ -1232,6 +1353,7 @@ export function mountMatcha(
   host.addEventListener("pointermove", move);
   host.addEventListener("pointerup", up);
   host.addEventListener("pointercancel", up);
+  host.addEventListener("lostpointercapture", up);
   resize();
   return {
     inspect,
@@ -1262,6 +1384,8 @@ export function mountMatcha(
     },
     bite,
     freshCookie,
+    spillMatcha,
+    clearSpills,
     zoom,
     rotate,
     resetView,
@@ -1279,6 +1403,8 @@ export function mountMatcha(
     },
     reset() {
       if (action) return;
+      clearSpills();
+      resetView();
       for (const [key, g] of Object.entries(objects))
         g.position.copy(homes[key as DeskObject]);
       energy = 0.3;
@@ -1298,6 +1424,7 @@ export function mountMatcha(
       host.removeEventListener("pointermove", move);
       host.removeEventListener("pointerup", up);
       host.removeEventListener("pointercancel", up);
+      host.removeEventListener("lostpointercapture", up);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
       renderer.domElement.removeEventListener("webglcontextrestored", wake);
       scene.traverse(o => {

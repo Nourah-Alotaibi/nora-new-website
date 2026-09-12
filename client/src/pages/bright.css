@@ -3135,3 +3135,5 @@ body:has(.matcha-fact-dialog[open]) { overflow:hidden; }
   .bright-site .tv-compact-controls { top:50%;left:-37px;right:-37px; }
   .bright-site .tv-compact-controls button { width:32px;height:36px;min-height:36px;font-size:22px; }
 }
+
+.bright-site .desk-play-hint { display:block; max-width:440px; margin:12px auto 8px; line-height:1.6; }

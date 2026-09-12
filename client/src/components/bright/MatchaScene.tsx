@@ -137,7 +137,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
         role="img"
         aria-label="Interactive wooden board with iced matcha, a biteable chocolate chip cookie, a whisking bowl, a plant, and one interactive sticker-covered Huawei laptop"
       >
-        {ready && !movementSeen && !inspecting && <span className="desk-movement-hint" aria-hidden="true">↔ Drag an object to move it</span>}
+        {ready && !movementSeen && !inspecting && <span className="desk-movement-hint" aria-hidden="true">Drag your drink to spill · Drag the board to turn</span>}
         {!ready && (
           <div className="matcha-fallback" aria-hidden="true">
             <div className="fallback-liquid" />
@@ -291,9 +291,12 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
               }
             }}
           >
-            Move stuff
+            Play with the desk
           </button>
           <div id="move-stuff-controls" hidden={!moveStuff}>
+            <small className="desk-play-hint">Drag the glass to spill. Drag the board to turn, or use two fingers to turn and pinch. Scroll outside the board.</small>
+            <button type="button" onClick={() => desk.current?.spillMatcha()}>Spill a little 🍵</button>
+            <button type="button" onClick={() => desk.current?.clearSpills()}>Wipe spills</button>
             <div
               className="board-view"
               role="group"
@@ -365,7 +368,7 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
           </div>
           {moveStuff && viewMode && (
             <small>
-              Drag the board to turn it. Scroll here to zoom, or use + / −.
+              Drag to turn. On touch screens, use two fingers to turn or pinch to zoom.
             </small>
           )}
         </div>
