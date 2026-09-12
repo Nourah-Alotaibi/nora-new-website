@@ -124,7 +124,7 @@ export default function BrightHome() {
                 </h1>
                 <div className="hero-role-caption">
                   NOURAH ALOTAIBI · COMPUTER ENGINEER &amp; AI DEVELOPER
-                  <span className="hero-study-caption"><span aria-hidden="true">⏳</span> Currently studying for a master’s in AI and Data Science.</span>
+                  <span className="hero-study-caption"><span aria-hidden="true">⏳</span> I’m currently pursuing a master’s degree in AI and data science.</span>
                 </div>
                 <p>
                   I enjoy building AI systems, working with data, getting creative with websites, and solving CTFs (cybersecurity challenges). Coding is my hobby, so most ideas eventually end up becoming projects.
