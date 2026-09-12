@@ -149,9 +149,16 @@ export default function StoryJourney() {
             <article
               key={active}
               tabIndex={0}
+              style={{ cursor: active < chapters.length - 1 ? "pointer" : "auto" }}
+              onClick={e => {
+                if (e.currentTarget.dataset.swiped === "yes") { e.currentTarget.dataset.swiped = ""; return; }
+                if ((e.target as HTMLElement).closest("button,summary,a,details")) return;
+                if (window.getSelection()?.toString()) return;
+                setActive(current => Math.min(chapters.length - 1, current + 1));
+              }}
               onKeyDown={e => {
                 if (e.target !== e.currentTarget) return;
-                if (e.key === "ArrowRight") {
+                if (e.key === "ArrowRight" || e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   setActive(Math.min(9, active + 1));
                 }
@@ -161,6 +168,7 @@ export default function StoryJourney() {
                 }
               }}
               onPointerDown={e => {
+                e.currentTarget.dataset.swiped = "";
                 if (
                   e.pointerType !== "mouse" &&
                   !(e.target as HTMLElement).closest("button,summary,a")
@@ -173,6 +181,7 @@ export default function StoryJourney() {
                 if (!start) return;
                 const dx = e.clientX - start.x,
                   dy = e.clientY - start.y;
+                if (Math.abs(dx) > 10 || Math.abs(dy) > 10) e.currentTarget.dataset.swiped = "yes";
                 if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.4)
                   setActive(
                     Math.max(0, Math.min(9, active + (dx < 0 ? 1 : -1)))

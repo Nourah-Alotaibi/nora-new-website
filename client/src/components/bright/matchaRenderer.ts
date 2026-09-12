@@ -14,7 +14,7 @@ export function mountMatcha(
   reduced: boolean,
   onBite: (count: number) => void,
   onInspect: (value: boolean) => void,
-  onRitualAction: (action: "brew" | "ice" | "stir") => void,
+  onRitualAction: (action: "milk" | "brew" | "ice" | "stir") => void,
   onProject: (index: number) => void,
   onPlantClick: () => void,
   onProjectInfo: (visible: boolean) => void
@@ -347,6 +347,29 @@ export function mountMatcha(
     teaMarbling.visible = amount > 0.15;
   }
   fillTea(0);
+  // Scale the drink around the bottom of the glass as its finite volume drains.
+  const drink = new THREE.Group();
+  cup.add(drink);
+  [milk, tea, teaMarbling, liquid, ...ice].forEach(mesh => drink.add(mesh));
+  let drinkRemaining = 1, queuedPour = 0;
+  function updateDrinkLevel() {
+    drink.visible = drinkRemaining > 0.001;
+    drink.scale.y = Math.max(0.001, drinkRemaining);
+    drink.position.y = 0.255 * (1 - drinkRemaining);
+  }
+  function refillMilk() {
+    if (action) return;
+    drinkRemaining = 1; queuedPour = 0;
+    mixed = 0; mixing = false;
+    (milk.material as THREE.MeshStandardMaterial).color.set(0xe4d8b5);
+    (tea.material as THREE.MeshStandardMaterial).color.set(0x79933f);
+    fillTea(0);
+    ice.forEach(mesh => { mesh.visible = false; });
+    updateDrinkLevel();
+    sounds.pour();
+    onRitualAction("milk");
+    wake();
+  }
   const straw = add(
     cup,
     new THREE.CylinderGeometry(0.026, 0.026, 1.9, 12),
@@ -669,7 +692,7 @@ export function mountMatcha(
   add(
     plant,
     new THREE.CylinderGeometry(0.45, 0.33, 0.66, 48),
-    material(0xc79973, 0.88),
+    new THREE.MeshPhysicalMaterial({ color: 0xc79973, roughness: 0.63, metalness: 0, clearcoat: 0.16, clearcoatRoughness: 0.55, envMapIntensity: 0.8 }),
     0,
     0.34,
     0
@@ -685,7 +708,7 @@ export function mountMatcha(
   // Molded botanical pieces: thick pink petals, visible connectors and angular leaves.
   const stemMat = material(0x176447, .28);
   const leafMat = new THREE.MeshPhysicalMaterial({color:0x237655, roughness:.28, clearcoat:.55, flatShading:true});
-  const pinks = [0xf2a5cf,0xe88dbc,0xd96ca7].map(color => new THREE.MeshPhysicalMaterial({color,roughness:.25,clearcoat:.65,clearcoatRoughness:.22}));
+  const pinks = [0xf3a9cf,0xea8abe,0xc54b90].map(color => new THREE.MeshPhysicalMaterial({color,roughness:.25,clearcoat:.65,clearcoatRoughness:.22}));
   for(let i=0;i<6;i++){
     const angle=i*2.39996;
     const shape=new THREE.Shape();
@@ -694,35 +717,58 @@ export function mountMatcha(
     const leaf=add(plant,geo,leafMat,Math.cos(angle)*.19,.86+(i%3)*.10,Math.sin(angle)*.19);
     leaf.rotation.set(-.85,angle,.15);
   }
-  function brickPetal(layer:number){
-    const shape=new THREE.Shape();
-    const w=.14-layer*.029,h=.25-layer*.043;
-    shape.moveTo(-w*.65,0);shape.lineTo(-w,h*.66);
-    shape.quadraticCurveTo(-w,h,w*.1,h);
-    shape.quadraticCurveTo(w,h,w,h*.67);shape.lineTo(w*.65,0);shape.closePath();
-    const geo=new THREE.ExtrudeGeometry(shape,{depth:.022,bevelEnabled:true,bevelSize:.009,bevelThickness:.007,bevelSegments:2,curveSegments:7,steps:4});
-    const pos=geo.attributes.position;
-    for(let i=0;i<pos.count;i++){
-      const x=pos.getX(i),y=pos.getY(i);
-      pos.setZ(i,pos.getZ(i)+.04+Math.pow(x/w,2)*.065+Math.sin(y/h*Math.PI)*.033);
+  // Closed molded shells with rounded tops, overlap gaps and a swept inner curl.
+  function roseShell(radius:number, height:number, sweep:number, curl:number, bud=false) {
+    const vertices:number[]=[], indices:number[]=[];
+    const across=24, up=12, thickness=.012;
+    for(let side=0;side<2;side++) for(let j=0;j<=up;j++) for(let i=0;i<=across;i++) {
+      const u=i/across,v=j/up, edge=Math.sin(Math.PI*u);
+      const angle=(u-.5)*sweep+curl*v*v;
+      const r=radius*(bud ? .55+.46*Math.sin(v*Math.PI*.91) : .63+.46*Math.sin(v*Math.PI*.67))+(side===0?thickness/2:-thickness/2);
+      const y=height*v*(.79+.21*Math.pow(edge,.45));
+      vertices.push(Math.sin(angle)*r,y,Math.cos(angle)*r);
     }
-    geo.computeVertexNormals();return geo;
+    const stride=across+1, face=stride*(up+1);
+    for(let side=0;side<2;side++) for(let j=0;j<up;j++) for(let i=0;i<across;i++) {
+      const a=side*face+j*stride+i,b=a+1,c=a+stride,d=c+1;
+      if(side===0) indices.push(a,b,c,b,d,c); else indices.push(a,c,b,b,c,d);
+    }
+    const seam=(a:number,b:number)=>indices.push(a,a+face,b,b,a+face,b+face);
+    for(let i=0;i<across;i++){seam(i+1,i);seam(up*stride+i,up*stride+i+1);}
+    for(let j=0;j<up;j++){seam(j*stride,(j+1)*stride);seam((j+1)*stride+across,j*stride+across);}
+    const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geo.setIndex(indices);geo.computeVertexNormals();return geo;
   }
+  const creamPetal=new THREE.MeshPhysicalMaterial({color:0xffeed6,roughness:.28,clearcoat:.48});
+  const peachPetal=new THREE.MeshPhysicalMaterial({color:0xeeb99c,roughness:.27,clearcoat:.5});
   [[.28,1.44,.26],[-.25,1.65,.13],[.07,1.87,-.17]].forEach(([x,y,z],flower)=>{
     add(plant,new THREE.CylinderGeometry(.025,.025,y-.7,10),stemMat,x,(y+.7)/2,z);
     for(let j=0;j<3;j++) add(plant,new THREE.CylinderGeometry(.037,.037,.035,10),stemMat,x,.84+j*.23,z);
     const rose=new THREE.Group();rose.position.set(x,y-.07,z);rose.rotation.set(.32,flower*1.7,-.17+flower*.16);plant.add(rose);
     add(rose,new THREE.CylinderGeometry(.13,.065,.055,10),stemMat,0,0,0);
+    const budding=flower===2;
+    // Four broad outer pieces and two staggered inner whorls retain the brick-built silhouette.
     for(let layer=0;layer<3;layer++){
-      const count=layer===0?5:4;
-      for(let j=0;j<count;j++){
-        const angle=j/count*Math.PI*2+layer*.85;
-        const petal=add(rose,brickPetal(layer),pinks[(flower+layer)%3],Math.sin(angle)*(.065-layer*.021),layer*.035,Math.cos(angle)*(.065-layer*.021));
-        petal.rotation.y=angle;
+      const radius=[.213,.151,.094][layer]*(budding?.86:1);
+      const height=[.205,.18,.145][layer]*(budding?1.12:1);
+      for(let j=0;j<4;j++){
+        const petal=add(rose,roseShell(radius,height,layer===0?1.65:1.9,layer===0?.12:.50,budding),pinks[layer===0?0:layer===1?1:2],0,layer*.038,0);
+        petal.rotation.y=j*Math.PI/2+layer*.67+flower*.25;
       }
     }
-    const heart=add(rose,new THREE.TorusGeometry(.042,.013,8,20),pinks[2],0,.17,0);heart.rotation.x=-Math.PI/2;
-    add(rose,new THREE.CylinderGeometry(.023,.023,.033,12),pinks[0],0,.168,0);
+    // Raised hollow center, with a pale peach/ivory spiral on the open roses.
+    const heartMaterial=flower===0?creamPetal:pinks[2];
+    const heart=add(rose,new THREE.TorusGeometry(.026,.008,8,28),heartMaterial,0,.223,0);heart.rotation.x=-Math.PI/2;
+    const points:THREE.Vector3[]=[];
+    for(let i=0;i<=90;i++){
+      const t=i/90,a=t*Math.PI*4.1,r=.014+t*.054;
+      points.push(new THREE.Vector3(Math.sin(a)*r,.221-t*.031,Math.cos(a)*r));
+    }
+    add(rose,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points),90,.008,6,false),flower===0?peachPetal:pinks[1]);
+    // Small molded connector tabs peek between the petal bases.
+    for(let j=0;j<4;j++){
+      const a=j*Math.PI/2+.3;
+      const tab=add(rose,new RoundedBoxGeometry(.034,.047,.029,2,.005),pinks[1],Math.sin(a)*.12,.045,Math.cos(a)*.12);tab.rotation.y=a;
+    }
   });
   const floor = add(
     scene,
@@ -770,26 +816,26 @@ export function mountMatcha(
   bowl.add(whisk);
   whisk.position.set(0.05, 0.32, 0);
   whisk.rotation.z = -0.2;
-  add(
-    whisk,
-    new THREE.CylinderGeometry(0.065, 0.09, 0.47, 12),
-    material(0xd9ba7b),
-    0,
-    0.54,
-    0
-  );
-  for (let i = 0; i < 16; i++) {
-    const a = (i / 16) * Math.PI * 2;
-    const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(Math.cos(a) * 0.065, 0.32, Math.sin(a) * 0.065),
-      new THREE.Vector3(Math.cos(a) * 0.2, 0.08, Math.sin(a) * 0.2),
-      new THREE.Vector3(Math.cos(a) * 0.18, 0, Math.sin(a) * 0.18),
-    ]);
-    add(
-      whisk,
-      new THREE.TubeGeometry(curve, 12, 0.009, 4, false),
-      material(0xd6b777)
-    );
+  const bamboo=material(0xd9ba7b,.62), bambooLight=material(0xe6cc96,.60);
+  add(whisk,new THREE.CylinderGeometry(.065,.09,.47,24),bamboo,0,.54,0);
+  // Delicate longitudinal grain on the handle, without changing its proportions.
+  for(let i=0;i<18;i++){
+    const a=i/18*Math.PI*2;
+    const grain=add(whisk,new THREE.CylinderGeometry(.0009,.0013,.40,3),i%3?bambooLight:bamboo,Math.cos(a)*.077,.535,Math.sin(a)*.077);
+    grain.rotation.z=Math.sin(a)*.035;grain.rotation.x=-Math.cos(a)*.035;
+  }
+  const binding=material(0x675139,.8);
+  for(let i=0;i<4;i++){
+    const ring=add(whisk,new THREE.TorusGeometry(.082,.004,6,32),binding,0,.319+i*.009,0);ring.rotation.x=Math.PI/2;
+  }
+  // Outer splayed tines curl back inward at their tips; inner tines form the heart.
+  for(let layer=0;layer<2;layer++) for(let i=0;i<(layer?16:32);i++){
+    const a=i/(layer?16:32)*Math.PI*2+layer*.1;
+    const radial=layer?[.047,.087,.082,.047]:[.072,.168,.203,.175];
+    const heights=layer?[.32,.15,.065,.04]:[.32,.19,.065,.016];
+    const points=radial.map((r,j)=>new THREE.Vector3(Math.cos(a)*r,heights[j],Math.sin(a)*r));
+    const curve=new THREE.CatmullRomCurve3(points);
+    add(whisk,new THREE.TubeGeometry(curve,20,layer?.003:.004,5,false),i%3?bambooLight:bamboo);
   }
   const stream = add(
     scene,
@@ -879,8 +925,9 @@ export function mountMatcha(
   const spillGroup = new THREE.Group();
   scene.add(spillGroup);
   const spills = Array.from({ length: 48 }, (_, i) => {
-    const puddle = new THREE.Mesh(new THREE.CircleGeometry(1, 18), spillMaterial);
-    const drop = new THREE.Mesh(new THREE.SphereGeometry(0.038, 8, 6), spillMaterial);
+    const puddleMaterial = spillMaterial.clone();
+    const puddle = new THREE.Mesh(new THREE.CircleGeometry(1, 18), puddleMaterial);
+    const drop = new THREE.Mesh(new THREE.SphereGeometry(0.038, 8, 6), puddleMaterial);
     puddle.visible = drop.visible = false;
     puddle.renderOrder = 3;
     spillGroup.add(puddle, drop);
@@ -890,8 +937,9 @@ export function mountMatcha(
   const spillRay = new THREE.Raycaster();
   let spillIndex = 0, spillTravel = 0, tiltX = 0, tiltZ = 0;
   const surfaceObjects = [desk, mat, saucer, laptop.group];
-  function spillMatcha() {
-    if (action || inspecting) return;
+  function spillMatcha(amount = 0.055, fromAnimation = false) {
+    if (action || inspecting || drinkRemaining <= 0) return;
+    if (amount > 0.12 && !reduced) { queuedPour = Math.min(drinkRemaining, amount); wake(); return; }
     discoverDesk();
     scene.updateMatrixWorld(true);
     const from = cup.localToWorld(new THREE.Vector3(0.48, 1.94, 0.08));
@@ -906,20 +954,24 @@ export function mountMatcha(
     item.puddle.position.copy(item.to);
     item.puddle.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), normal);
     item.puddle.rotateZ(random(spillIndex + 18000) * Math.PI);
-    item.puddle.scale.set(item.size, item.size * 0.68, 1);
+    const spread = item.size * (1 + Math.min(amount, 1) * 3);
+    item.puddle.scale.set(spread, spread * 0.68, 1);
     item.puddle.visible = reduced;
     item.drop.position.copy(from);
     item.drop.visible = !reduced;
     item.time = 0;
     item.active = !reduced;
-    spillMaterial.color.set(tea.visible ? 0x719043 : 0xd6c9a5);
-    tiltZ = -0.07;
+    (item.puddle.material as THREE.MeshStandardMaterial).color.set(tea.visible ? 0x719043 : 0xd6c9a5);
+    drinkRemaining = Math.max(0, drinkRemaining - amount);
+    updateDrinkLevel();
+    tiltZ = -0.35;
     energy = 1;
     settle = 1;
-    wake();
+    if (!fromAnimation) wake();
   }
   function clearSpills() {
     spills.forEach(p => { p.active = false; p.drop.visible = p.puddle.visible = false; });
+    queuedPour = 0;
     cup.rotation.x = cup.rotation.z = tiltX = tiltZ = 0;
     wake();
   }
@@ -1073,7 +1125,12 @@ export function mountMatcha(
         camera.position.distanceTo(targetPosition) > 0.001 ||
         cameraFocus.distanceTo(targetFocus) > 0.001;
     }
-    let spillMoving = false;
+    if (queuedPour > 0) {
+      const portion = Math.min(queuedPour, dt * 0.55);
+      queuedPour -= portion;
+      spillMatcha(portion, true);
+    }
+    let spillMoving = queuedPour > 0;
     for (const p of spills) {
       if (!p.active) continue;
       p.time += dt;
@@ -1305,10 +1362,10 @@ export function mountMatcha(
       settle = 1;
       if (dragging === "matcha") {
         energy = 0.8;
-        tiltX = THREE.MathUtils.clamp(dz * 3, -0.07, 0.07);
-        tiltZ = THREE.MathUtils.clamp(-dx * 3, -0.07, 0.07);
+        tiltX = THREE.MathUtils.clamp(dz * 3, -0.35, 0.35);
+        tiltZ = THREE.MathUtils.clamp(-dx * 3, -0.35, 0.35);
         spillTravel += Math.hypot(dx, dz);
-        if (spillTravel > 0.28) { spillMatcha(); spillTravel = 0; }
+        if (spillTravel > 0.14) { spillMatcha(Math.min(0.12, spillTravel * 0.16)); spillTravel = 0; }
       }
       wake(); return;
     }
@@ -1333,7 +1390,10 @@ export function mountMatcha(
     if (!cancelled && !multiGesture && !dragged && !action) {
       if (pendingTap === "bowl") onRitualAction("brew");
       else if (pendingTap === "laptop") inspect(true);
-      else if (dragging === "matcha") onRitualAction(!tea.visible ? "brew" : ice.some(m => m.visible) ? "stir" : "ice");
+      else if (dragging === "matcha") {
+        if (drinkRemaining < 1) refillMilk();
+        else onRitualAction(!tea.visible ? "brew" : ice.some(m => m.visible) ? "stir" : "ice");
+      }
       else if (dragging === "cookie") bite();
       else if (dragging === "plant") onPlantClick();
     }
@@ -1416,6 +1476,7 @@ export function mountMatcha(
     bite,
     freshCookie,
     spillMatcha,
+    refillMilk,
     clearSpills,
     zoom,
     rotate,

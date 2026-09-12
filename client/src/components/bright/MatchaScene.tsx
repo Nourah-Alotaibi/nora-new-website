@@ -27,10 +27,11 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
   const [ritual, setRitual] = useState<
     "start" | "pouring" | "ice" | "settling" | "welcome"
   >("start");
-  const ritualAction = useRef<(action: "brew" | "ice" | "stir") => void>(() => {});
+  const ritualAction = useRef<(action: "milk" | "brew" | "ice" | "stir") => void>(() => {});
   ritualAction.current = action => {
     if (ritual === "pouring" || ritual === "settling") return;
-    if (action === "brew") void prepare();
+    if (action === "milk") { setRitual("start"); setStatus("Fresh milk. Tap the glass for matcha, then ice, then stir."); }
+    else if (action === "brew") void prepare();
     else if (action === "ice") void ice();
     else {
       desk.current?.stir();
@@ -323,8 +324,11 @@ export default function MatchaScene({ onReady }: { onReady?: () => void }) {
             Play with the desk
           </button>
           <div id="move-stuff-controls" hidden={!moveStuff}>
-            <small className="desk-play-hint">Drag the glass to spill. Drag the board to turn, or use two fingers to turn and pinch. Scroll outside the board.</small>
+            <small className="desk-play-hint">Drag the glass to pour as much as you like, then tap it to refill milk. Drag the board to turn, or use two fingers to turn and pinch. Scroll outside the board.</small>
             <button type="button" onClick={() => desk.current?.spillMatcha()}>Spill a little 🍵</button>
+            <button type="button" onClick={() => desk.current?.spillMatcha(0.5)}>Pour half</button>
+            <button type="button" onClick={() => desk.current?.spillMatcha(1)}>Pour all</button>
+            <button type="button" onClick={() => desk.current?.refillMilk()}>Refill milk</button>
             <button type="button" onClick={() => desk.current?.clearSpills()}>Wipe spills</button>
             <div
               className="board-view"
