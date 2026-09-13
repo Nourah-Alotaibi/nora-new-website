@@ -9,7 +9,7 @@ export default function StudioNotes({ revealed }: { revealed: boolean }) {
   return (
     <section className={`studio-kept-notes${revealed ? " is-revealed" : ""}`} aria-labelledby="studio-notes-title" aria-hidden={!revealed} inert={!revealed}>
       <div className="studio-kept-notes-inner">
-        <header className="studio-notes-heading"><span>things I’ve kept with me</span><h3 id="studio-notes-title">studio notes.</h3></header>
+        <header className="studio-notes-heading"><span>things I’ve kept with me</span><h3 id="studio-notes-title" tabIndex={-1} style={{ scrollMarginTop: "32px" }}>studio notes.</h3></header>
         <div className="studio-notes-layout">
           <aside><h4>some things are worth keeping.</h4></aside>
           <div className="studio-notes-deck">

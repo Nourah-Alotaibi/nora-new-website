@@ -1,11 +1,22 @@
 import StudioNotes from "./StudioNotes";
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import "./CanvasDiscovery.css";
 
 /** A frame around the original painting; neither face remounts on a flip. */
 export default function CanvasDiscovery({ children, onMatchaFact }: { children: ReactNode; onMatchaFact: () => void }) {
   const [flipped, setFlipped] = useState(false);
   const [discovered, setDiscovered] = useState(false);
+  useEffect(() => {
+    if (!flipped) return;
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Let the frame turn and the notes finish expanding before moving down.
+    const timer = window.setTimeout(() => {
+      const heading = document.getElementById("studio-notes-title");
+      heading?.focus({ preventScroll: true });
+      heading?.scrollIntoView({ behavior: reducedMotion ? "instant" : "smooth", block: "start" });
+    }, reducedMotion ? 0 : 1450);
+    return () => window.clearTimeout(timer);
+  }, [flipped]);
   const cornerTouch = useRef<{ x: number; y: number } | null>(null);
   const lastTouch = useRef(0);
   const toggle = useRef<HTMLButtonElement>(null);
