@@ -42,8 +42,11 @@ export function playPourAudio() {
   pouring.connect(audioContext().destination); pouring.start();
 }
 export async function finishPourAudio() {
-  const [,buffer] = await preloadPourAudio();
-  stopPourAudio();
+  const ctx = audioContext();
+  // Resume during the Skip click so mobile browsers allow playback.
+  const [, clips] = await Promise.all([ctx.resume(), preloadPourAudio()]);
+  const [, buffer] = clips;
+  stopStudioAudio();
   relaxed = audioContext().createBufferSource(); relaxed.buffer = buffer;
   relaxed.connect(audioContext().destination); relaxed.start();
 }

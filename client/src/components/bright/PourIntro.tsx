@@ -25,6 +25,10 @@ export default function PourIntro({
   const [audioError,setAudioError] = useState(false);
   const alive = useRef(true);
   useEffect(()=>{alive.current=true;void preloadPourAudio().then(()=>{if(alive.current)setAudioReady(true);}).catch(()=>{if(alive.current)setAudioError(true);});return ()=>{alive.current=false;stopPourAudio();};},[]);
+  const skipIntro = () => {
+    void finishPourAudio().catch(() => {});
+    onComplete();
+  };
   const beginning = useRef(false);
   const begin = async () => {
     if(beginning.current || started) return;
@@ -166,7 +170,7 @@ export default function PourIntro({
       aria-label="Introduction"
       onKeyDown={e => {
         if (e.key === "Escape") {
-          onComplete();
+          skipIntro();
         }
         if (e.key === "Tab") {
           e.preventDefault();
@@ -189,7 +193,7 @@ export default function PourIntro({
       <canvas ref={canvas} aria-hidden="true" />
       <span className="pour-caption">{started ? "Preparing..." : "One tap to begin with sound."}</span>
       {!started && <button id="begin-pour" className="begin-pour" type="button" disabled={loading || (!audioReady && !audioError)} onPointerDown={e=>{if(e.isPrimary && e.button===0 && audioReady) void begin();}} onClick={begin}>{loading ? "Preparing..." : "Tap"}</button>}
-      <button ref={skip} type="button" onClick={onComplete}>
+      <button ref={skip} type="button" onClick={skipIntro}>
         Skip intro ↗
       </button>
     </div>

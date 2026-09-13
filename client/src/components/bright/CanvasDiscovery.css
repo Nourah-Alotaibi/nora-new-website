@@ -60,7 +60,7 @@
 .scrap-one { background:#dce4d0; transform:rotate(-4deg); }
 .scrap-two { background:#e9d7c5; transform:rotate(3deg); }
 .studio-note-paper { position:relative; padding:32px 30px; min-height:330px; background:repeating-linear-gradient(0deg,transparent 0 27px,#8474580a 28px 29px),#fbf7e9; border:1px solid #dbd2bd; box-shadow:0 8px 24px #4c56361a; transform:rotate(-1deg); animation:studio-note-arrive .35s ease both; }
-.studio-note-paper blockquote { font:400 clamp(22px,2.5vw,33px)/1.32 Georgia,serif; letter-spacing:-.02em; margin:18px 0 20px; color:#3c4a37; }
+.studio-note-paper blockquote { white-space:pre-line; font:400 clamp(22px,2.5vw,33px)/1.32 Georgia,serif; letter-spacing:-.02em; margin:18px 0 20px; color:#3c4a37; }
 .studio-note-clip { position:absolute; right:23px; top:-12px; width:15px; height:37px; border:2px solid #a69a80; border-radius:9px; transform:rotate(9deg); box-shadow:inset 2px 0 #fff9; }
 .studio-note-credit { font-size:11px; line-height:1.7; color:#64705b; }
 .studio-note-credit strong,.studio-note-credit span,.studio-note-credit i { display:block; }
