@@ -1,3 +1,4 @@
+import UpdatedGame from "@/components/bright/UpdatedGame";
 import { useState, useEffect, useRef, useMemo, type ReactElement, type CSSProperties } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -1146,7 +1147,8 @@ function ProjectsSection() {
           {proj.desc.split("\n\n").map((para, pi) => (
             <p key={pi} className="pa-card-desc">{renderText(para)}</p>
           ))}
-          <div className="pa-recognitions">
+          {proj.title === "WEREWOLF CURSE" && <UpdatedGame />}
+<div className="pa-recognitions">
             {proj.recognitions.map((r, ri) => (
               <div key={ri} className="pa-recognition-item">
                 <span className="pa-recognition-dot" aria-hidden="true">•</span>

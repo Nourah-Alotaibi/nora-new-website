@@ -1,3 +1,4 @@
+import UpdatedGame from "@/components/bright/UpdatedGame";
 import CanvasDiscovery from "@/components/bright/CanvasDiscovery";
 import { useEffect, useState, useRef } from "react";
 import {
@@ -313,7 +314,8 @@ export default function BrightHome() {
                       <PlainText text={para} />
                     </p>
                   ))}
-                  <ul className="project-recognitions">
+                  {p.title === "WEREWOLF CURSE" && <UpdatedGame />}
+<ul className="project-recognitions">
                     {p.recognitions.map((r, i) => (
                       <li key={i}>
                         
