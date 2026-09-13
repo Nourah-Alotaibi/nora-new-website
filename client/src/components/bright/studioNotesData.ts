@@ -1,6 +1,6 @@
 export const studioNotes=[
  {theme:'',text:'Coding is like writing poetry.',author:'Dr. Abdullah Karar',role:'PhD in Electrical Engineering · Associate Professor of Electrical Engineering · AUM',year:'2023',personal:'something he said that stayed with me.'},
- {theme:'Dr. Rhonda Shrader',text:'You are shining stars! Thanks for using your superpowers for good.',author:'Rhonda Shrader',role:'MBA · Executive Director · Berkeley Haas Entrepreneurship Program',personal:''},
+ {theme:'Dr. Rhonda Shrader',text:'You are shining stars! Thanks for using your superpowers for good.',additionalQuote:'She also has a bright and fearless entrepreneurial spirit that will elevate the students around her.',author:'Rhonda Shrader',role:'MBA · Executive Director · Berkeley Haas Entrepreneurship Program',personal:''},
  {theme:'Taisia Thomas-Murray',text:'Your work was innovative and inspiring and the award was well deserved.',author:'Taisia Thomas-Murray',role:'MBA · Director of Enrolment, MEA · Hult International Business School',personal:''},
  {theme:'Afrah AlDabasi',text:'So proud to see your hard work, innovation, and passion for AI shining on such a big stage.',author:'Afrah AlDabasi',role:'Computer Engineer · Artificial Minds Club Mentor, AUM',personal:''},
  {theme:'Hanan Alrabieah',text:'Nourah’s passion for tech education, adaptability, and positive energy make her an exceptional mentor who inspires and empowers her students.',author:'Hanan Alrabieah',role:'Education Lead · CODED Juniors',personal:''},
