@@ -1,3 +1,4 @@
+import CanvasDiscovery from "@/components/bright/CanvasDiscovery";
 import { useEffect, useState, useRef } from "react";
 import {
   ArrowUpRight,
@@ -379,17 +380,18 @@ export default function BrightHome() {
                     </button>
                   ))}
                 </fieldset>
-                <button type="button" className="studio-fun-fact desk-sparkle-button" onClick={()=>funFactDialog.current?.showModal()}>Fun fact 🍵</button>
                 <dialog ref={funFactDialog} className="matcha-fact-dialog" aria-labelledby="matcha-fact-title" onClick={e=>{if(e.target===e.currentTarget) funFactDialog.current?.close();}}>
                   <div className="matcha-fact-content">
                     <button type="button" className="matcha-fact-close" aria-label="Close fun fact" autoFocus onClick={()=>funFactDialog.current?.close()}>Close ×</button>
-                    <h3 id="matcha-fact-title">A little matcha fact 🍵</h3>
-                    <p>I’m a certified matcha specialist and tester too!</p>
+                    <h3 id="matcha-fact-title">A hidden fact</h3>
+                    <p>I’m a certified matcha specialist and tester.</p>
                     <img src="/matcha-certificate.png" alt="Nourah Fahad Alotaibi’s certificate of completion for the Matcha Protocols Foundational Training Course, dated 10 September 2026" loading="lazy" />
                   </div>
                 </dialog>
               </div>
-              <PigmentCanvas palette={palette} />
+              <CanvasDiscovery onMatchaFact={() => funFactDialog.current?.showModal()}>
+                <PigmentCanvas palette={palette} />
+              </CanvasDiscovery>
             </div>
           </section>
           <section
