@@ -25,7 +25,6 @@ import ProjectGallery, {
 } from "@/components/bright/ProjectGallery";
 import StoryJourney from "@/components/bright/StoryJourney";
 import ProjectImageZoom from "@/components/bright/ProjectImageZoom";
-import UpdatedGame from "@/components/bright/UpdatedGame";
 
 function PlainText({ text }: { text: string }) {
   return (
@@ -297,7 +296,6 @@ export default function BrightHome() {
                     {p.video && <button className="tv-play" aria-label={filmPlaying ? "Pause project film" : "Play project film"} onClick={()=>{const video=projectVideo.current;if(video){if(video.paused) void video.play().catch(()=>{});else video.pause();}}}>{filmPlaying ? "Ⅱ" : "▶"}</button>}
                   </div>
                 </div>
-                {p.id === 3 && <UpdatedGame onOpen={() => projectVideo.current?.pause()} />}
                 <div className="project-story">
                   <span className="project-category">{p.badge}</span>
                   <h3 id="project-title">
