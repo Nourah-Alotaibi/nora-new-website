@@ -41,6 +41,8 @@ function PlainText({ text }: { text: string }) {
 export function ModeSwitch() {
   const { theme, toggleTheme } = useTheme();
   return (
+    <div className="header-quick-actions">
+    <a className="header-game" href="/werewolf/">🐺 Play Werewolf</a>
     <button
       className={`header-mode ${theme === "dark" ? "header-mode-dark" : ""}`}
       type="button"
@@ -50,6 +52,7 @@ export function ModeSwitch() {
       {theme === "light" ? <Moon size={15} /> : <Sun size={15} />}
       <span>{theme === "light" ? "Dark mode" : "Bright mode"}</span>
     </button>
+    </div>
   );
 }
 

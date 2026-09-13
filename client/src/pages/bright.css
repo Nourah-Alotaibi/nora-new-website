@@ -3166,3 +3166,10 @@ body:has(.laptop-inspection) .leave-note-widget { display:none; }
 .laptop-github-link:focus-visible { outline:2px solid #526d53; outline-offset:5px; }
 
 .laptop-project-info .laptop-noor-tagline { color:#aa4f7c; font-size:13px; line-height:1.5; margin:8px 0 12px; }
+
+.header-quick-actions { display:flex; align-items:center; justify-content:flex-end; gap:10px; flex-wrap:wrap; }
+.header-game { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:9px 13px; border:1px solid #b8c0a9; border-radius:24px; background:#eeeee0; color:#40563a; font-size:12px; white-space:nowrap; text-decoration:none; }
+.header-game:hover { background:#e1e7cf; }
+.header-game:focus-visible { outline:2px solid currentColor; outline-offset:4px; }
+.dark-theme-header .header-game { background:#30243e; border-color:#76618e; color:#eee1fc; }
+@media(max-width:700px) { .studio-header { flex-wrap:wrap; } .header-quick-actions { gap:7px; } .header-game { font-size:11px; padding:8px 10px; } .dark-theme-header { gap:12px; flex-wrap:wrap; } }

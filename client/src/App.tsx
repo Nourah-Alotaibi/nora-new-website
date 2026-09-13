@@ -9,6 +9,7 @@ import { MotionConfig } from "framer-motion";
 import BrightHome, { ModeSwitch } from "./pages/BrightHome";
 import { useTheme } from "./contexts/ThemeContext";
 import LeaveNote from "./components/LeaveNote";
+import LikeButton from "./components/LikeButton";
 import { lazy, Suspense } from "react";
 const PrivateNotes = lazy(() => import("./pages/PrivateNotes"));
 function OwnerRoute() { return <Suspense fallback={<div style={{ padding:40 }}>404<br />Nothing here.</div>}><PrivateNotes /></Suspense>; }
@@ -29,6 +30,7 @@ function Portfolio() {
         </>
       )}
       <LeaveNote />
+      <LikeButton />
     </>
   );
 }
