@@ -26,7 +26,7 @@ export default function StudioNotes({ revealed }: { revealed: boolean }) {
                 <span className="studio-note-clip" aria-hidden="true"/>
                 
                 <blockquote>“{note.text}”</blockquote>
-                <div className="studio-note-credit"><strong>{note.author}</strong>{note.year && <span>{note.year}</span>}<i>{note.personal}</i></div>
+                <div className="studio-note-credit"><strong>{note.author}</strong>{note.role && <span className="studio-note-role">{note.role}</span>}{note.year && <span>{note.year}</span>}<i>{note.personal}</i></div>
               </article>
               <button type="button" className="studio-note-corner note-corner-prev" aria-label="Previous note from paper corner" onClick={()=>step(-1)}><span aria-hidden="true">←</span></button>
               <button type="button" className="studio-note-corner note-corner-next" aria-label="Next note from paper corner" onClick={()=>step(1)}><span aria-hidden="true">→</span></button>
