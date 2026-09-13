@@ -113,7 +113,7 @@ export default function StoryJourney() {
               <em>journey</em>
             </strong>
             <span className="book-cover-portrait">
-              <img src="/image.png" alt="Nourah Alotaibi" loading="lazy" />
+              <img src="/journey-cover-portrait.png" alt="Illustrated portrait of Nourah Alotaibi" loading="lazy" />
               <i>hi, it’s me ↙</i>
             </span>
             <span className="book-cover-years">2020 — TODAY</span>
