@@ -269,6 +269,10 @@ export default function StoryJourney() {
           </>
         )}
       </div>
+      <figure className="journey-recommendation">
+        <blockquote>“Throughout her time in the program, Nourah has proved herself to be among the top engineers in her cohort.”</blockquote>
+        <figcaption><strong>Dr. Abdullah Karar</strong><span>Associate Professor of Electrical Engineering · AUM · 2024</span></figcaption>
+      </figure>
     </section>
   );
 }

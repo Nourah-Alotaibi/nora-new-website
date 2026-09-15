@@ -3173,3 +3173,8 @@ body:has(.laptop-inspection) .leave-note-widget { display:none; }
 .header-game:focus-visible { outline:2px solid currentColor; outline-offset:4px; }
 .dark-theme-header .header-game { background:#30243e; border-color:#76618e; color:#eee1fc; }
 @media(max-width:700px) { .studio-header { flex-wrap:wrap; } .header-quick-actions { gap:7px; } .header-game { font-size:11px; padding:8px 10px; } .dark-theme-header { gap:12px; flex-wrap:wrap; } }
+
+.journey-recommendation { max-width:720px; margin:56px auto 0; padding:0 18px; text-align:center; }
+.journey-recommendation blockquote { font:400 clamp(22px,2.5vw,33px)/1.4 Georgia,serif; letter-spacing:-.02em; color:#3c4a37; margin:0 0 20px; }
+.journey-recommendation figcaption { display:grid; gap:5px; color:#68765e; font-size:13px; line-height:1.6; }
+@media(max-width:700px) { .journey-recommendation { margin-top:36px; padding:0 8px; } }

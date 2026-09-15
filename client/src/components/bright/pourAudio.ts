@@ -1,62 +1,42 @@
 let context: AudioContext | undefined;
-let buffers: Promise<AudioBuffer[]> | undefined;
-let decoded: AudioBuffer[] | undefined;
+const buffers = new Map<string, Promise<AudioBuffer>>();
 let pouring: AudioBufferSourceNode | undefined;
 let relaxed: AudioBufferSourceNode | undefined;
+let pourRequest = 0;
+let relaxRequest = 0;
 export function audioContext() { return context ??= new AudioContext({ latencyHint: "interactive" }); }
-export function preloadPourAudio() {
-  const ctx = audioContext();
-  return buffers ??= Promise.all(["matcha-pouring-ready.wav", "studio-after-pour.mp3"].map(async name => {
+function loadClip(name: string): Promise<AudioBuffer> {
+  const existing = buffers.get(name);
+  if (existing) return existing;
+  const request = (async () => {
     const response = await fetch(`/audio/${name}`);
     if (!response.ok) throw new Error("Audio unavailable");
-    const buffer = await ctx.decodeAudioData(await response.arrayBuffer());
-    if (name !== "matcha-pouring.mp3") return buffer;
-    // Skip leading recording silence, retaining a tiny natural attack.
-    let first = buffer.length;
-    for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
-      const samples = buffer.getChannelData(ch);
-      for (let i = 0; i < samples.length; i++) {
-        if (Math.abs(samples[i]) > 0.006) { first = Math.min(first, i); break; }
-      }
-    }
-    const offset = Math.max(0, first - Math.round(buffer.sampleRate * 0.005));
-    if (first === buffer.length || offset === 0) return buffer;
-    const trimmed = ctx.createBuffer(buffer.numberOfChannels, buffer.length - offset, buffer.sampleRate);
-    for (let ch = 0; ch < buffer.numberOfChannels; ch++) trimmed.copyToChannel(buffer.getChannelData(ch).subarray(offset), ch);
-    return trimmed;
-  })).then(result => { decoded = result; return result; }).catch(error => { buffers = undefined; throw error; });
+    return audioContext().decodeAudioData(await response.arrayBuffer());
+  })().catch(error => { buffers.delete(name); throw error; });
+  buffers.set(name, request);
+  return request;
 }
-export async function unlockPourAudio() {
-  const ctx = audioContext();
-  await Promise.all([ctx.resume(), preloadPourAudio()]);
-  if (ctx.state !== "running") throw new Error("Audio needs a tap");
+export function preloadPourAudio() {
+  return Promise.all([loadClip("matcha-pouring-ready.wav"), loadClip("studio-after-pour.mp3")]);
 }
-export function stopPourAudio() { pouring?.stop(); pouring = undefined; }
-export function stopStudioAudio() { stopPourAudio(); relaxed?.stop(); relaxed = undefined; }
-export function playPourAudio() {
-  if (!decoded) throw new Error("Audio still loading");
-  const [buffer] = decoded;
-  stopStudioAudio();
-  pouring = audioContext().createBufferSource();
-  pouring.buffer = buffer; pouring.loop = true;
-  pouring.connect(audioContext().destination); pouring.start();
-}
+export function stopPourAudio() { pourRequest++; pouring?.stop(); pouring = undefined; }
+export function stopStudioAudio() { stopPourAudio(); relaxRequest++; relaxed?.stop(); relaxed = undefined; }
 export async function finishPourAudio() {
-  const ctx = audioContext();
-  // Resume during the Skip click so mobile browsers allow playback.
-  const [, clips] = await Promise.all([ctx.resume(), preloadPourAudio()]);
-  const [, buffer] = clips;
   stopStudioAudio();
-  relaxed = audioContext().createBufferSource(); relaxed.buffer = buffer;
-  relaxed.connect(audioContext().destination); relaxed.start();
-}
-
-// Queue the decoded clip in the gesture itself, before waiting for device wake-up.
-export async function startPourAudio() {
+  const request = relaxRequest;
   const ctx = audioContext();
-  const resumed = ctx.resume();
-  if (decoded) playPourAudio();
-  else { await preloadPourAudio(); playPourAudio(); }
-  await resumed;
-  if (ctx.state !== "running") { stopPourAudio(); throw new Error("Audio needs a tap"); }
+  const [, buffer] = await Promise.all([ctx.resume(), loadClip("studio-after-pour.mp3")]);
+  if (request !== relaxRequest || ctx.state !== "running") return;
+  relaxed = ctx.createBufferSource(); relaxed.buffer = buffer;
+  relaxed.connect(ctx.destination); relaxed.start();
+}
+export async function startPourAudio() {
+  stopStudioAudio();
+  const request = pourRequest;
+  const ctx = audioContext();
+  // Resume inside the gesture; only the pouring clip is needed to begin.
+  const [, buffer] = await Promise.all([ctx.resume(), loadClip("matcha-pouring-ready.wav")]);
+  if (request !== pourRequest || ctx.state !== "running") return;
+  pouring = ctx.createBufferSource(); pouring.buffer = buffer; pouring.loop = true;
+  pouring.connect(ctx.destination); pouring.start();
 }

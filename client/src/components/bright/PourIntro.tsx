@@ -20,23 +20,23 @@ export default function PourIntro({
   const [leaving, setLeaving] = useState(false);
   const skip = useRef<HTMLButtonElement>(null);
   const [started,setStarted] = useState(false);
-  const [loading,setLoading] = useState(false);
-  const [audioReady,setAudioReady] = useState(false);
-  const [audioError,setAudioError] = useState(false);
-  const alive = useRef(true);
-  useEffect(()=>{alive.current=true;void preloadPourAudio().then(()=>{if(alive.current)setAudioReady(true);}).catch(()=>{if(alive.current)setAudioError(true);});return ()=>{alive.current=false;stopPourAudio();};},[]);
+  useEffect(() => {
+    // Warm the canvas and both clips while the opening screen is visible.
+    canvas.current?.getContext("2d");
+    void preloadPourAudio().catch(() => {});
+    return () => stopPourAudio();
+  }, []);
   const skipIntro = () => {
     void finishPourAudio().catch(() => {});
     onComplete();
   };
   const beginning = useRef(false);
-  const begin = async () => {
-    if(beginning.current || started) return;
-    beginning.current=true;
-    setLoading(true);
-    try { await startPourAudio(); if(!alive.current)return; if(alive.current)setStarted(true); }
-    catch { beginning.current=false; if(alive.current)setAudioError(true); }
-    finally { if(alive.current)setLoading(false); }
+  const begin = () => {
+    if (beginning.current) return;
+    beginning.current = true;
+    setStarted(true);
+    // Visual feedback must not wait for network, decoding, or audio-device wake-up.
+    void startPourAudio().catch(() => {});
   };
   useEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -144,7 +144,7 @@ export default function PourIntro({
       }
       if (p >= 1 && !finished) {
         finished = true;
-        void finishPourAudio();
+        void finishPourAudio().catch(() => {});
         filled.current?.();
         setLeaving(true);
         exitTimer = setTimeout(() => complete.current(), 650);
@@ -192,7 +192,7 @@ export default function PourIntro({
       </div>
       <canvas ref={canvas} aria-hidden="true" />
       <span className="pour-caption">{started ? "Preparing..." : "One tap to begin with sound."}</span>
-      {!started && <button id="begin-pour" className="begin-pour" type="button" disabled={loading || (!audioReady && !audioError)} onPointerDown={e=>{if(e.isPrimary && e.button===0 && audioReady) void begin();}} onClick={begin}>{loading ? "Preparing..." : "Tap"}</button>}
+      {!started && <button id="begin-pour" className="begin-pour" type="button" onPointerDown={e=>{if(e.isPrimary && e.button===0) begin();}} onClick={begin}>Tap</button>}
       <button ref={skip} type="button" onClick={skipIntro}>
         Skip intro ↗
       </button>
