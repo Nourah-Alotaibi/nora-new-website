@@ -4,6 +4,17 @@
   "outputDirectory": "dist/public",
   "routes": [
     {
+      "src": "/forcoded",
+      "status": 308,
+      "headers": {
+        "Location": "/forcoded/"
+      }
+    },
+    {
+      "src": "/forcoded/",
+      "dest": "/forcoded/index.html"
+    },
+    {
       "src": "/werewolf",
       "status": 308,
       "headers": {
