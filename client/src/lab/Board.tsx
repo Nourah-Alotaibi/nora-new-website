@@ -23,27 +23,36 @@ export function sectionOf(item: Item): Section {
 }
 export default function Board({
   items,
+  projectOnly = false,
   author,
   update,
   create,
   edit,
 }: {
   items: Item[];
+  projectOnly?: boolean;
   author: (id: string) => string;
   update: (item: Item, changes: Partial<Item>) => Promise<boolean>;
   create: (changes: Partial<Item>) => Promise<boolean>;
   edit: (item: Item) => void;
 }) {
   const [color, setColor] = useState("sage");
-  const [section, setSection] = useState<Section>("ideas");
+  const [section, setSection] = useState<Section>(
+    projectOnly ? "subideas" : "ideas"
+  );
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [dragging, setDragging] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
   const origin = useRef({ x: 0, y: 0 });
+  const visibleSections = Object.entries(sections).filter(
+    ([key]) => !projectOnly || key !== "ideas"
+  );
+  const itemSection = (item: Item) =>
+    projectOnly && sectionOf(item) === "ideas" ? "subideas" : sectionOf(item);
   const ordered = (key: Section) =>
     items
-      .filter(i => sectionOf(i) === key)
+      .filter(i => itemSection(i) === key)
       .sort(
         (a, b) =>
           (a.board_order || 0) - (b.board_order || 0) ||
@@ -115,7 +124,10 @@ export default function Board({
                         ? "task"
                         : "note",
                   title: line.slice(0, 160),
-                  body: line.length <= 160 ? content.slice(line.length).trim() : content,
+                  body:
+                    line.length <= 160
+                      ? content.slice(line.length).trim()
+                      : content,
                   color,
                   board_section: section,
                   board_order: (ordered(section).at(-1)?.board_order || 0) + 1,
@@ -143,7 +155,7 @@ export default function Board({
               value={section}
               onChange={e => setSection(e.target.value as Section)}
             >
-              {Object.entries(sections).map(([key, label]) => (
+              {visibleSections.map(([key, label]) => (
                 <option key={key} value={key}>
                   {label}
                 </option>
@@ -166,7 +178,7 @@ export default function Board({
         </p>
       </aside>
       <div className="lab-shared-board" aria-label="Our shared board">
-        {Object.entries(sections).map(([key, label]) => (
+        {visibleSections.map(([key, label]) => (
           <section
             key={key}
             data-board-section={key}
@@ -257,11 +269,11 @@ export default function Board({
                   <div className="lab-note-bottom">
                     <select
                       aria-label={`Move ${item.title} to`}
-                      value={sectionOf(item)}
+                      value={itemSection(item)}
                       disabled={busy}
                       onChange={e => void move(item, e.target.value as Section)}
                     >
-                      {Object.entries(sections).map(([value, name]) => (
+                      {visibleSections.map(([value, name]) => (
                         <option key={value} value={value}>
                           Move to {name}
                         </option>

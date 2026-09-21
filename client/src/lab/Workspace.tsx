@@ -73,7 +73,7 @@ export default function Workspace({
   member: Member;
   onAccessLost: () => void;
 }) {
-  const [view, setView] = useState("Board");
+  const [view, setView] = useState("Detective");
   const [items, setItems] = useState<Item[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
@@ -440,10 +440,7 @@ export default function Workspace({
         </div>
         <p className="lab-eyebrow">OUR LITTLE UNIVERSE</p>
         <nav aria-label="Lab workspace">
-          {[
-            { name: "Board", icon: StickyNote },
-            { name: "Detective", icon: Search },
-          ].map(v => (
+          {[{ name: "Detective", icon: Search }].map(v => (
             <button
               key={v.name}
               className={view === v.name ? "active" : ""}
@@ -454,7 +451,7 @@ export default function Workspace({
               }}
             >
               <v.icon size={18} />
-              {v.name}
+              {v.name === "Detective" ? "Ideas" : v.name}
               {v.name === "Detective" && <span className="lab-new">✧</span>}
             </button>
           ))}
@@ -510,7 +507,8 @@ export default function Workspace({
       </aside>
       <main className="lab-workspace">
         <div className="lab-breadcrumb">
-          THE LAB <span>/</span> {view.toUpperCase()}{" "}
+          THE LAB <span>/</span>{" "}
+          {view === "Detective" ? "IDEAS" : view.toUpperCase()}{" "}
           <span className="lab-private-pill">
             <KeyIcon /> Private space
           </span>
@@ -621,7 +619,7 @@ export default function Workspace({
               value={caseId}
               onChange={e => setCaseId(e.target.value)}
             >
-              <option value="">All cases</option>
+              {!activeCase && <option value="">All cases</option>}
               {cases.map(c => (
                 <option key={c.id} value={c.id}>
                   {c.title}
@@ -645,6 +643,8 @@ export default function Workspace({
           <>
             {view === "Board" && (
               <Board
+                key={caseId}
+                projectOnly={!!activeCase}
                 items={
                   activeCase
                     ? filtered.filter(i => i.parent_id === activeCase.id)
@@ -736,7 +736,13 @@ export default function Workspace({
                   <h2>
                     Fresh from our brains <span>↘</span>
                   </h2>
-                  <button onClick={() => setView("Board")}>
+                  <button
+                    onClick={() => {
+                      setCaseId("");
+                      setQuery("");
+                      setView("Detective");
+                    }}
+                  >
                     All notes <ArrowUpRight size={14} />
                   </button>
                 </div>
