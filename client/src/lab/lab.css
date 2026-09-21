@@ -1626,3 +1626,61 @@
     min-height: 180px;
   }
 }
+.lab-case-title {
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 4px;
+}
+.lab-case-open {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-top: 16px;
+}
+.lab-back-to-ideas {
+  margin-bottom: 18px;
+}
+/* Soft cool paper for the navy room, with low-glare light ink. */
+.secret-lab[data-theme="dark"] .lab-paper-sage,
+.secret-lab[data-theme="dark"] .lab-board-layout .lab-paper-sage {
+  background: #2b4057;
+  color: #dee8f2;
+}
+.secret-lab[data-theme="dark"] .lab-paper-butter,
+.secret-lab[data-theme="dark"] .lab-board-layout .lab-paper-butter {
+  background: #363e60;
+  color: #e2e5f5;
+}
+.secret-lab[data-theme="dark"] .lab-paper-rose,
+.secret-lab[data-theme="dark"] .lab-board-layout .lab-paper-rose {
+  background: #513d50;
+  color: #f0dfe9;
+}
+.secret-lab[data-theme="dark"] .lab-paper-paper,
+.secret-lab[data-theme="dark"] .lab-board-layout .lab-paper-paper {
+  background: #413c59;
+  color: #e8e0f3;
+}
+.secret-lab[data-theme="dark"] .lab-note-bottom,
+.secret-lab[data-theme="dark"] .lab-note-bottom select {
+  border-color: #ffffff24;
+}
+.secret-lab[data-theme="dark"] .lab-blank-paper::placeholder {
+  color: #bdc4d7;
+  opacity: 1;
+}
+.secret-lab[data-theme="dark"] .lab-board-note {
+  box-shadow: 0 5px 16px #070f1b30;
+  border-color: #ffffff0b;
+}

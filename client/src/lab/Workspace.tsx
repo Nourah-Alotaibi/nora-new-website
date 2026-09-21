@@ -96,6 +96,10 @@ export default function Workspace({
   const [linkFrom, setLinkFrom] = useState("");
   const [linkTo, setLinkTo] = useState("");
   const [confirmDelete, setConfirmDelete] = useState(false);
+  useEffect(() => {
+    setLinkFrom("");
+    setLinkTo("");
+  }, [caseId]);
   const dialog = useRef<HTMLDialogElement>(null);
   const sequence = useRef(0);
   const alive = useRef(true);
@@ -189,6 +193,15 @@ export default function Workspace({
       `${i.title} ${i.body}`.toLowerCase().includes(query.toLowerCase())
   );
   const cases = items.filter(i => i.kind === "case");
+  const activeCase = cases.find(i => i.id === caseId);
+  const ideaCases = cases.filter(i =>
+    `${i.title} ${i.body}`.toLowerCase().includes(query.toLowerCase())
+  );
+  function openCase(item: Item) {
+    setCaseId(item.id);
+    setQuery("");
+    setView("Board");
+  }
   async function save(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!draft || saving) return;
@@ -323,7 +336,20 @@ export default function Workspace({
             <Pencil size={14} />
           </button>
         </div>
-        <h3>{item.title}</h3>
+        <h3>
+          {item.kind === "case" ? (
+            <button className="lab-case-title" onClick={() => openCase(item)}>
+              {item.title}
+            </button>
+          ) : (
+            item.title
+          )}
+        </h3>
+        {item.kind === "case" && (
+          <button className="lab-case-open" onClick={() => openCase(item)}>
+            Open idea <ArrowUpRight size={15} />
+          </button>
+        )}
         {item.body && <p className="lab-card-body">{item.body}</p>}
         {item.url && safeUrl(item.url) && (
           <a
@@ -383,7 +409,7 @@ export default function Workspace({
           onClick={() =>
             setDraft(
               blank(
-                view === "Cases"
+                view === "Cases" || view === "Detective"
                   ? "case"
                   : view === "Shopping"
                     ? "shopping"
@@ -416,12 +442,16 @@ export default function Workspace({
         <nav aria-label="Lab workspace">
           {[
             { name: "Board", icon: StickyNote },
-            { name: "Cases", icon: Folder },
+            { name: "Detective", icon: Search },
           ].map(v => (
             <button
               key={v.name}
               className={view === v.name ? "active" : ""}
-              onClick={() => setView(v.name)}
+              onClick={() => {
+                setView(v.name);
+                setCaseId("");
+                setQuery("");
+              }}
             >
               <v.icon size={18} />
               {v.name}
@@ -432,14 +462,19 @@ export default function Workspace({
             More tools
             <select
               aria-label="More Lab tools"
-              value={view === "Board" || view === "Cases" ? "" : view}
+              value={view === "Board" || view === "Detective" ? "" : view}
               onChange={e => {
                 if (e.target.value) setView(e.target.value);
               }}
             >
               <option value="">Choose a tool...</option>
               {views
-                .filter(v => v.name !== "Cases" && v.name !== "Sticky notes")
+                .filter(
+                  v =>
+                    v.name !== "Cases" &&
+                    v.name !== "Detective" &&
+                    v.name !== "Sticky notes"
+                )
                 .map(v => (
                   <option key={v.name}>{v.name}</option>
                 ))}
@@ -490,7 +525,13 @@ export default function Workspace({
             <h1>
               {view === "Board" ? (
                 <>
-                  Our shared <em>board</em>
+                  {activeCase ? (
+                    activeCase.title
+                  ) : (
+                    <>
+                      Our shared <em>board</em>
+                    </>
+                  )}
                 </>
               ) : view === "Dashboard" ? (
                 <>
@@ -499,7 +540,7 @@ export default function Workspace({
                 </>
               ) : view === "Detective" ? (
                 <>
-                  Connect the <em>clues</em>
+                  Explore our <em>ideas</em>
                 </>
               ) : (
                 view
@@ -508,11 +549,13 @@ export default function Workspace({
             </h1>
             <p className="lab-muted">
               {view === "Board"
-                ? "Ideas, little tangents, useful finds. Make a little room for all of it."
+                ? activeCase
+                  ? "The notes, resources and little discoveries for this idea."
+                  : "Ideas, little tangents, useful finds. Make a little room for all of it."
                 : view === "Dashboard"
                   ? "A fresh page, a shared brain, a hundred little possibilities."
                   : view === "Detective"
-                    ? "Find the thread between an idea, a resource, and the next big thing."
+                    ? "Choose an idea to step inside its own board."
                     : "Every little piece has a place here."}
             </p>
           </div>
@@ -521,7 +564,7 @@ export default function Workspace({
             onClick={() =>
               setDraft(
                 blank(
-                  view === "Cases"
+                  view === "Cases" || view === "Detective"
                     ? "case"
                     : view === "Shopping"
                       ? "shopping"
@@ -550,6 +593,18 @@ export default function Workspace({
             </button>
           </div>
         )}
+        {view === "Board" && activeCase && (
+          <button
+            className="lab-secondary lab-back-to-ideas"
+            onClick={() => {
+              setCaseId("");
+              setQuery("");
+              setView("Detective");
+            }}
+          >
+            ← All ideas
+          </button>
+        )}
         <div className="lab-toolbar">
           <label className="lab-search">
             <Search size={16} />
@@ -560,18 +615,20 @@ export default function Workspace({
               placeholder="Find a thought, clue, or case…"
             />
           </label>
-          <select
-            aria-label="Filter by case"
-            value={caseId}
-            onChange={e => setCaseId(e.target.value)}
-          >
-            <option value="">All cases</option>
-            {cases.map(c => (
-              <option key={c.id} value={c.id}>
-                {c.title}
-              </option>
-            ))}
-          </select>
+          {view !== "Detective" && (
+            <select
+              aria-label="Filter by case"
+              value={caseId}
+              onChange={e => setCaseId(e.target.value)}
+            >
+              <option value="">All cases</option>
+              {cases.map(c => (
+                <option key={c.id} value={c.id}>
+                  {c.title}
+                </option>
+              ))}
+            </select>
+          )}
           <button
             className="lab-icon"
             aria-label="Refresh workspace"
@@ -588,7 +645,11 @@ export default function Workspace({
           <>
             {view === "Board" && (
               <Board
-                items={filtered}
+                items={
+                  activeCase
+                    ? filtered.filter(i => i.parent_id === activeCase.id)
+                    : filtered
+                }
                 author={author}
                 update={update}
                 edit={setDraft}
@@ -773,86 +834,87 @@ export default function Workspace({
               <>
                 <div className="lab-clue-board">
                   <div className="lab-board-label">
-                    EVIDENCE BOARD / {filtered.length} CLUES
+                    OUR IDEAS / {ideaCases.length} CASES
                   </div>
-                  {grid(filtered, "Every mystery starts with one clue.")}
+                  {grid(ideaCases, "A new idea starts here.")}
                 </div>
-                <section className="lab-connections">
-                  <h2>
-                    <Link2 size={20} /> Follow a thread
-                  </h2>
-                  <div className="lab-connect-form">
-                    <select
-                      aria-label="First clue"
-                      value={linkFrom}
-                      onChange={e => setLinkFrom(e.target.value)}
-                    >
-                      <option value="">First clue</option>
-                      {items.map(i => (
+              </>
+            )}
+            {view === "Board" && activeCase && (
+              <section className="lab-connections">
+                <h2>
+                  <Link2 size={20} /> Follow a thread
+                </h2>
+                <div className="lab-connect-form">
+                  <select
+                    aria-label="First clue"
+                    value={linkFrom}
+                    onChange={e => setLinkFrom(e.target.value)}
+                  >
+                    <option value="">First clue</option>
+                    {filtered.map(i => (
+                      <option key={i.id} value={i.id}>
+                        {i.title}
+                      </option>
+                    ))}
+                  </select>
+                  <span>↔</span>
+                  <select
+                    aria-label="Second clue"
+                    value={linkTo}
+                    onChange={e => setLinkTo(e.target.value)}
+                  >
+                    <option value="">Second clue</option>
+                    {filtered
+                      .filter(i => i.id !== linkFrom)
+                      .map(i => (
                         <option key={i.id} value={i.id}>
                           {i.title}
                         </option>
                       ))}
-                    </select>
-                    <span>↔</span>
-                    <select
-                      aria-label="Second clue"
-                      value={linkTo}
-                      onChange={e => setLinkTo(e.target.value)}
-                    >
-                      <option value="">Second clue</option>
-                      {items
-                        .filter(i => i.id !== linkFrom)
-                        .map(i => (
-                          <option key={i.id} value={i.id}>
-                            {i.title}
-                          </option>
-                        ))}
-                    </select>
-                    <button
-                      className="lab-secondary"
-                      disabled={!linkFrom || !linkTo}
-                      onClick={() => void link()}
-                    >
-                      Connect clues
-                    </button>
-                  </div>
-                  {edges
-                    .filter(edge =>
-                      filtered.some(
-                        i => i.id === edge.source_id || i.id === edge.target_id
-                      )
-                    )
-                    .map(edge => (
-                      <div className="lab-thread" key={edge.id}>
-                        <span>
-                          {items.find(i => i.id === edge.source_id)?.title ||
-                            "Archived clue"}
-                        </span>
-                        <span className="lab-thread-line" />
-                        <span>
-                          {items.find(i => i.id === edge.target_id)?.title ||
-                            "Archived clue"}
-                        </span>
-                        <button
-                          className="lab-icon"
-                          aria-label="Remove connection"
-                          onClick={async () => {
-                            const { error: failure } = await client
-                              .from("lab_edges")
-                              .update({ deleted: true })
-                              .eq("id", edge.id);
-                            if (failure)
-                              setError("Could not remove connection.");
-                            await refresh();
-                          }}
-                        >
-                          <X size={14} />
-                        </button>
-                      </div>
-                    ))}
-                </section>
-              </>
+                  </select>
+                  <button
+                    className="lab-secondary"
+                    disabled={!linkFrom || !linkTo}
+                    onClick={() => void link()}
+                  >
+                    Connect clues
+                  </button>
+                </div>
+                {edges
+                  .filter(
+                    edge =>
+                      filtered.some(i => i.id === edge.source_id) &&
+                      filtered.some(i => i.id === edge.target_id)
+                  )
+                  .map(edge => (
+                    <div className="lab-thread" key={edge.id}>
+                      <span>
+                        {items.find(i => i.id === edge.source_id)?.title ||
+                          "Archived clue"}
+                      </span>
+                      <span className="lab-thread-line" />
+                      <span>
+                        {items.find(i => i.id === edge.target_id)?.title ||
+                          "Archived clue"}
+                      </span>
+                      <button
+                        className="lab-icon"
+                        aria-label="Remove connection"
+                        onClick={async () => {
+                          const { error: failure } = await client
+                            .from("lab_edges")
+                            .update({ deleted: true })
+                            .eq("id", edge.id);
+                          if (failure) setError("Could not remove connection.");
+                          await refresh();
+                        }}
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ))}
+              </section>
             )}
             {view === "Resources" && (
               <>
@@ -1072,7 +1134,13 @@ export default function Workspace({
             </div>
             <label>
               Related case
-              <select name="parent_id" defaultValue={draft.parent_id || ""}>
+              <select
+                name="parent_id"
+                defaultValue={
+                  draft.parent_id ||
+                  (!draft.id && draft.kind !== "case" ? caseId : "")
+                }
+              >
                 <option value="">No case yet</option>
                 {cases
                   .filter(c => c.id !== draft.id)
