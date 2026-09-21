@@ -15,6 +15,8 @@ export type Item = {
   created_at: string;
   updated_at: string;
   version: number;
+  board_section?: "ideas" | "subideas" | "resources" | "coding" | null;
+  board_order?: number;
   deleted: boolean;
 };
 export type Edge = {

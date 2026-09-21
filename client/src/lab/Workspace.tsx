@@ -29,6 +29,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { labApi, safeUrl, type Item, type Member, type Edge } from "./client";
+import Board from "./Board";
 const views = [
   { name: "Dashboard", icon: LayoutDashboard },
   { name: "Detective", icon: Search },
@@ -72,7 +73,7 @@ export default function Workspace({
   member: Member;
   onAccessLost: () => void;
 }) {
-  const [view, setView] = useState("Dashboard");
+  const [view, setView] = useState("Board");
   const [items, setItems] = useState<Item[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
@@ -401,7 +402,7 @@ export default function Workspace({
     );
   }
   return (
-    <div className="lab-layout">
+    <div className={`lab-layout ${view === "Board" ? "lab-board-view" : ""}`}>
       <aside className="lab-sidebar">
         <div className="lab-brand">
           <div>
@@ -413,7 +414,10 @@ export default function Workspace({
         </div>
         <p className="lab-eyebrow">OUR LITTLE UNIVERSE</p>
         <nav aria-label="Lab workspace">
-          {views.map(v => (
+          {[
+            { name: "Board", icon: StickyNote },
+            { name: "Cases", icon: Folder },
+          ].map(v => (
             <button
               key={v.name}
               className={view === v.name ? "active" : ""}
@@ -424,6 +428,23 @@ export default function Workspace({
               {v.name === "Detective" && <span className="lab-new">✧</span>}
             </button>
           ))}
+          <label className="lab-tools-menu">
+            More tools
+            <select
+              aria-label="More Lab tools"
+              value={view === "Board" || view === "Cases" ? "" : view}
+              onChange={e => {
+                if (e.target.value) setView(e.target.value);
+              }}
+            >
+              <option value="">Choose a tool...</option>
+              {views
+                .filter(v => v.name !== "Cases" && v.name !== "Sticky notes")
+                .map(v => (
+                  <option key={v.name}>{v.name}</option>
+                ))}
+            </select>
+          </label>
         </nav>
         <div className="lab-sidebar-bottom">
           <div className="lab-members">
@@ -467,7 +488,11 @@ export default function Workspace({
                 : "FOLLOW YOUR CURIOSITY"}
             </p>
             <h1>
-              {view === "Dashboard" ? (
+              {view === "Board" ? (
+                <>
+                  Our shared <em>board</em>
+                </>
+              ) : view === "Dashboard" ? (
                 <>
                   Hello, {member.username}
                   <em> ☘</em>
@@ -482,11 +507,13 @@ export default function Workspace({
               <span className="lab-heading-dot">.</span>
             </h1>
             <p className="lab-muted">
-              {view === "Dashboard"
-                ? "A fresh page, a shared brain, a hundred little possibilities."
-                : view === "Detective"
-                  ? "Find the thread between an idea, a resource, and the next big thing."
-                  : "Every little piece has a place here."}
+              {view === "Board"
+                ? "Ideas, little tangents, useful finds. Make a little room for all of it."
+                : view === "Dashboard"
+                  ? "A fresh page, a shared brain, a hundred little possibilities."
+                  : view === "Detective"
+                    ? "Find the thread between an idea, a resource, and the next big thing."
+                    : "Every little piece has a place here."}
             </p>
           </div>
           <button
@@ -559,6 +586,32 @@ export default function Workspace({
           </p>
         ) : (
           <>
+            {view === "Board" && (
+              <Board
+                items={filtered}
+                author={author}
+                update={update}
+                edit={setDraft}
+                create={async changes => {
+                  setError("");
+                  const { error: failure } = await client
+                    .from("lab_items")
+                    .insert({
+                      ...blank("note"),
+                      ...changes,
+                      parent_id: caseId || null,
+                    });
+                  if (failure) {
+                    setError(
+                      "Could not save your note. Your writing is still in the tray; try again."
+                    );
+                    return false;
+                  }
+                  await refresh();
+                  return true;
+                }}
+              />
+            )}
             {view === "Dashboard" && (
               <>
                 <div className="lab-stats">
@@ -622,7 +675,7 @@ export default function Workspace({
                   <h2>
                     Fresh from our brains <span>↘</span>
                   </h2>
-                  <button onClick={() => setView("Sticky notes")}>
+                  <button onClick={() => setView("Board")}>
                     All notes <ArrowUpRight size={14} />
                   </button>
                 </div>
@@ -935,7 +988,8 @@ export default function Workspace({
       )}
       <dialog
         ref={dialog}
-        className="lab-editor" aria-label="Edit Lab item"
+        className="lab-editor"
+        aria-label="Edit Lab item"
         onCancel={() => setDraft(null)}
         onClose={() => setDraft(null)}
       >
@@ -1088,4 +1142,3 @@ function SproutMark() {
 function KeyIcon() {
   return <span aria-hidden="true">⌑</span>;
 }
-

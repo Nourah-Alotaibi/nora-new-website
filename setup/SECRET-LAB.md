@@ -36,3 +36,7 @@ The isolated `tests/lab-fixture.tsx` contains sample data for UI checks and is n
 After configuration, verify: Nora/Sara login; wrong-password rejection; an outsider account redirects; updates appear in a second session; simultaneous changes reject a stale save; sign-out clears the workspace; removal of membership blocks REST and AI access; live Gemini and discovery results.
 
 References: [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security), [Supabase Realtime](https://supabase.com/docs/guides/realtime/postgres-changes), [Gemini generateContent](https://ai.google.dev/api/generate-content).
+
+## Shared board update
+
+After the base schema, run `setup/lab-board.sql` in the same project. It adds optional section placement and ordering to existing items; access policies and attribution remain unchanged. The Board is the default view. Drag a note by its handle or use its Move to menu. Secondary tools are in More tools.
