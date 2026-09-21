@@ -12,6 +12,8 @@ import LeaveNote from "./components/LeaveNote";
 import LikeButton from "./components/LikeButton";
 import { lazy, Suspense } from "react";
 const PrivateNotes = lazy(() => import("./pages/PrivateNotes"));
+const SecretLab = lazy(() => import("./pages/SecretLab"));
+function LabRoute() { return <Suspense fallback={<div role="status" style={{ padding:40 }}>Opening the secret door…</div>}><SecretLab /></Suspense>; }
 function OwnerRoute() { return <Suspense fallback={<div style={{ padding:40 }}>404<br />Nothing here.</div>}><PrivateNotes /></Suspense>; }
 
 function Portfolio() {
@@ -39,6 +41,7 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Portfolio} />
+      <Route path="/nora-and-sara-lab" component={LabRoute} />
       <Route path="/n-1350c3164f9571a92386ede205b5e6e17aa891a12291d21a" component={OwnerRoute} />
       <Route path="/s-20bbf1274fbb9e796eb540bad32c3931ae0dd27ebf3dee27" component={OwnerRoute} />
       <Route path={"/404"} component={NotFound} />

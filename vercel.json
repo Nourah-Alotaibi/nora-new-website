@@ -4,6 +4,17 @@
   "outputDirectory": "dist/public",
   "routes": [
     {
+      "src": "/nora-and-sara-lab/?",
+      "headers": {
+        "Content-Security-Policy": "frame-ancestors 'none'",
+        "Referrer-Policy": "no-referrer",
+        "Cache-Control": "private, no-store",
+        "X-Frame-Options": "DENY",
+        "X-Robots-Tag": "noindex, nofollow, noarchive"
+      },
+      "continue": true
+    },
+    {
       "src": "/forcoded",
       "status": 308,
       "headers": {
