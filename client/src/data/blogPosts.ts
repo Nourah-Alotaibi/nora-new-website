@@ -10,11 +10,7 @@ export const blogPosts: BlogPost[] = [
     "content": [
       {
         "type": "paragraph",
-        "text": "My journey into AI started before AI became something everyone was talking about. And strangely enough, it did not start with AI."
-      },
-      {
-        "type": "paragraph",
-        "text": "It started with learning how to build a website."
+        "text": "My journey into AI began around 2021–2022, before the generative AI boom. But my first step was learning how to build a website."
       },
       {
         "type": "paragraph",
@@ -78,7 +74,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "That experience stayed with me because it captured something familiar about my journey: curiosity, a friend encouraging me to try, and a very short amount of time to turn “I have never done this” into something real."
+        "text": "Looking back, that competition feels very typical of me: a friend convincing me to try something new, barely enough time to learn it, and somehow making it happen."
       },
       {
         "type": "paragraph",
@@ -103,7 +99,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "From that data, I could begin thinking about models: what I could train them to recognize, what they might predict, and how I would test whether they had learned something useful. Every new field gave me another set of questions to explore."
+        "text": "Once I started seeing data everywhere, I started imagining the models I could build from it—what they could recognize, what they might predict, and whether they would actually be useful. Every new field gave me another set of questions to explore."
       },
       {
         "type": "paragraph",
@@ -148,7 +144,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "Even during my master’s, other opportunities have come along, including some that conflicted with my studies. I appreciated them, but when I had to make a choice, I kept protecting the path I had chosen."
+        "text": "Even during my master’s, other opportunities have come along, including some that conflicted with my studies. I appreciated them, but when I had to make a choice, I kept choosing to give my studies the time they needed."
       },
       {
         "type": "paragraph",
@@ -168,11 +164,11 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "Through his guidance, I am learning that a researcher starts earlier: *Why should this approach work? What does previous research tell us? What assumptions am I making, and how will I test them?* The choice of a method becomes a studied decision, grounded in reasoning and evidence before implementation begins."
+        "text": "Through his guidance, I am learning that a researcher starts earlier: *Why should this approach work? What does previous research tell us? What assumptions am I making, and how will I test them?* I am learning to understand why I am choosing a method before I start coding it."
       },
       {
         "type": "paragraph",
-        "text": "Making a system work is still important. Research also asks what its performance tells us, whether the comparison is fair, and whether the evidence supports the explanation. I still love building things; I am learning to give each choice a reason and each conclusion a basis."
+        "text": "Making a system work is still important. Research also asks what its performance tells us, whether the comparison is fair, and whether the evidence supports the explanation. I still love building things; I am learning to explain why I made each choice and what the evidence actually supports."
       },
       {
         "type": "paragraph",
@@ -184,7 +180,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "I deeply value learning from someone whose approach to research gives me something to aspire to. His guidance is helping shape the researcher I hope to become."
+        "text": "I deeply value learning from someone whose approach to research gives me something to aspire to. He is helping me develop the habits of the researcher I hope to become."
       },
       {
         "type": "paragraph",
