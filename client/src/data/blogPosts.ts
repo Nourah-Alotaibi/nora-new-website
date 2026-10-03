@@ -655,7 +655,7 @@ export const blogPosts: BlogPost[] = [
     ],
     "video": {
       "src": "/videos/werewolf-intro-2026.mp4",
-      "poster": "/videos/werewolf-intro-2026-poster.jpg",
+      "poster": "/videos/werewolf-intro-cover.png",
       "caption": "The actual 3D game introduction: the confrontation, the witch’s curse, and the beginning of the search for a cure. 29 seconds."
     },
     "playHref": "/werewolf/"
