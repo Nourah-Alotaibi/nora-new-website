@@ -236,11 +236,6 @@ export const blogPosts: BlogPost[] = [
         "text": "Meaning in English: When a person dies, their deeds cease except for three: ongoing charity, knowledge that benefits others, or a righteous child who prays for them."
       },
       {
-        "type": "link",
-        "text": "Sahih Muslim, Hadith 1631 → Read the source",
-        "href": "https://sunnah.com/muslim/25/20"
-      },
-      {
         "type": "paragraph",
         "text": "What moves me most is the idea that beneficial knowledge can continue helping people long after the person who shared it is gone. It makes teaching and research feel especially meaningful: something I explain, build, or discover may help someone else learn, solve a problem, or pass that understanding on to another person."
       },
