@@ -367,7 +367,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     "slug": "ctf-control-room",
-    "title": "From 36th to 6th: Flags, Clues, and a Little Matcha",
+    "title": "From 36th to 6th: Flags and a Little Matcha",
     "date": "2026-10-04",
     "excerpt": "Three waves, Team Matcha Latte, and a sixth-place CYSEC Kuwait finish. A story of progress, teamwork, and a project I am keeping under the radar.",
     "category": "Cybersecurity · CTF · Building",
