@@ -222,7 +222,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "That is part of what I want from research: to seek truth carefully, publish knowledge, teach what I learn, and contribute to work that can help people. In fields such as healthcare and cybersecurity, that contribution may help someone make a better decision, protect someone, or perhaps even help save a life."
+        "text": "That is part of what I want from research: to seek truth carefully, publish knowledge, and teach what I learn. Something I build, publish, or simply teach could help someone make a better decision—or give them the knowledge to build something that saves another person’s life. In healthcare, that could literally mean helping save a life. In other fields, it could mean protecting someone or easing their suffering. I want what I contribute to help relieve pain in its many forms and at every level, from making a difficult day easier to helping someone through something life-changing."
       },
       {
         "type": "paragraph",
