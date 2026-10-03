@@ -1,5 +1,5 @@
 export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote"; text: string; href?: string; lang?: string };
-export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption: string }; cover?: string; coverStyle?: "portrait"; category?: string; playHref?: string };
+export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption?: string }; cover?: string; coverStyle?: "portrait"; category?: string; playHref?: string };
 
 export const blogPosts: BlogPost[] = [
   {
@@ -356,8 +356,7 @@ export const blogPosts: BlogPost[] = [
     ],
     "video": {
       "src": "/videos/werewolf-intro-2026.mp4",
-      "poster": "/videos/werewolf-intro-cover.png",
-      "caption": "The actual 3D game introduction: the confrontation, the witch’s curse, and the beginning of the search for a cure. 29 seconds."
+      "poster": "/videos/werewolf-intro-cover.png"
     },
     "playHref": "/werewolf/",
     "cover": "/videos/werewolf-intro-cover.png",

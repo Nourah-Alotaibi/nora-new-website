@@ -37,11 +37,11 @@ export default function Blog() {
             <h1>{post.title}</h1>
             <p className="journal-byline"><time dateTime={post.date}>{displayDate(post.date)}</time></p>
             {post.video && <figure className="journal-film">
-              <video controls playsInline preload="metadata" poster={post.video.poster} aria-label={`${post.title} — game introduction`}>
+              <video controls playsInline preload="metadata" poster={post.video.poster} aria-label={`${post.title} — game video`}>
                 <source src={post.video.src} type="video/mp4" />
-                <a href={post.video.src}>Watch the game introduction</a>
+                <a href={post.video.src}>Watch the game video</a>
               </video>
-              <figcaption>{post.video.caption}</figcaption>
+              {post.video.caption && <figcaption>{post.video.caption}</figcaption>}
             </figure>}
             <div className="journal-body">
               {post.content.map((block, index) => block.type === "heading" ? <h2 key={index}>{block.text}</h2> : block.type === "quote" ? <blockquote className="journal-quote" dir="auto" lang={block.lang} key={index}>{block.text}</blockquote> : block.type === "link" ? <p className="journal-story-link" key={index}><a href={block.href}>{block.text}</a></p> : <p key={index}><ArticleText text={block.text} /></p>)}
@@ -64,7 +64,6 @@ export default function Blog() {
                   {item.cover && <div className={`journal-card-cover${item.coverStyle === "portrait" ? " journal-cover-portrait" : ""}`}>
                     <img src={item.cover} alt="" loading="lazy" />
                     {item.coverStyle === "portrait" && <span className="journal-cover-note">A curious mind.<br /><em>A path of my own.</em></span>}
-                    {item.video && <span className="journal-cover-video">▶ 29-second game intro</span>}
                   </div>}
                   <div className="journal-card-content">
                     <div className="journal-card-meta"><span>{item.category ?? "Studio notes"}</span><time dateTime={item.date}>{displayDate(item.date)}</time></div>
