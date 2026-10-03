@@ -34,6 +34,10 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
+        "text": "There are techniques and rules behind both, but also enormous freedom in what you choose to create. That combination of logic, experimentation, and creativity became one of my favorite things about technology."
+      },
+      {
+        "type": "paragraph",
         "text": "Then robotics pulled me in."
       },
       {
@@ -74,6 +78,10 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
+        "text": "That experience stayed with me because it captured something familiar about my journey: curiosity, a friend encouraging me to try, and a very short amount of time to turn “I have never done this” into something real."
+      },
+      {
+        "type": "paragraph",
         "text": "That story has a new chapter now: I independently reimagined the game as a 3D online adventure."
       },
       {
@@ -88,6 +96,14 @@ export const blogPosts: BlogPost[] = [
       {
         "type": "paragraph",
         "text": "I started thinking of AI and data science as my “joker card.” Healthcare has data. Cybersecurity has data. Games, robotics, and businesses have data. Each field has its own questions, but learning how to work with data gave me a way to explore them."
+      },
+      {
+        "type": "paragraph",
+        "text": "Over time, that became something I noticed almost automatically. In game development, I began seeing data in how players moved, the choices they made, and where they struggled. In cybersecurity, I saw it in network traffic, system logs, and patterns that could reveal something unusual."
+      },
+      {
+        "type": "paragraph",
+        "text": "From that data, I could begin thinking about models: what I could train them to recognize, what they might predict, and how I would test whether they had learned something useful. Every new field gave me another set of questions to explore."
       },
       {
         "type": "paragraph",
@@ -132,6 +148,10 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
+        "text": "Even during my master’s, other opportunities have come along, including some that conflicted with my studies. I appreciated them, but when I had to make a choice, I kept protecting the path I had chosen."
+      },
+      {
+        "type": "paragraph",
         "text": "That choice led me to a Master’s in Data Science and Artificial Intelligence. I am now working on my thesis in **Explainable AI for healthcare**, an area that brings together several things I care about: technology, understanding, and work that can benefit people."
       },
       {
@@ -157,6 +177,18 @@ export const blogPosts: BlogPost[] = [
       {
         "type": "paragraph",
         "text": "There is creativity in that, too."
+      },
+      {
+        "type": "paragraph",
+        "text": "Sometimes that creativity comes from looking at a result more carefully and finding a perspective that was previously hidden. Dr. Iyad encourages me to ask what a result actually reveals, what else could explain it, and how to present it in a way that helps others see something new."
+      },
+      {
+        "type": "paragraph",
+        "text": "I deeply value learning from someone whose approach to research gives me something to aspire to. His guidance is helping shape the researcher I hope to become."
+      },
+      {
+        "type": "paragraph",
+        "text": "Maybe I never really left the canvas. I just changed what I create on it."
       },
       {
         "type": "heading",
@@ -191,6 +223,14 @@ export const blogPosts: BlogPost[] = [
       {
         "type": "paragraph",
         "text": "What moves me most is the idea that beneficial knowledge can continue helping people long after the person who shared it is gone. It makes teaching and research feel especially meaningful: something I explain, build, or discover may help someone else learn, solve a problem, or pass that understanding on to another person."
+      },
+      {
+        "type": "paragraph",
+        "text": "That is part of what I want from research: to seek truth carefully, publish knowledge, teach what I learn, and contribute to work that can help people. In fields such as healthcare and cybersecurity, that contribution may help someone make a better decision, protect someone, or perhaps even help save a life."
+      },
+      {
+        "type": "paragraph",
+        "text": "**I want to learn, but I also want what I learn to travel.**"
       },
       {
         "type": "heading",
