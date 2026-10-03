@@ -44,7 +44,7 @@ export default function Blog() {
               {post.video.caption && <figcaption>{post.video.caption}</figcaption>}
             </figure>}
             <div className="journal-body">
-              {post.content.map((block, index) => block.type === "heading" ? <h2 key={index}>{block.text}</h2> : block.type === "quote" ? <blockquote className="journal-quote" dir="auto" lang={block.lang} key={index}>{block.text}</blockquote> : block.type === "link" ? <p className="journal-story-link" key={index}><a href={block.href}>{block.text}</a></p> : <p key={index}><ArticleText text={block.text} /></p>)}
+              {post.content.map((block, index) => block.type === "image" ? <figure className="journal-post-image" key={index}><img src={block.href} alt={block.text} loading="lazy" /><figcaption>{block.text}</figcaption></figure> : block.type === "heading" ? <h2 key={index}>{block.text}</h2> : block.type === "quote" ? <blockquote className="journal-quote" dir="auto" lang={block.lang} key={index}>{block.text}</blockquote> : block.type === "link" ? <p className="journal-story-link" key={index}><a href={block.href}>{block.text}</a></p> : <p key={index}><ArticleText text={block.text} /></p>)}
             </div>
             {post.playHref && <aside className="journal-play">
               <h2>Your turn to break the curse.</h2>

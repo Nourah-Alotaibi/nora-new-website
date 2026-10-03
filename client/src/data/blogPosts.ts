@@ -364,6 +364,112 @@ export const blogPosts: BlogPost[] = [
     "playHref": "/werewolf/",
     "cover": "/videos/werewolf-intro-cover.png",
     "category": "Game development · 3D"
+  },
+  {
+    "slug": "ctf-control-room",
+    "title": "A little more curiosity, a little more cybersecurity",
+    "date": "2026-10-03",
+    "excerpt": "Three waves, Team Matcha Latte, and a sixth-place CYSEC Kuwait finish. A story of progress, teamwork, and a project I am keeping under the radar.",
+    "category": "Cybersecurity · CTF · Building",
+    "cover": "/blog-media/ctf-welcome.png",
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Three waves of challenges, teamwork, and a sixth-place finish in Kuwait. 🔐"
+      },
+      {
+        "type": "paragraph",
+        "text": "Proud to share that **Sara and I ranked 6th** in a national-level cybersecurity CTF challenge in Kuwait, the **CYSEC Kuwait CTF 2026 Qualification Round**, with **Team Matcha Latte**! 🇰🇼💻"
+      },
+      {
+        "type": "paragraph",
+        "text": "The competition ran across three waves, with new challenges released in each wave covering web security, reverse engineering, digital forensics, network security, cryptography, and cybersecurity problem-solving."
+      },
+      {
+        "type": "image",
+        "text": "Team Matcha Latte's sixth-place qualifying result.",
+        "href": "/blog-media/cysec-sixth-place.png"
+      },
+      {
+        "type": "heading",
+        "text": "Working through it together 💜"
+      },
+      {
+        "type": "paragraph",
+        "text": "We approached the challenges strategically, divided tasks based on our strengths, and worked effectively as a team under time pressure."
+      },
+      {
+        "type": "paragraph",
+        "text": "The competition stayed open around the clock for three days. Even a few minutes could make a difference: another team could find a clue, solve a challenge, and move ahead of us. It felt like a race against time, with problems to solve and code to write under pressure."
+      },
+      {
+        "type": "heading",
+        "text": "Building my secret AI tool 💻"
+      },
+      {
+        "type": "paragraph",
+        "text": "Meet **CTF Control Room, my secret AI tool**. It helps analyze, organize, and attempt to solve CTF challenges with a smarter approach. It is a personal project I have been working on, and I want to keep it under the radar for now. 🤫"
+      },
+      {
+        "type": "image",
+        "text": "The welcome screen you see when CTF Control Room opens.",
+        "href": "/blog-media/ctf-welcome.png"
+      },
+      {
+        "type": "paragraph",
+        "text": "I spent **a week building it**, mainly in **Python**, using **Textual** for its terminal interface and **Bash** scripts for setup. Then I tested it with Sara."
+      },
+      {
+        "type": "paragraph",
+        "text": "It runs locally on a laptop in a **Linux terminal, or through WSL on Windows**. After setup, launching the app opens this welcome screen inside the terminal. Pressing **Enter** takes you into the Control Room, while the help option introduces the basics."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Thank you, Sara, for being CTF Control Room’s first product tester! 💜** Having you test something I built made this part of the experience especially meaningful."
+      },
+      {
+        "type": "paragraph",
+        "text": "I may release it soon—but **only after I finish all my upcoming CTF challenges**. As for its methods and inner workings, I want to keep them under the radar for now. Only Sara and I hold the secret key to the Control Room—no spare keys just yet! 🔑🤫"
+      },
+      {
+        "type": "heading",
+        "text": "From 36th to sixth 🌱"
+      },
+      {
+        "type": "paragraph",
+        "text": "I still remember our first CTF together at CODED in **2024, when we ranked 36th**. Later came a **20th-place finish**. Since then, we have kept competing, learning, and improving together."
+      },
+      {
+        "type": "paragraph",
+        "text": "After the competition, I also built **DecafShot**, a separate project focused more on practical CTF learning—an old-school tool with a modern twist. Think Sherlock Holmes, if he were a GitHub repository himself. ☕🔎"
+      },
+      {
+        "type": "link",
+        "text": "Explore DecafShot on GitHub ↗",
+        "href": "https://github.com/Nourah-Alotaibi/DecafShot-No-AI-CTF-tool"
+      },
+      {
+        "type": "paragraph",
+        "text": "As a big fan of the Sherlock Holmes books, shows, and his way of thinking, I took inspiration from him for DecafShot’s detective style. A little curiosity, a little mystery, and a love of following the clues. 🔎"
+      },
+      {
+        "type": "image",
+        "text": "DecafShot cybersecurity detective.",
+        "href": "/blog-media/decaf-thumbnail.png"
+      },
+      {
+        "type": "paragraph",
+        "text": "Going from **36th to 6th** feels especially meaningful and encouraging—an incredible milestone. It reminds us that the effort is paying off and motivates us to keep going, keep learning, and keep challenging ourselves. **Inshallah, Top 3 next.** 🏆"
+      },
+      {
+        "type": "paragraph",
+        "text": "A special thank you to **Sahl Elhifnawy** and the **CyberTalents team** for their support and for making the rounds run smoothly. 🙏"
+      },
+      {
+        "type": "paragraph",
+        "text": "And of course, thank you to my mom for covering for me at weekend gatherings while I was busy chasing flags! 💜 She kept checking whether I needed anything and has always encouraged me to follow my interests. So much of the independent and successful woman I am today comes from having her in my corner."
+      }
+    ]
   }
 ];
 
