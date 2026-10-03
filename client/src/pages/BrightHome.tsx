@@ -62,7 +62,11 @@ export default function BrightHome() {
   const [filmPlaying, setFilmPlaying] = useState(false);
   useEffect(() => () => stopStudioAudio(), []);
   const [palette, setPalette] = useState<Palette>("matcha");
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(() => {
+    const requested = new URLSearchParams(window.location.search).get("project")?.toLowerCase();
+    const index = PA_PROJECTS.findIndex(project => project.title.toLowerCase() === requested);
+    return index >= 0 ? index : 0;
+  });
   const [deskReady, setDeskReady] = useState(false);
   const [intro, setIntro] = useState(() => {
     try {

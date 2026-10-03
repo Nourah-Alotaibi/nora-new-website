@@ -99,6 +99,19 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
+        "text": "Before that decision, I had taken EVA, my project from the UC Berkeley × AUM AI & Entrepreneurship Program, into competitions across Kuwait and the Gulf region. EVA is an AI-powered wearable assistant designed to support people with specific needs in everyday life. It combines computer vision and intelligent assistance to help users understand their surroundings, communicate, and receive real-time support."
+      },
+      {
+        "type": "paragraph",
+        "text": "In Kuwait, our team won a major prize that opened the door to competing internationally. EVA earned 2nd Place at the AUM Startup Challenge, 1st Place at the Gulf Hult Business & Innovation Competition, and Top 12 recognition globally at Babson College. Seeing an idea grow beyond the program into a project recognized locally, regionally, and internationally made entrepreneurship feel very real to me."
+      },
+      {
+        "type": "link",
+        "text": "The project, the prizes, and the places it took us → Explore EVA’s competition details",
+        "href": "/?project=eva#studio-project"
+      },
+      {
+        "type": "paragraph",
         "text": "After winning a regional competition, I was offered a **fully funded MBA** as part of the prize. It was an opportunity I deeply appreciated, and one I took seriously."
       },
       {
