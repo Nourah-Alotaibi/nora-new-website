@@ -17,3 +17,7 @@
 .journal-body .journal-story-link a:hover { color:#663052; }
 .journal-theme-dark .journal-body .journal-story-link a { color:#e7a7d0; }
 .journal-theme-dark .journal-body .journal-story-link a:hover { color:#ffd2ed; }
+.journal-body .journal-quote { margin:24px 0; padding:14px 20px; border-inline-start:3px solid #8b4371; font-size:17px; line-height:1.85; }
+.journal-body .journal-quote[lang="ar"] { font-family:Tahoma,Arial,sans-serif; font-size:23px; line-height:2; }
+.journal-theme-dark .journal-body .journal-quote { border-color:#e7a7d0; }
+@media(max-width:600px) { .journal-body .journal-quote { font-size:16px; padding:12px 15px; } .journal-body .journal-quote[lang="ar"] { font-size:21px; } }
