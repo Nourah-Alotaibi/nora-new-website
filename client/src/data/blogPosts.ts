@@ -144,7 +144,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "Even during my master’s, other opportunities have come along, including some that conflicted with my studies. I appreciated them, but when I had to make a choice, I kept choosing to give my studies the time they needed."
+        "text": "Even during my master’s, some amazing job opportunities have come along, but their working hours conflicted with my class times. I appreciated those opportunities, but I couldn’t risk compromising my studies. I kept choosing to give my master’s the time it needed."
       },
       {
         "type": "paragraph",
