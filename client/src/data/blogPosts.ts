@@ -54,6 +54,10 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
+        "text": "During the UC Berkeley AI & Entrepreneurship Program, **Dr. Abdullah Karar** kept encouraging me to continue in this field. Something he said stayed with me: *“Coding is like writing poetry.”* It felt familiar to the part of me that had always loved creating."
+      },
+      {
+        "type": "paragraph",
         "text": "From there, AI and data science became the area I wanted to understand more deeply. Through my studies and projects, coding gradually became something I did for fun as well as something I studied. I could spend hours experimenting simply because I wanted to know what would happen."
       },
       {
