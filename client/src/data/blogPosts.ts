@@ -66,7 +66,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "After diving deeper into AI, I found myself joining a game competition on the day of my last university final exam, right after finishing it. My friend had been insisting that I join while I was still studying for exams. On her last call, she told me she had joined a team of artists and was the only programmer."
+        "text": "In 2025, after diving deeper into AI, I found myself joining a game competition on the day of my last university final exam, right after finishing it. My friend had been insisting that I join while I was still studying for exams. On her last call, she told me she had joined a team of artists and was the only programmer."
       },
       {
         "type": "paragraph",
