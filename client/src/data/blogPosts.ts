@@ -106,6 +106,21 @@ export const blogPosts: BlogPost[] = [
         "text": "Give me a new field, and I will probably start wondering: What could its data tell us? What could a model learn from it? What could we build with it?"
       },
       {
+        "type": "link",
+        "text": "A few places that curiosity has taken me → RISE, my AI fintech project in development",
+        "href": "/?project=rise#studio-project"
+      },
+      {
+        "type": "link",
+        "text": "From curiosity to an interactive world → Werewolf’s Curse",
+        "href": "/blog/werewolf-curse-reimagined"
+      },
+      {
+        "type": "link",
+        "text": "A cybersecurity detour → DecafShot, my CTF automation toolkit without generative AI",
+        "href": "https://github.com/Nourah-Alotaibi/DecafShot-No-AI-CTF-tool"
+      },
+      {
         "type": "heading",
         "text": "Choosing my own path"
       },
