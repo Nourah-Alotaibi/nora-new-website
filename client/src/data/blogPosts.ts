@@ -66,11 +66,11 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "After diving deeper into AI, I found myself joining a game competition right after my last university final. My friend had been insisting that I join while I was still studying for exams. On her last call, she told me she had joined a team of artists and was the only programmer."
+        "text": "After diving deeper into AI, I found myself joining a game competition on the day of my last university final exam, right after finishing it. My friend had been insisting that I join while I was still studying for exams. On her last call, she told me she had joined a team of artists and was the only programmer."
       },
       {
         "type": "paragraph",
-        "text": "Neither of us knew game development yet. There had been a week to learn, but I joined with only four days left before the competition. I used AI tools and YouTube tutorials to learn what I could, including how to animate. Then came three intense days of building."
+        "text": "Neither of us knew game development yet. There had been a week to learn, but I joined with only four days left before the competition. I used AI tools and YouTube tutorials to learn what I could, including how to animate. Then we built Werewolf’s Curse in just three intense days."
       },
       {
         "type": "paragraph",
