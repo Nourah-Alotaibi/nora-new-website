@@ -3182,3 +3182,13 @@ body:has(.laptop-inspection) .leave-note-widget { display:none; }
 .journey-recommendation blockquote { font:400 clamp(22px,2.5vw,33px)/1.4 Georgia,serif; letter-spacing:-.02em; color:#3c4a37; margin:0 0 20px; }
 .journey-recommendation figcaption { display:grid; gap:5px; color:#68765e; font-size:13px; line-height:1.6; }
 @media(max-width:700px) { .journey-recommendation { margin-top:36px; padding:0 8px; } }
+.bright-site .studio-header nav a,
+.bright-site .studio-header .header-contact,
+.bright-site .studio-header .header-game,
+.bright-site .studio-header .header-mode {
+ display:inline-flex; align-items:center; justify-content:center; gap:7px;
+ box-sizing:border-box; width:142px; height:44px; min-height:44px;
+ padding:9px 12px; border:1px solid #b8c0a9; border-radius:999px;
+ background:#eeeee0; color:#40563a; font-size:12px; line-height:1.2;
+ white-space:nowrap; text-decoration:none;
+}

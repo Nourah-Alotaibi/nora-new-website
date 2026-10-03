@@ -120,3 +120,4 @@
 .studio-note-corner:focus-visible { outline:2px solid #65764d; outline-offset:2px; }
 @media(max-width:700px) { .studio-note-paper { padding-bottom:66px; } .studio-note-corner { width:56px; height:56px; } }
 @media(prefers-reduced-motion:reduce) { .studio-note-corner span { transition:none; } }
+.studio-note-paper.studio-note-long blockquote { font-size:13px; line-height:1.45; letter-spacing:0; margin:12px 0 16px; }

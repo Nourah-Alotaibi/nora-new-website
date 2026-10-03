@@ -22,7 +22,7 @@ export default function StudioNotes({ revealed }: { revealed: boolean }) {
               if (Math.abs(dx)>45 && Math.abs(dx)>Math.abs(dy)*1.5) step(dx<0?1:-1);
             }} onPointerCancel={()=>{touch.current=null;}}>
               <span className="studio-note-scrap scrap-one" aria-hidden="true"/><span className="studio-note-scrap scrap-two" aria-hidden="true"/>
-              <article className="studio-note-paper" key={active} aria-live="polite" aria-atomic="true">
+              <article className={`studio-note-paper${note.text.length > 500 ? " studio-note-long" : ""}`} key={active} aria-live="polite" aria-atomic="true">
                 <span className="studio-note-clip" aria-hidden="true"/>
                 
                 <blockquote>“{note.text}”</blockquote>
