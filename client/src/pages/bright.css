@@ -3171,6 +3171,10 @@ body:has(.laptop-inspection) .leave-note-widget { display:none; }
 .header-game { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:9px 13px; border:1px solid #b8c0a9; border-radius:24px; background:#eeeee0; color:#40563a; font-size:12px; white-space:nowrap; text-decoration:none; }
 .header-game:hover { background:#e1e7cf; }
 .header-game:focus-visible { outline:2px solid currentColor; outline-offset:4px; }
+.bright-site .studio-header:has(a[href="/blog"]) { min-height:96px; }
+@media(max-width:720px) {
+  .bright-site .studio-header:has(a[href="/blog"]) { height:auto; min-height:78px; padding-top:12px; padding-bottom:12px; row-gap:8px; }
+}
 .dark-theme-header .header-game { background:#30243e; border-color:#76618e; color:#eee1fc; }
 @media(max-width:700px) { .studio-header { flex-wrap:wrap; } .header-quick-actions { gap:7px; } .header-game { font-size:11px; padding:8px 10px; } .dark-theme-header { gap:12px; flex-wrap:wrap; } }
 
