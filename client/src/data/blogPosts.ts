@@ -5,7 +5,7 @@ export const blogPosts: BlogPost[] = [
   {
     "slug": "my-journey-into-ai",
     "title": "My Journey Into AI",
-    "date": "2026-10-03",
+    "date": "2026-10-01",
     "excerpt": "Web development, robots, cybersecurity, Berkeley, research, and all the random people and decisions that somehow led me into AI.",
     "content": [
       {
