@@ -111,11 +111,11 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "From the outside, moving between fields might look like being a “jack of all trades, master of none.” But that misses the thread connecting my work: **AI and data science are my core discipline; different fields give me different problems to apply them to.** The setting changes, but the work still asks me to understand data, test ideas, evaluate evidence, and build something useful."
+        "text": "Moving between fields can look like being a “jack of all trades.” For me, though, there is a common thread: **AI and data science are my core discipline, and each field offers a new place to apply and deepen it.**"
       },
       {
         "type": "paragraph",
-        "text": "That does not make me an expert in every field. It means I can bring a strong set of methods, learn the context, and work with people who know the domain. **I am not a prisoner of one trade. AI and data science are my joker card—not a shortcut around depth, but a way to carry it further.** 🃏"
+        "text": "I still need to learn each field’s context and work with people who know it well. That is why I think of AI as my joker card: **a foundation that lets my curiosity travel without losing its focus.** 🃏"
       },
       {
         "type": "link",
