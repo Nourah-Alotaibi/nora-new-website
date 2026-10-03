@@ -124,7 +124,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "After winning a regional competition, I was offered a **fully funded MBA** as part of the prize. It was an opportunity I deeply appreciated, and one I took seriously."
+        "text": "After winning a regional competition, I was offered a **fully funded MBA at a prestigious university in Dubai** as part of the prize. It was an opportunity I deeply appreciated, and one I took seriously."
       },
       {
         "type": "paragraph",
