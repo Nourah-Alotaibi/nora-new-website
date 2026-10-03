@@ -222,6 +222,24 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
+        "text": "Visiting doctors, hospitals, and clinics while working on medical AI—and seeing patients directly—made me feel how important this work really is. It became much more personal when I could see the people behind the problems we were trying to solve. Those experiences made the possibility of helping someone through technology feel real."
+      },
+      {
+        "type": "paragraph",
+        "text": "That is part of what connects projects such as Hayat, the AI assistant within EpiCare, and EVA, our AI-powered wearable assistant designed to support people with specific needs. They gave me different ways to think about how technology could support people in healthcare and everyday life."
+      },
+      {
+        "type": "link",
+        "text": "The people behind the purpose → Explore EpiCare and its AI assistant, Hayat",
+        "href": "/?project=epicare#studio-project"
+      },
+      {
+        "type": "link",
+        "text": "AI support beyond the screen → Explore EVA",
+        "href": "/?project=eva#studio-project"
+      },
+      {
+        "type": "paragraph",
         "text": "That is part of what I want from research: to seek truth carefully, publish knowledge, and teach what I learn. Something I build, publish, or simply teach could help someone make a better decision—or give them the knowledge to build something that saves another person’s life. In healthcare, that could literally mean helping save a life. In other fields, it could mean protecting someone or easing their suffering. I want what I contribute to help relieve pain in its many forms and at every level, from making a difficult day easier to helping someone through something life-changing."
       },
       {
