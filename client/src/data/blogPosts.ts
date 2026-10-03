@@ -91,7 +91,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "heading",
-        "text": "My joker card"
+        "text": "My joker card 🃏"
       },
       {
         "type": "paragraph",
@@ -208,7 +208,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "Maybe I never really left the canvas. I just changed what I create on it."
+        "text": "Maybe I never really left the canvas. I just changed what I create on it. 🎨"
       },
       {
         "type": "heading",
@@ -263,11 +263,11 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "**I want to learn, but I also want what I learn to travel.**"
+        "text": "**I want to learn, but I also want what I learn to travel.** ✈️"
       },
       {
         "type": "heading",
-        "text": "A path I would choose again"
+        "text": "A path I would choose again 🌱"
       },
       {
         "type": "paragraph",
