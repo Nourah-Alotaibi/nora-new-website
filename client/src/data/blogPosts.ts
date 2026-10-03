@@ -429,7 +429,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "I may release it soon—but **only after I finish all my upcoming CTF challenges**. As for its methods and inner workings, I want to keep them under the radar for now. Only Sara and I hold the secret key to the Control Room—no spare keys just yet! 🔑🤫"
+        "text": "I may release it soon—but **only after I finish all my upcoming CTF challenges**. I’ll spill the matcha tea once I’m done competing. 🍵 Until then, its methods and inner workings are staying under the radar. Only Sara and I hold the secret key to the Control Room—no spare keys just yet! 🔑🤫"
       },
       {
         "type": "heading",
@@ -442,11 +442,6 @@ export const blogPosts: BlogPost[] = [
       {
         "type": "paragraph",
         "text": "After the competition, I also built **DecafShot**, a separate project focused more on practical CTF learning—an old-school tool with a modern twist. Think Sherlock Holmes, if he were a GitHub repository himself. ☕🔎"
-      },
-      {
-        "type": "link",
-        "text": "Explore DecafShot on GitHub ↗",
-        "href": "https://github.com/Nourah-Alotaibi/DecafShot-No-AI-CTF-tool"
       },
       {
         "type": "paragraph",
@@ -473,7 +468,7 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
-const blogOrder = ["werewolf-curse-reimagined", "ctf-control-room", "my-journey-into-ai"];
+const blogOrder = ["ctf-control-room", "werewolf-curse-reimagined", "my-journey-into-ai"];
 export const sortedBlogPosts = [...blogPosts].sort((a, b) => {
   const aRank = blogOrder.indexOf(a.slug);
   const bRank = blogOrder.indexOf(b.slug);
