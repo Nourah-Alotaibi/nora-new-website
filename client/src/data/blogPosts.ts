@@ -117,8 +117,13 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "link",
-        "text": "A cybersecurity detour → DecafShot, my CTF automation toolkit without generative AI",
+        "text": "A cybersecurity detour → DecafShot, my CTF automation toolkit with a trained local ML classifier",
         "href": "https://github.com/Nourah-Alotaibi/DecafShot-No-AI-CTF-tool"
+      },
+      {
+        "type": "link",
+        "text": "Another corner of my cybersecurity work → CTF Control Room",
+        "href": "https://github.com/Nourah-Alotaibi/ctf-control-house"
       },
       {
         "type": "heading",
