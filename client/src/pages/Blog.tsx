@@ -30,7 +30,7 @@ export default function Blog() {
           <button type="button" onClick={toggleTheme}>{theme === "light" ? "Dark mode" : "Bright mode"}</button>
         </nav>
       </header>
-      <main id="main" className="journal-article">
+      <main id="main" className={`journal-article${post ? "" : " journal-index"}`}>
         {post ? (
           <article>
             <div className="journal-eyebrow">Notes from my corner of the internet.</div>
@@ -60,10 +60,19 @@ export default function Blog() {
             <p className="journal-deck">Notes from my corner of the internet.</p>
             <div className="journal-list">
               {sortedBlogPosts.map(item => <article className="journal-preview" key={item.slug}>
-                <time dateTime={item.date}>{displayDate(item.date)}</time>
-                <h2><a href={`/blog/${item.slug}`}>{item.title}</a></h2>
-                <p>{item.excerpt}</p>
-                <a className="journal-read" href={`/blog/${item.slug}`} aria-label={`Read ${item.title}`}>Read →</a>
+                <a className="journal-card" href={`/blog/${item.slug}`} aria-label={`Read ${item.title}`}>
+                  {item.cover && <div className={`journal-card-cover${item.coverStyle === "portrait" ? " journal-cover-portrait" : ""}`}>
+                    <img src={item.cover} alt="" loading="lazy" />
+                    {item.coverStyle === "portrait" && <span className="journal-cover-note">A curious mind.<br /><em>A path of my own.</em></span>}
+                    {item.video && <span className="journal-cover-video">▶ 29-second game intro</span>}
+                  </div>}
+                  <div className="journal-card-content">
+                    <div className="journal-card-meta"><span>{item.category ?? "Studio notes"}</span><time dateTime={item.date}>{displayDate(item.date)}</time></div>
+                    <h2>{item.title}</h2>
+                    <p>{item.excerpt}</p>
+                    <span className="journal-card-read">Read the story <span aria-hidden="true">↗</span></span>
+                  </div>
+                </a>
               </article>)}
             </div>
           </>

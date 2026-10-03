@@ -1,5 +1,5 @@
 export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote"; text: string; href?: string; lang?: string };
-export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption: string }; playHref?: string };
+export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption: string }; cover?: string; coverStyle?: "portrait"; category?: string; playHref?: string };
 
 export const blogPosts: BlogPost[] = [
   {
@@ -294,7 +294,10 @@ export const blogPosts: BlogPost[] = [
         "type": "paragraph",
         "text": "**If I were given those choices again, I would choose this path again and again.**"
       }
-    ]
+    ],
+    "cover": "/journey-cover-portrait.png",
+    "coverStyle": "portrait",
+    "category": "AI · Research · My journey"
   },
   {
     "slug": "werewolf-curse-reimagined",
@@ -352,7 +355,9 @@ export const blogPosts: BlogPost[] = [
       "poster": "/videos/werewolf-intro-cover.png",
       "caption": "The actual 3D game introduction: the confrontation, the witch’s curse, and the beginning of the search for a cure. 29 seconds."
     },
-    "playHref": "/werewolf/"
+    "playHref": "/werewolf/",
+    "cover": "/videos/werewolf-intro-cover.png",
+    "category": "Game development · 3D"
   }
 ];
 
