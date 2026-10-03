@@ -212,7 +212,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "Teaching has remained another meaningful part of my journey. Through teaching and mentoring in programming, AI, robotics, and entrepreneurship, I have discovered how fulfilling it is to watch someone understand something because you helped make it clearer."
+        "text": "Teaching has remained another meaningful part of my journey. Through teaching and mentoring in programming, AI, robotics, and entrepreneurship, I have discovered how fulfilling it is to watch someone understand an idea, create something of their own, build it, and even win with it—and know that I helped them along the way."
       },
       {
         "type": "paragraph",
