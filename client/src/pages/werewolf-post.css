@@ -58,4 +58,4 @@
 .journal-post-image img { max-width: 100%; max-height: 700px; width: auto; border-radius: 16px; }
 .journal-post-image figcaption { margin-top: .7rem; font-size: 13px; opacity: .75; }
 
-.journal-post-image img[src*='decaf-thumbnail'] { width: 380px; max-width: 100%; }
+.journal-post-image img[src*='decaf-thumbnail'] { width: 280px; max-width: 100%; }
