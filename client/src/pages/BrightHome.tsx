@@ -108,6 +108,7 @@ export default function BrightHome() {
             nourah
           </a>
           <nav aria-label="Main navigation">
+            <a href="/blog">Blog</a>
             <a href="#studio">Off the screen</a>
           </nav>
           <a href="#connect" className="header-contact">
