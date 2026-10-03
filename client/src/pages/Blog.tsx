@@ -63,7 +63,7 @@ export default function Blog() {
                 <a className="journal-card" href={`/blog/${item.slug}`} aria-label={`Read ${item.title}`}>
                   {item.cover && <div className={`journal-card-cover${item.coverStyle === "portrait" ? " journal-cover-portrait" : ""}`}>
                     <img src={item.cover} alt="" loading="lazy" />
-                    {item.coverStyle === "portrait" && <span className="journal-cover-note">A curious mind.</span>}
+                    {item.coverStyle === "portrait" && <span className="journal-cover-note">How it all started.</span>}
                   </div>}
                   <div className="journal-card-content">
                     <div className="journal-card-meta"><span>{item.category ?? "Studio notes"}</span><time dateTime={item.date}>{displayDate(item.date)}</time></div>

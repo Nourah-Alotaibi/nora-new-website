@@ -51,3 +51,5 @@
 @media(max-width:600px) { .journal-index { padding-top:34px; } .journal-card { grid-template-columns:1fr; border-radius:18px; } .journal-card-cover { aspect-ratio:16/9; } .journal-cover-portrait img { height:100%; width:65%; } .journal-cover-note { top:22px; left:22px; font-size:24px; } .journal-card-content { padding:24px; } .journal-index .journal-card h2 { font-size:28px; } .journal-index .journal-card p { font-size:14px; } }
 @media(prefers-reduced-motion:reduce) { .journal-card { transition:none; } .journal-index .journal-card:hover { transform:none; } }
 @media(max-width:600px) { .journal-cover-video { bottom:auto; top:10px; left:10px; } }
+
+.journal-card-cover.journal-cover-portrait { background:radial-gradient(circle at 72% 58%,#faf2dd 0 65%,transparent 65.5%),linear-gradient(135deg,#e5ebd5,#c9d4b6); }
