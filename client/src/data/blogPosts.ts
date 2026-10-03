@@ -368,7 +368,7 @@ export const blogPosts: BlogPost[] = [
   {
     "slug": "ctf-control-room",
     "title": "A little more curiosity, a little more cybersecurity",
-    "date": "2026-10-03",
+    "date": "2026-10-04",
     "excerpt": "Three waves, Team Matcha Latte, and a sixth-place CYSEC Kuwait finish. A story of progress, teamwork, and a project I am keeping under the radar.",
     "category": "Cybersecurity · CTF · Building",
     "cover": "/blog-media/ctf-welcome.png",
