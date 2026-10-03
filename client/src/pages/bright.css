@@ -3192,3 +3192,15 @@ body:has(.laptop-inspection) .leave-note-widget { display:none; }
  background:#eeeee0; color:#40563a; font-size:12px; line-height:1.2;
  white-space:nowrap; text-decoration:none;
 }
+
+/* Compact mobile navigation keeps the pill controls together. */
+@media (max-width:720px) {
+ .bright-site .studio-header:has(a[href="/blog"]) { min-height:0; padding:12px 0; gap:5px; justify-content:flex-start; }
+ .bright-site .studio-header .studio-wordmark { flex-basis:100%; margin-bottom:4px; }
+ .bright-site .studio-header nav,
+ .bright-site .studio-header .header-quick-actions { display:contents; }
+ .bright-site .studio-header nav a,
+ .bright-site .studio-header .header-game,
+ .bright-site .studio-header .header-mode { width:auto; height:30px; min-height:30px; padding:5px 7px; font-size:9px; gap:4px; margin:0; }
+ .bright-site .studio-header .header-mode svg { width:11px; height:11px; }
+}
