@@ -140,19 +140,19 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "As a developer, I often thought: *Can I build it?*"
+        "text": "I am grateful to my professor and thesis supervisor, **Dr. Iyad Abu Doush**, for helping me understand the difference between developing a system and researching an idea."
       },
       {
         "type": "paragraph",
-        "text": "As an entrepreneur: *Who needs it?*"
+        "text": "As a developer, my instinct was to start building and find a way to make something work. As an entrepreneur, I also asked: *Who needs it?*"
       },
       {
         "type": "paragraph",
-        "text": "Now, as a researcher: *Why did it work? Is the comparison fair? Can I trust this result? What does the evidence actually allow me to say?*"
+        "text": "Through his guidance, I am learning that a researcher starts earlier: *Why should this approach work? What does previous research tell us? What assumptions am I making, and how will I test them?* The choice of a method becomes a studied decision, grounded in reasoning and evidence before implementation begins."
       },
       {
         "type": "paragraph",
-        "text": "I still love building things. Research is teaching me to examine them more carefully—to question a result, investigate what might explain it, and look for a perspective I had missed."
+        "text": "Making a system work is still important. Research also asks what its performance tells us, whether the comparison is fair, and whether the evidence supports the explanation. I still love building things; I am learning to give each choice a reason and each conclusion a basis."
       },
       {
         "type": "paragraph",
@@ -191,14 +191,6 @@ export const blogPosts: BlogPost[] = [
       {
         "type": "paragraph",
         "text": "What moves me most is the idea that beneficial knowledge can continue helping people long after the person who shared it is gone. It makes teaching and research feel especially meaningful: something I explain, build, or discover may help someone else learn, solve a problem, or pass that understanding on to another person."
-      },
-      {
-        "type": "paragraph",
-        "text": "I am especially grateful to my professor and thesis supervisor, **Dr. Iyad Abu Doush**. He encourages me to go beyond obtaining results and ask what those results reveal, what else could explain them, and how to present them in a way that shows a new perspective."
-      },
-      {
-        "type": "paragraph",
-        "text": "His guidance is helping shape the researcher I hope to become."
       },
       {
         "type": "heading",
