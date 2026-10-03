@@ -473,4 +473,9 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
-export const sortedBlogPosts = [...blogPosts].sort((a, b) => b.date.localeCompare(a.date));
+const blogOrder = ["werewolf-curse-reimagined", "ctf-control-room", "my-journey-into-ai"];
+export const sortedBlogPosts = [...blogPosts].sort((a, b) => {
+  const aRank = blogOrder.indexOf(a.slug);
+  const bRank = blogOrder.indexOf(b.slug);
+  return (aRank < 0 ? blogOrder.length : aRank) - (bRank < 0 ? blogOrder.length : bRank) || b.date.localeCompare(a.date);
+});
