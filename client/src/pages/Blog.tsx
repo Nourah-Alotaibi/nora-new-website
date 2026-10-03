@@ -7,6 +7,10 @@ import "./werewolf-post.css";
 
 const displayDate = (date: string) => new Intl.DateTimeFormat("en", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`));
 
+function ArticleText({ text }: { text: string }) {
+  return <>{text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).map((part, i) => part.startsWith("**") ? <strong key={i}>{part.slice(2, -2)}</strong> : part.startsWith("*") ? <em key={i}>{part.slice(1, -1)}</em> : part)}</>;
+}
+
 export default function Blog() {
   const [, params] = useRoute("/blog/:slug");
   const post = params ? sortedBlogPosts.find(item => item.slug === params.slug) : undefined;
@@ -40,7 +44,7 @@ export default function Blog() {
               <figcaption>{post.video.caption}</figcaption>
             </figure>}
             <div className="journal-body">
-              {post.content.map((block, index) => block.type === "heading" ? <h2 key={index}>{block.text}</h2> : <p key={index}>{block.text}</p>)}
+              {post.content.map((block, index) => block.type === "heading" ? <h2 key={index}>{block.text}</h2> : block.type === "link" ? <p className="journal-story-link" key={index}><a href={block.href}>{block.text}</a></p> : <p key={index}><ArticleText text={block.text} /></p>)}
             </div>
             {post.playHref && <aside className="journal-play">
               <h2>Your turn to break the curse.</h2>

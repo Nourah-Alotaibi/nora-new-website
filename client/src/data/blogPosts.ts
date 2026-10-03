@@ -1,604 +1,201 @@
-export type BlogBlock = { type: "heading" | "paragraph"; text: string };
+export type BlogBlock = { type: "heading" | "paragraph" | "link"; text: string; href?: string };
 export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption: string }; playHref?: string };
 
 export const blogPosts: BlogPost[] = [
   {
     "slug": "my-journey-into-ai",
-    "title": "My Journey Into AI",
+    "title": "A Path I Would Choose Again",
     "date": "2026-10-01",
-    "excerpt": "Web development, robots, cybersecurity, Berkeley, research, and all the random people and decisions that somehow led me into AI.",
+    "excerpt": "From painting and web development to AI, a three-day game jam, entrepreneurship, and research—the doors I opened and the path I chose.",
     "content": [
       {
         "type": "paragraph",
-        "text": "My journey into AI started before AI became something everyone was talking about."
+        "text": "My journey into AI started before AI became something everyone was talking about. And strangely enough, it did not start with AI."
       },
       {
         "type": "paragraph",
-        "text": "And strangely enough, it did not actually start with AI."
+        "text": "It started with learning how to build a website."
       },
       {
         "type": "paragraph",
-        "text": "It started with web development."
+        "text": "Around 2021–2022, I was studying mechanical engineering and still figuring out where I belonged. Then I joined a web development bootcamp at CODED, and something clicked. I could take an idea, design it, code it, publish it, and watch someone interact with something that had previously existed only in my head."
       },
       {
         "type": "paragraph",
-        "text": "Around 2021–2022, way before ChatGPT existed, I became interested in building websites."
+        "text": "I loved it. And apparently, I never grew out of it."
       },
       {
         "type": "paragraph",
-        "text": "At first, I was fascinated by the simple idea that I could write something on my laptop and somehow turn it into an actual experience that another person could open, click through, and interact with."
+        "text": "Even now, I find myself designing and coding websites for completely different purposes. Sometimes I need one. Sometimes an idea gets stuck in my head, and I just want to see it come alive. There is something satisfying about taking a thought from “what if?” to something you can actually open, click, and share."
       },
       {
         "type": "paragraph",
-        "text": "Building my first website completely changed how I saw programming."
+        "text": "Looking back, perhaps that feeling was familiar because I had always loved creating. I grew up painting, and coding eventually gave me a similar sense of possibility. A blank canvas and an empty code editor both leave room for you to make something of your own."
       },
       {
         "type": "paragraph",
-        "text": "Code suddenly was not just code."
+        "text": "Then robotics pulled me in."
       },
       {
         "type": "paragraph",
-        "text": "It could become something visual."
+        "text": "An electrical engineering student I randomly met through a robotics club introduced me to another side of programming. Code could control something physical, respond to the world around it, and become part of a bigger system. That gave me a whole new set of things to be curious about."
       },
       {
         "type": "paragraph",
-        "text": "Something useful."
+        "text": "After that came the Google Developer Student Club community at AUM. Through friends, colleagues, workshops, and competitions, I started exploring cybersecurity and CTFs. Other people introduced me to game development and different corners of computing."
       },
       {
         "type": "paragraph",
-        "text": "Something people could actually experience."
+        "text": "Someone would open one door, and I would somehow end up exploring the entire room."
       },
       {
         "type": "paragraph",
-        "text": "And that was probably the first thing that really got me hooked."
+        "text": "AI became the next major turning point through the UC Berkeley AI & Entrepreneurship Program. I began seeing how AI, data, software, and entrepreneurship could come together to solve actual problems. An idea could grow into a project, a product, or a question worth investigating."
       },
       {
         "type": "paragraph",
-        "text": "Over time, web development became much more than simply learning how websites were coded."
-      },
-      {
-        "type": "paragraph",
-        "text": "I found myself thinking about how websites looked, how people interacted with them, how information should be organized, and how an idea could become an actual digital product."
-      },
-      {
-        "type": "paragraph",
-        "text": "I started creating websites for different purposes, experimenting with designs, interfaces, and increasingly ambitious ideas."
-      },
-      {
-        "type": "paragraph",
-        "text": "Coding broadened almost inevitably."
-      },
-      {
-        "type": "paragraph",
-        "text": "Every time I learned one thing, it somehow opened another door."
+        "text": "From there, AI and data science became the area I wanted to understand more deeply. Through my studies and projects, coding gradually became something I did for fun as well as something I studied. I could spend hours experimenting simply because I wanted to know what would happen."
       },
       {
         "type": "heading",
-        "text": "ROBOTICS"
+        "text": "Three days, one curse, and very little sleep"
       },
       {
         "type": "paragraph",
-        "text": "One of those doors was robotics."
+        "text": "After diving deeper into AI, I found myself joining a game competition right after my last university final. My friend had been insisting that I join while I was still studying for exams. On her last call, she told me she had joined a team of artists and was the only programmer."
       },
       {
         "type": "paragraph",
-        "text": "And funny enough, that one started because of a person I randomly met."
+        "text": "Neither of us knew game development yet. There had been a week to learn, but I joined with only four days left before the competition. I used AI tools and YouTube tutorials to learn what I could, including how to animate. Then came three intense days of building."
       },
       {
         "type": "paragraph",
-        "text": "An Electrical Engineering student I met through a robotics club introduced me to that world, and suddenly programming was no longer something that only existed inside my laptop."
+        "text": "I had barely slept during finals, and I barely slept during the competition either. But together, we made it happen. Our original 2D game, Werewolf’s Curse, won First Place for Best Game in Kuwait and the Best Game Design Award, both in the Creative Category at the National Cultural Game Jam — Season Two."
       },
       {
         "type": "paragraph",
-        "text": "Code could make something move."
+        "text": "That story has a new chapter now: I independently reimagined the game as a 3D online adventure."
       },
       {
-        "type": "paragraph",
-        "text": "It could interact with sensors."
-      },
-      {
-        "type": "paragraph",
-        "text": "It could control something physical."
-      },
-      {
-        "type": "paragraph",
-        "text": "It could exist in the real world."
-      },
-      {
-        "type": "paragraph",
-        "text": "That completely changed the way I thought about engineering."
-      },
-      {
-        "type": "paragraph",
-        "text": "Robotics made programming feel physical."
-      },
-      {
-        "type": "paragraph",
-        "text": "It connected software with hardware, and as a Computer Engineering student, that connection naturally interested me."
-      },
-      {
-        "type": "paragraph",
-        "text": "I started realizing how enormous the technology world actually was."
+        "type": "link",
+        "text": "A little detour into the world we built → Werewolf’s Curse",
+        "href": "/blog/werewolf-curse-reimagined"
       },
       {
         "type": "heading",
-        "text": "AND THEN MY FRIENDS MADE IT WORSE"
+        "text": "My joker card"
       },
       {
         "type": "paragraph",
-        "text": "In the best possible way."
+        "text": "I started thinking of AI and data science as my “joker card.” Healthcare has data. Cybersecurity has data. Games, robotics, and businesses have data. Each field has its own questions, but learning how to work with data gave me a way to explore them."
       },
       {
         "type": "paragraph",
-        "text": "I would rather not expose all of them by name, but each one somehow managed to get me hooked on a completely different area of technology."
-      },
-      {
-        "type": "paragraph",
-        "text": "One person introduced me to robotics."
-      },
-      {
-        "type": "paragraph",
-        "text": "A few colleagues I met through the Google Developer Student Clubs community at AUM got me interested in cybersecurity."
-      },
-      {
-        "type": "paragraph",
-        "text": "Through the community, workshops, competitions, and the people around me, I started exploring cybersecurity challenges and CTFs."
-      },
-      {
-        "type": "paragraph",
-        "text": "Suddenly I was looking at technology from another angle entirely."
-      },
-      {
-        "type": "paragraph",
-        "text": "Instead of only asking:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“How do I build this?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "I was also asking:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“How could someone break this?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "And:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“How do I protect it?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "That way of thinking was surprisingly addictive."
-      },
-      {
-        "type": "paragraph",
-        "text": "Another friend introduced me to game development."
-      },
-      {
-        "type": "paragraph",
-        "text": "And naturally, once I realized programming could also create entire interactive worlds, I continued exploring from there."
-      },
-      {
-        "type": "paragraph",
-        "text": "At some point, I realized I did not really have one narrow interest in technology."
-      },
-      {
-        "type": "paragraph",
-        "text": "I liked building things."
-      },
-      {
-        "type": "paragraph",
-        "text": "I liked understanding how things worked."
-      },
-      {
-        "type": "paragraph",
-        "text": "And whenever I discovered a new technical area, I wanted to open it up and see what was inside."
+        "text": "Give me a new field, and I will probably start wondering: What could its data tell us? What could a model learn from it? What could we build with it?"
       },
       {
         "type": "heading",
-        "text": "THEN AI ENTERED THE PICTURE"
+        "text": "Choosing my own path"
       },
       {
         "type": "paragraph",
-        "text": "My interest in AI became much more serious through the UC Berkeley AI & Entrepreneurship Program."
+        "text": "After winning a regional competition, I was offered a **fully funded MBA** as part of the prize. It was an opportunity I deeply appreciated, and one I took seriously."
       },
       {
         "type": "paragraph",
-        "text": "Learning from professors there and being surrounded by people discussing artificial intelligence not simply as an interesting technology, but as something that could become a product, a business, a research direction, or a solution to an actual problem changed my perspective again."
+        "text": "I loved entrepreneurship. My startup had become my little world, and I could imagine continuing down that path. But having another possibility in front of me made me think carefully about what I wanted to spend my days doing."
       },
       {
         "type": "paragraph",
-        "text": "AI stopped feeling like one isolated technical subject."
+        "text": "The answer kept being AI."
       },
       {
         "type": "paragraph",
-        "text": "It connected everything."
+        "text": "I turned down the MBA opportunity and chose to continue deeper into AI and data science. I still value business and entrepreneurship, but I wanted to develop my technical understanding and explore research. There were too many questions I wanted to pursue."
       },
       {
         "type": "paragraph",
-        "text": "Software."
+        "text": "**Being offered a good opportunity does not mean it has to be your opportunity.**"
       },
       {
         "type": "paragraph",
-        "text": "Data."
-      },
-      {
-        "type": "paragraph",
-        "text": "Healthcare."
-      },
-      {
-        "type": "paragraph",
-        "text": "Business."
-      },
-      {
-        "type": "paragraph",
-        "text": "Research."
-      },
-      {
-        "type": "paragraph",
-        "text": "Engineering."
-      },
-      {
-        "type": "paragraph",
-        "text": "Human behavior."
-      },
-      {
-        "type": "paragraph",
-        "text": "Decision-making."
-      },
-      {
-        "type": "paragraph",
-        "text": "And so many other fields."
-      },
-      {
-        "type": "paragraph",
-        "text": "That was when I started going much deeper."
-      },
-      {
-        "type": "paragraph",
-        "text": "Machine learning led me into data science."
-      },
-      {
-        "type": "paragraph",
-        "text": "Data science led me into research."
-      },
-      {
-        "type": "paragraph",
-        "text": "And somewhere along the way, I started thinking of data as a kind of joker card."
-      },
-      {
-        "type": "paragraph",
-        "text": "Almost every industry has it."
-      },
-      {
-        "type": "paragraph",
-        "text": "Every organization creates it."
-      },
-      {
-        "type": "paragraph",
-        "text": "Every system depends on it."
-      },
-      {
-        "type": "paragraph",
-        "text": "And if you know how to understand it properly, you can enter completely different domains and still have something valuable to contribute."
-      },
-      {
-        "type": "paragraph",
-        "text": "That idea fascinated me."
+        "text": "That choice led me to a Master’s in Data Science and Artificial Intelligence. I am now working on my thesis in **Explainable AI for healthcare**, an area that brings together several things I care about: technology, understanding, and work that can benefit people."
       },
       {
         "type": "heading",
-        "text": "FROM BUILDING THINGS TO ASKING RESEARCH QUESTIONS"
+        "text": "Research changed my questions"
       },
       {
         "type": "paragraph",
-        "text": "For a long time, I mainly thought like a developer."
+        "text": "As a developer, I often thought: *Can I build it?*"
       },
       {
         "type": "paragraph",
-        "text": "I wanted to build."
+        "text": "As an entrepreneur: *Who needs it?*"
       },
       {
         "type": "paragraph",
-        "text": "A website."
+        "text": "Now, as a researcher: *Why did it work? Is the comparison fair? Can I trust this result? What does the evidence actually allow me to say?*"
       },
       {
         "type": "paragraph",
-        "text": "An application."
+        "text": "I still love building things. Research is teaching me to examine them more carefully—to question a result, investigate what might explain it, and look for a perspective I had missed."
       },
       {
         "type": "paragraph",
-        "text": "An AI system."
-      },
-      {
-        "type": "paragraph",
-        "text": "A tool."
-      },
-      {
-        "type": "paragraph",
-        "text": "A prototype."
-      },
-      {
-        "type": "paragraph",
-        "text": "Something that worked."
-      },
-      {
-        "type": "paragraph",
-        "text": "But research slowly changed the questions I was asking."
-      },
-      {
-        "type": "paragraph",
-        "text": "Instead of only asking:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“Can I build this?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "I started asking:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“Why does this work?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "“How well does it work?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "“What happens when the data changes?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "“Can I trust the result?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "“Why did the model make that prediction?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "“Would another method behave differently?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "And that transition from simply building systems to actually investigating them became one of the biggest changes in my journey."
-      },
-      {
-        "type": "paragraph",
-        "text": "There was even a point where I seriously considered taking a different direction and pursuing an MBA."
-      },
-      {
-        "type": "paragraph",
-        "text": "Business genuinely interests me, especially entrepreneurship and the process of turning technical ideas into things people can actually use."
-      },
-      {
-        "type": "paragraph",
-        "text": "But when I thought about what I wanted to become better at, I kept coming back to the technical and research side."
-      },
-      {
-        "type": "paragraph",
-        "text": "There were still too many things I wanted to understand."
-      },
-      {
-        "type": "paragraph",
-        "text": "So I continued with a Master’s in Data Science and Artificial Intelligence."
+        "text": "There is creativity in that, too."
       },
       {
         "type": "heading",
-        "text": "MY THESIS"
+        "text": "Knowledge worth passing forward"
       },
       {
         "type": "paragraph",
-        "text": "I am currently working on my Master’s thesis in Explainable AI for healthcare."
+        "text": "Teaching has remained another meaningful part of my journey. Through teaching and mentoring in programming, AI, robotics, and entrepreneurship, I have discovered how fulfilling it is to watch someone understand something because you helped make it clearer."
       },
       {
         "type": "paragraph",
-        "text": "I like this area because healthcare is one of those fields where AI should not only make predictions, but should also help us understand why a model reached a particular result."
+        "text": "My faith gives that a deeper meaning. The idea of beneficial knowledge—knowledge that continues to help others—shapes what I hope to contribute through teaching and research."
       },
       {
         "type": "paragraph",
-        "text": "That combination of AI, data, research, and real-world impact is what made the area especially interesting to me."
+        "text": "**I want to learn, but I also want what I learn to travel.**"
+      },
+      {
+        "type": "paragraph",
+        "text": "I am especially grateful to my professor and thesis supervisor, **Dr. Iyad Abu Doush**. He encourages me to go beyond obtaining results and ask what those results reveal, what else could explain them, and how to present them in a way that shows a new perspective."
+      },
+      {
+        "type": "paragraph",
+        "text": "His guidance is helping shape the researcher I hope to become."
       },
       {
         "type": "heading",
-        "text": "THE PEOPLE BEHIND THE JOURNEY"
+        "text": "A path I would choose again"
       },
       {
         "type": "paragraph",
-        "text": "One thing I have realized is that careers are rarely shaped by courses alone."
+        "text": "Looking back, I can see how these different interests have connected. Painting gave me a love of creating. Web development gave me a way to turn ideas into experiences. Robotics made code physical. GDSC introduced me to communities and new challenges. Berkeley pushed me deeper into AI. Entrepreneurship taught me to think about who a project could help. Research is teaching me to question what I find."
       },
       {
         "type": "paragraph",
-        "text": "People change them."
+        "text": "And I am still curious."
       },
       {
         "type": "paragraph",
-        "text": "Sometimes one conversation is enough to introduce you to an entire field you had never seriously considered before."
+        "text": "I still want to build, create, teach, and research. Whether I am opening an empty code editor, looking at a dataset, or examining a result, I keep coming back to the same questions:"
       },
       {
         "type": "paragraph",
-        "text": "A student you randomly meet in a robotics club."
+        "text": "*What can I create from this? What can I discover? And who could it help?*"
       },
       {
         "type": "paragraph",
-        "text": "Friends from a developer community."
+        "text": "There is too much left to learn, too much left to build, and too much knowledge worth sharing."
       },
       {
         "type": "paragraph",
-        "text": "A professor explaining something in a way that suddenly makes it click."
-      },
-      {
-        "type": "paragraph",
-        "text": "Someone showing you game development."
-      },
-      {
-        "type": "paragraph",
-        "text": "Someone convincing you to join a competition."
-      },
-      {
-        "type": "paragraph",
-        "text": "Someone asking a question about your work that you cannot stop thinking about afterward."
-      },
-      {
-        "type": "paragraph",
-        "text": "A lot of my journey came from those small interactions."
-      },
-      {
-        "type": "paragraph",
-        "text": "And I think that is why I have always enjoyed teaching and sharing what I know too."
-      },
-      {
-        "type": "paragraph",
-        "text": "There is something beautiful about the idea that knowledge keeps moving from one person to another."
-      },
-      {
-        "type": "paragraph",
-        "text": "This also connects strongly with something I value personally in Islam: the importance given to seeking knowledge, teaching it, and benefiting others through it."
-      },
-      {
-        "type": "paragraph",
-        "text": "It makes learning feel like more than collecting qualifications."
-      },
-      {
-        "type": "paragraph",
-        "text": "Knowledge becomes something you are responsible for using well and passing forward."
-      },
-      {
-        "type": "heading",
-        "text": "I STILL BUILD THINGS"
-      },
-      {
-        "type": "paragraph",
-        "text": "Research did not replace the part of me that likes creating things."
-      },
-      {
-        "type": "paragraph",
-        "text": "If anything, my interests have become even broader."
-      },
-      {
-        "type": "paragraph",
-        "text": "I still find myself coding websites for completely different purposes."
-      },
-      {
-        "type": "paragraph",
-        "text": "Designing interfaces."
-      },
-      {
-        "type": "paragraph",
-        "text": "Experimenting with 3D web experiences."
-      },
-      {
-        "type": "paragraph",
-        "text": "Building AI projects."
-      },
-      {
-        "type": "paragraph",
-        "text": "Playing with cybersecurity tools."
-      },
-      {
-        "type": "paragraph",
-        "text": "Thinking about assistants and agents."
-      },
-      {
-        "type": "paragraph",
-        "text": "Trying ideas that have absolutely nothing to do with my thesis."
-      },
-      {
-        "type": "paragraph",
-        "text": "And occasionally opening a new project when I already have far too many unfinished ones."
-      },
-      {
-        "type": "paragraph",
-        "text": "I do not think that part is going away."
-      },
-      {
-        "type": "paragraph",
-        "text": "The difference now is that I see all of these interests as connected rather than random."
-      },
-      {
-        "type": "paragraph",
-        "text": "They all come from the same curiosity:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“What can I make technology do?”"
-      },
-      {
-        "type": "paragraph",
-        "text": "And increasingly:"
-      },
-      {
-        "type": "paragraph",
-        "text": "“How can I make sure it does it well?”"
-      },
-      {
-        "type": "heading",
-        "text": "LOOKING BACK"
-      },
-      {
-        "type": "paragraph",
-        "text": "If you had told the version of me building websites in 2021–2022 that a few years later I would be doing graduate research in AI, I probably would not have predicted that path."
-      },
-      {
-        "type": "paragraph",
-        "text": "But looking backward, it makes sense."
-      },
-      {
-        "type": "paragraph",
-        "text": "Web development opened the door."
-      },
-      {
-        "type": "paragraph",
-        "text": "Robotics connected code to the real world."
-      },
-      {
-        "type": "paragraph",
-        "text": "GDSC exposed me to cybersecurity and technical communities."
-      },
-      {
-        "type": "paragraph",
-        "text": "Friends kept pulling me into completely different corners of technology."
-      },
-      {
-        "type": "paragraph",
-        "text": "UC Berkeley pushed AI from an interest into something I wanted to understand seriously."
-      },
-      {
-        "type": "paragraph",
-        "text": "Data science gave me a way to connect technology with almost any domain."
-      },
-      {
-        "type": "paragraph",
-        "text": "And my Master’s pushed me from primarily being someone who builds systems into someone who also wants to investigate, evaluate, and understand them."
-      },
-      {
-        "type": "paragraph",
-        "text": "I still do not know exactly where all of that will lead."
-      },
-      {
-        "type": "paragraph",
-        "text": "And I actually like that."
-      },
-      {
-        "type": "paragraph",
-        "text": "There are too many things I still want to build, study, experiment with, and understand."
-      },
-      {
-        "type": "paragraph",
-        "text": "But if I had to go back to that first website and choose whether to open that door again,"
-      },
-      {
-        "type": "paragraph",
-        "text": "I would choose this path again and again."
+        "text": "**If I were given those choices again, I would choose this path again and again.**"
       }
     ]
   },
