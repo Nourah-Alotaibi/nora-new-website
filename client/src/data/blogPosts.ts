@@ -1,4 +1,4 @@
-export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote"; text: string; href?: string; lang?: string };
+export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote" | "image"; text: string; href?: string; lang?: string };
 export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption?: string }; cover?: string; coverStyle?: "portrait"; category?: string; playHref?: string };
 
 export const blogPosts: BlogPost[] = [
@@ -108,6 +108,14 @@ export const blogPosts: BlogPost[] = [
       {
         "type": "paragraph",
         "text": "Give me a new field, and I will probably start wondering: What could its data tell us? What could a model learn from it? What could we build with it?"
+      },
+      {
+        "type": "paragraph",
+        "text": "From the outside, moving between fields might look like being a “jack of all trades, master of none.” But that misses the thread connecting my work: **AI and data science are my core discipline; different fields give me different problems to apply them to.** The setting changes, but the work still asks me to understand data, test ideas, evaluate evidence, and build something useful."
+      },
+      {
+        "type": "paragraph",
+        "text": "That does not make me an expert in every field. It means I can bring a strong set of methods, learn the context, and work with people who know the domain. **I am not a prisoner of one trade. AI and data science are my joker card—not a shortcut around depth, but a way to carry it further.** 🃏"
       },
       {
         "type": "link",
