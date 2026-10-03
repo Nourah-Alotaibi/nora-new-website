@@ -136,7 +136,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "I turned down the MBA opportunity and chose to continue deeper into AI and data science. I still value business and entrepreneurship, but I wanted to develop my technical understanding and explore research. There were too many questions I wanted to pursue."
+        "text": "I turned down the fully funded MBA to pursue a **Master’s in Data Science and Artificial Intelligence** instead. I still value business and entrepreneurship, but I wanted to develop my technical understanding and explore research. There were too many questions I wanted to pursue."
       },
       {
         "type": "paragraph",
@@ -148,7 +148,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "That choice led me to a Master’s in Data Science and Artificial Intelligence. I am now working on my thesis in **Explainable AI for healthcare**, an area that brings together several things I care about: technology, understanding, and work that can benefit people."
+        "text": "I am now working on my thesis in **Explainable AI for healthcare**, an area that brings together several things I care about: technology, understanding, and work that can benefit people."
       },
       {
         "type": "heading",
