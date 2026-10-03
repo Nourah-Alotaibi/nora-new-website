@@ -375,7 +375,7 @@ export const blogPosts: BlogPost[] = [
     "content": [
       {
         "type": "paragraph",
-        "text": "Three waves of challenges, teamwork, and a sixth-place finish in Kuwait. 🔐"
+        "text": "A three-day weekend, three waves of challenges, and a sixth-place finish in Kuwait. 🔐"
       },
       {
         "type": "paragraph",
@@ -383,7 +383,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "The competition ran across three waves, with new challenges released in each wave covering web security, reverse engineering, digital forensics, network security, cryptography, and cybersecurity problem-solving."
+        "text": "The competition ran over a three-day weekend, across three waves. Each wave brought new challenges covering web security, reverse engineering, digital forensics, network security, cryptography, and cybersecurity problem-solving."
       },
       {
         "type": "image",
