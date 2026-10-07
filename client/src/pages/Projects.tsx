@@ -26,9 +26,11 @@ function ProjectCard({ project, index }: { project: CollectionProject; index: nu
         <p className="collection-description">{project.description}</p>
         {project.metric && <div className="collection-result"><strong>{project.metric.value}</strong><span>{project.metric.label}</span></div>}
         <ul className="collection-tags" aria-label="Skills and tools">{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
-        {project.note && <details className="collection-notes"><summary>Context & limitations</summary><p>{project.note}</p></details>}
+        {project.note && <details className="collection-notes"><summary>{project.noteLabel ?? "Context & limitations"}</summary><p>{project.note}</p></details>}
+        {project.screenshots && <details className="collection-screenshots"><summary>Inside the lab · {project.screenshots.length} screenshots</summary><div>{project.screenshots.map(shot => <figure key={shot.src}><a href={shot.src} target="_blank" rel="noopener noreferrer"><img src={shot.src} alt={shot.caption} loading="lazy" /><span className="sr-only">Open full-size screenshot in a new tab</span></a><figcaption>{shot.caption}</figcaption></figure>)}</div></details>}
         {project.video && <details className="collection-demo"><summary>Watch the original demo</summary><video controls playsInline preload="none" aria-label={`${project.title} project demo`}><source src={project.video} type="video/mp4" />Your browser does not support this video.</video></details>}
         {project.href && project.linkLabel && <a className="collection-project-link" href={project.href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>{project.linkLabel}<ArrowUpRight size={17} aria-hidden="true" /><span className="sr-only">{external ? " (opens in a new tab)" : ""}</span></a>}
+        {project.sourceHref && <a className="collection-source-link" href={project.sourceHref} target="_blank" rel="noopener noreferrer">Code, experiments & technical report ↗<span className="sr-only"> (opens in a new tab)</span></a>}
       </div>
     </article>
   );

@@ -4,6 +4,17 @@
   "outputDirectory": "dist/public",
   "routes": [
     {
+      "status": 308,
+      "headers": {
+        "Location": "/snake-lab/"
+      },
+      "src": "/snake-lab"
+    },
+    {
+      "dest": "/snake-lab/index.html",
+      "src": "/snake-lab/"
+    },
+    {
       "src": "/nora-and-sara-lab/?",
       "headers": {
         "Content-Security-Policy": "frame-ancestors 'none'",

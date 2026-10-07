@@ -15,10 +15,13 @@ export type CollectionProject = {
   hidden?: boolean;
   image?: string;
   imageAlt?: string;
+  sourceHref?: string;
+  screenshots?: { src: string; caption: string }[];
   artIndex?: number;
   video?: string;
   metric?: { value: string; label: string };
   note?: string;
+  noteLabel?: string;
 };
 
 const plain = (text: string) => text.replace(/\[\[(?:org|num|rank):([^\]]+)\]\]/g, "$1");
@@ -94,15 +97,22 @@ const github = (repo: string) => `https://github.com/Nourah-Alotaibi/${repo}`;
 
 export const githubProjects: CollectionProject[] = [
   {
-    id: "snake-ai-game", title: "Snake AI Game", category: "Games & applications",
-    question: "Can a snake find dinner without my help?",
-    subtitle: "A tiny game with a curiosity problem",
-    description: "Snake was my first digital game, played on my mum’s old Nokia. It’s stayed with me ever since. Revisiting it helped me understand exploration, rewards and decision-making: when should the snake wander, and when should it chase dinner? A familiar game became a fun way to connect ideas and ask new questions.",
-    tags: ["Python", "Pygame", "Decision rules", "Exploration"],
-    status: "Exploration prototype",
-    image: "/project-results/snake-exploration.svg", imageAlt: "Conceptual illustration of a pink Snake choosing between exploring and heading toward food",
-    note: "The current controller uses random and food-seeking rules. Learning rate, neuron count and layer count are demonstration labels; this version does not build or train a neural network. Exploration decreases during a run and resets after a collision.",
-    href: github("snake-ai-game"), linkLabel: "Meet the snake & explore the code",
+    id: "snake-ai-game", title: "Snake Learning Lab", category: "Games & applications",
+    question: "Can my childhood Snake learn a new trick?",
+    subtitle: "From my mum’s Nokia to deep reinforcement learning",
+    description: "What’s the best way to learn something new? Gamify it! Snake was my first digital game, on my mum’s old Nokia. I first rebuilt it while studying AI to make concepts click—and help me ace my exams. Now it learns through reinforcement learning, explores “what if?” moves and uses SHAP to explain why it turns.",
+    tags: ["Double DQN", "Reinforcement learning", "Counterfactual replay", "SHAP / XAI", "JavaScript"],
+    status: "Interactive learning lab",
+    image: "/snake-lab/screenshots/02-learning-in-action.png", imageAlt: "The working Snake neural-learning lab with a live game, parameter controls and action values",
+    screenshots: [
+      { src: "/snake-lab/screenshots/01-nokia-meets-neural.png", caption: "A Nokia memory, a neural twist" },
+      { src: "/snake-lab/screenshots/02-learning-in-action.png", caption: "Watch learning happen" },
+      { src: "/snake-lab/screenshots/03-inside-the-brain.png", caption: "SHAP: what tipped the decision?" },
+      { src: "/snake-lab/screenshots/04-the-report-card.png", caption: "A frozen-policy report card" },
+    ],
+    noteLabel: "How the experiment works",
+    note: "Double DQN combines a neural network, replay memory and a stable target network. Optional “what if?” replay adds outcomes from two unchosen moves in a copy of the game. The technical report documents a controlled comparison across three training seeds, with reproducible code and saved results.",
+    href: "/snake-lab/", linkLabel: "Play, train & turn the knobs", sourceHref: github("snake-ai-game"),
   },
   {
     id: "customer-satisfaction", title: "Customer Satisfaction", category: "AI & machine learning",
