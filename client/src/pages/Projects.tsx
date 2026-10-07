@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUpRight, Code2, Moon, Search, Sun } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Code2, FlaskConical, Lightbulb, Moon, Search, Sun } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { ProjectArt } from "@/components/bright/ProjectGallery";
 import { studioProjects, githubProjects, type CollectionProject, type ProjectCategory } from "@/data/projectCollection";
@@ -68,12 +68,12 @@ export default function Projects() {
           <div>
             <p className="collection-eyebrow">Nourah’s studio / the collection</p>
             <h1 id="collection-title">Project<span>by project.</span></h1>
-            <p className="collection-intro">By my best estimate, I’ve <strong>built and analyzed over 90 AI and data science projects</strong> across my college years, the UC Berkeley × AUM AI &amp; Entrepreneurship Program, my time at CODED Academy, and my master’s studies in AI and Data Science. I’ve lost track of the exact number over the years!</p>
+            <p className="collection-intro">By my best count, I’ve <strong>built and analyzed 90+ AI and data science projects</strong>. The ideas kept coming; the counting couldn’t keep up! They span my college years, the UC Berkeley × AUM AI &amp; Entrepreneurship Program, my time at CODED Academy, and my master’s studies in AI and Data Science.</p>
             <p className="collection-intro">Most of that work happened in my free time, following ideas I was curious about. Here, I’ve selected the projects I’m most excited to share.</p>
             <a className="collection-jump" href="#studio-projects">Explore the collection <ArrowDown size={16} /></a>
           </div>
           <aside className="collection-hero-note" aria-label="About this collection">
-            <span className="collection-note-star" aria-hidden="true">✳</span>
+            <span className="collection-note-icons" aria-hidden="true"><Lightbulb size={38} strokeWidth={1.5} /><FlaskConical size={38} strokeWidth={1.5} /></span>
             <p>From an idea<br />to something<br /><em>you can explore.</em></p>
             <div><strong>90+</strong><span>AI &amp; data science projects<br />built and analyzed · my best estimate</span></div>
           </aside>
