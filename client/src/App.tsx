@@ -13,6 +13,8 @@ import LikeButton from "./components/LikeButton";
 import { lazy, Suspense } from "react";
 const PrivateNotes = lazy(() => import("./pages/PrivateNotes"));
 const Blog = lazy(() => import("./pages/Blog"));
+const Projects = lazy(() => import("./pages/Projects"));
+function ProjectRoute() { return <Suspense fallback={<div role="status" style={{ padding:40 }}>Opening the projects…</div>}><Projects /></Suspense>; }
 function BlogRoute() { return <Suspense fallback={<div role="status" style={{ padding:40 }}>Opening the blog…</div>}><Blog /></Suspense>; }
 const SecretLab = lazy(() => import("./pages/SecretLab"));
 function LabRoute() { return <Suspense fallback={<div role="status" style={{ padding:40 }}>Opening the secret door…</div>}><SecretLab /></Suspense>; }
@@ -28,7 +30,7 @@ function Portfolio() {
         <>
           <header className="dark-theme-header">
             <span>nourah</span>
-            <a href="/blog" style={{ color:"inherit", marginLeft:"auto", marginRight:20 }}>Blog</a>
+            <nav className="dark-site-navigation" aria-label="Main navigation"><a href="/project">Project</a><a href="/blog">Blog</a></nav>
             <ModeSwitch />
           </header>
           <Home />
@@ -44,6 +46,8 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Portfolio} />
+      <Route path="/project" component={ProjectRoute} />
+      <Route path="/projects" component={ProjectRoute} />
       <Route path="/blog" component={BlogRoute} />
       <Route path="/blog/:slug" component={BlogRoute} />
       <Route path="/nora-and-sara-lab" component={LabRoute} />

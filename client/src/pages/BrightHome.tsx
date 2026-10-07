@@ -112,6 +112,7 @@ export default function BrightHome() {
             nourah
           </a>
           <nav aria-label="Main navigation">
+            <a href="/project">Project</a>
             <a href="/blog">Blog</a>
             <a href="#studio">Off the screen</a>
           </nav>
@@ -199,7 +200,7 @@ export default function BrightHome() {
                 There’s more on GitHub.
               </p>
             </div>
-            <a className="studio-text-link" href="https://github.com/nourah-alotaibi" target="_blank" rel="noopener noreferrer">More on GitHub</a>
+            <a className="studio-text-link" href="/project">Explore all projects <ArrowUpRight size={16} /></a>
             <div
               className="project-exhibition"
               style={

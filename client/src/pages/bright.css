@@ -3194,6 +3194,14 @@ body:has(.laptop-inspection) .leave-note-widget { display:none; }
 }
 
 /* Compact mobile navigation keeps the pill controls together. */
+.dark-site-navigation { display:flex; gap:12px; margin-left:auto; align-items:center; }
+.dark-site-navigation a { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:9px 20px; border:1px solid #76618e; border-radius:999px; background:#30243e; color:#eee1fc; font-size:12px; }
+.dark-site-navigation a:focus-visible { outline:2px solid currentColor; outline-offset:4px; }
+@media(min-width:721px) and (max-width:1300px) {
+ .bright-site .studio-header { gap:10px; }
+ .bright-site .studio-header nav { gap:8px; }
+ .bright-site .studio-header nav a,.bright-site .studio-header .header-contact,.bright-site .studio-header .header-game,.bright-site .studio-header .header-mode { width:auto; padding:9px 13px; }
+}
 @media (max-width:720px) {
  .bright-site .studio-header:has(a[href="/blog"]) { min-height:0; padding:12px 0; gap:5px; justify-content:flex-start; }
  .bright-site .studio-header .studio-wordmark { flex-basis:100%; margin-bottom:4px; }

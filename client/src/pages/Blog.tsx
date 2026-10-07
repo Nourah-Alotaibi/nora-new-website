@@ -26,6 +26,7 @@ export default function Blog() {
       <header className="journal-header">
         <a href="/" className="journal-wordmark">nourah.</a>
         <nav aria-label="Blog navigation">
+          <a href="/project">Project</a>
           <a href={post ? "/blog" : "/"}>{post ? "← Back to Blog" : "← Back to my studio"}</a>
           <button type="button" onClick={toggleTheme}>{theme === "light" ? "Dark mode" : "Bright mode"}</button>
         </nav>
