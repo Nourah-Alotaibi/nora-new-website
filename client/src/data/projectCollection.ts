@@ -99,7 +99,7 @@ export const githubProjects: CollectionProject[] = [
   {
     id: "snake-ai-game", title: "Snake Learning Lab", category: "Games & applications",
     question: "Can my childhood Snake learn a new trick?",
-    subtitle: "From my mum’s Nokia to deep reinforcement learning",
+    subtitle: "From my mum’s old Nokia to deep reinforcement learning",
     description: "What’s the best way to learn something new? Gamify it! Snake was my first digital game, on my mum’s old Nokia. I first rebuilt it while studying AI to make concepts click—and help me ace my exams. Now it learns through reinforcement learning, explores “what if?” moves and uses SHAP to explain why it turns.",
     tags: ["Double DQN", "Reinforcement learning", "Counterfactual replay", "SHAP / XAI", "JavaScript"],
     status: "Interactive learning lab",
