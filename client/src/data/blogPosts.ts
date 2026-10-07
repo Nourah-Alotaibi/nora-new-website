@@ -1,7 +1,10 @@
+import { phiSciencePost } from "./phiSciencePost";
+
 export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote" | "image"; text: string; href?: string; lang?: string };
 export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption?: string }; cover?: string; coverStyle?: "portrait"; category?: string; playHref?: string };
 
 export const blogPosts: BlogPost[] = [
+  phiSciencePost,
   {
     "slug": "my-journey-into-ai",
     "title": "A Path I Would Choose Again",

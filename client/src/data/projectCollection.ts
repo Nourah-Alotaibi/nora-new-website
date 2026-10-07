@@ -46,6 +46,15 @@ export const studioProjects: CollectionProject[] = [
     note: "Built on ONEPUNCHMAN411/Jarvis, with upstream credits preserved.",
   },
   {
+    id: "phi2-science-lab", title: "Phi-2 Science Lab", category: "AI & machine learning",
+    subtitle: "A hackathon spark, rebuilt into a local learning lab",
+    description: "A science question box became an experiment in building—and questioning—an AI study companion. I rebuilt my hackathon prototype with local Phi-2 inference, learning controls, a study journal and notes lookup, then tested the explanations to see where fluent answers still go wrong.",
+    tags: ["Python", "Streamlit", "Phi-2", "Local AI"],
+    href: "/blog/phi2-science-lab", linkLabel: "Read the rebuild story", status: "Working local prototype",
+    image: "/project-results/phi2-science-lab.png", imageAlt: "Phi-2 Science Lab answering a question about evaporation in the rebuilt interface",
+    note: "Application tests and real model runs are documented. Uses Microsoft’s pretrained Phi-2 without fine-tuning; generated explanations can contain factual errors. Reference notes use a separate extractive lookup.",
+  },
+  {
     id: "decafshot", title: "DecafShot", category: "Cybersecurity",
     subtitle: "A detective’s approach to CTF learning",
     description: "Inspired by Sherlock Holmes, DecafShot brings a detective’s curiosity to cybersecurity practice. A trained local ML classifier categorizes CTF challenges, while a toolkit helps organize security-tool testing and flag hunting.",
