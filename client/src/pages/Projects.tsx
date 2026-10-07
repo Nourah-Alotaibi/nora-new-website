@@ -78,7 +78,7 @@ export default function Projects() {
           <aside className="collection-hero-note" aria-label="About this collection">
             <span className="collection-note-icons" aria-hidden="true"><Lightbulb size={38} strokeWidth={1.5} /><FlaskConical size={38} strokeWidth={1.5} /></span>
             <p>From an idea<br />to something<br /><em>you can explore.</em></p>
-            <div><strong>90+</strong><span>projects</span></div>
+            <div><strong>90+</strong><span>projects, and the folder keeps growing</span></div>
           </aside>
         </section>
         <div className="collection-toolbar">
