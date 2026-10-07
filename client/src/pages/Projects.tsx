@@ -21,8 +21,8 @@ function ProjectCard({ project, index }: { project: CollectionProject; index: nu
       </div>
       <div className="collection-card-body">
         <div className="collection-meta"><span>{project.category}</span>{project.status && <span className="collection-status">{project.status}</span>}</div>
-        <h3>{project.question}</h3>
-        <p className="collection-subtitle"><strong>{project.title}</strong> · {project.subtitle}</p>
+        <h3>{project.shortTitle ?? project.title}</h3>
+        <p className="collection-question">{project.question}</p>
         <p className="collection-description">{project.description}</p>
         {project.metric && <div className="collection-result"><strong>{project.metric.value}</strong><span>{project.metric.label}</span></div>}
         <ul className="collection-tags" aria-label="Skills and tools">{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
@@ -49,7 +49,7 @@ export default function Projects() {
     return () => { document.title = previousTitle; if (description && previousDescription !== undefined) description.content = previousDescription; };
   }, []);
 
-  const matches = (project: CollectionProject) => (category === "All projects" || project.category === category) && `${project.title} ${project.question} ${project.subtitle} ${project.description} ${project.tags.join(" ")}`.toLowerCase().includes(query.trim().toLowerCase());
+  const matches = (project: CollectionProject) => (category === "All projects" || project.category === category) && `${project.title} ${project.shortTitle ?? ""} ${project.question} ${project.subtitle} ${project.description} ${project.tags.join(" ")}`.toLowerCase().includes(query.trim().toLowerCase());
   const studio = studioProjects.filter(matches);
   const experiments = githubProjects.filter(matches);
   const count = studio.length + experiments.length;
@@ -81,7 +81,7 @@ export default function Projects() {
           </aside>
         </section>
         <div className="collection-toolbar">
-          <div className="collection-filter-heading"><span>Find your next rabbit hole</span><p role="status" aria-live="polite">{count} of {total} projects</p></div>
+          <div className="collection-filter-heading"><span><span aria-hidden="true">🐇 </span>Find your next rabbit hole</span><p role="status" aria-live="polite">{count} of {total} projects</p></div>
           <label className="collection-search"><Search size={18} aria-hidden="true" /><span className="sr-only">Search projects</span><input type="search" placeholder="Search a project, idea or tool…" value={query} onChange={event => setQuery(event.target.value)} /></label>
           <div className="collection-filters" role="group" aria-label="Filter projects by category">{categories.map(item => <button key={item} type="button" aria-pressed={item === category} onClick={() => setCategory(item)}>{item}</button>)}</div>
         </div>
