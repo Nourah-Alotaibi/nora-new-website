@@ -42,8 +42,8 @@ export default function Projects() {
     const previousTitle = document.title;
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     const previousDescription = description?.content;
-    document.title = "Project | Nourah Alotaibi";
-    if (description) description.content = "Explore Nourah Alotaibi’s applications, AI experiments and data stories, with project demos, verified benchmark results and individual GitHub repositories.";
+    document.title = "Curiosity, Put to Work | Nourah Alotaibi";
+    if (description) description.content = "Explore Nourah Alotaibi’s competition entries, hackathon prototypes, websites, apps and experiments, with a focus on AI and data science.";
     return () => { document.title = previousTitle; if (description && previousDescription !== undefined) description.content = previousDescription; };
   }, []);
 
@@ -67,15 +67,15 @@ export default function Projects() {
         <section className="collection-hero" aria-labelledby="collection-title">
           <div>
             <p className="collection-eyebrow">Nourah’s studio / the collection</p>
-            <h1 id="collection-title">Project<span>by project.</span></h1>
-            <p className="collection-intro">By my best count, I’ve <strong>built and analyzed 90+ AI and data science projects</strong>. The ideas kept coming; the counting couldn’t keep up! They span my college years, the UC Berkeley × AUM AI &amp; Entrepreneurship Program, my time at CODED Academy, and my master’s studies in AI and Data Science.</p>
-            <p className="collection-intro">Most of that work happened in my free time, following ideas I was curious about. Here, I’ve selected the projects I’m most excited to share.</p>
+            <h1 id="collection-title">Curiosity,<span>put to work.</span></h1>
+            <p className="collection-intro">Competition entries, hackathon prototypes, websites, apps, games and the occasional “what if?” that became a project. My work is mostly rooted in <strong>AI and data science</strong>, with room to explore beyond them.</p>
+            <p className="collection-intro">These projects grew through my college years, the UC Berkeley × AUM AI &amp; Entrepreneurship Program, CODED Academy and my master’s studies in AI and Data Science—though most came to life in my free time. This is a handpicked selection of the work I’m most excited to share.</p>
             <a className="collection-jump" href="#studio-projects">Explore the collection <ArrowDown size={16} /></a>
           </div>
           <aside className="collection-hero-note" aria-label="About this collection">
             <span className="collection-note-icons" aria-hidden="true"><Lightbulb size={38} strokeWidth={1.5} /><FlaskConical size={38} strokeWidth={1.5} /></span>
             <p>From an idea<br />to something<br /><em>you can explore.</em></p>
-            <div><strong>90+</strong><span>AI &amp; data science projects<br />built and analyzed · my best estimate</span></div>
+            <div><strong>90+</strong><span>projects built or analyzed—give or take<br />a few forgotten folders.</span></div>
           </aside>
         </section>
         <div className="collection-toolbar">
