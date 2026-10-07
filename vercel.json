@@ -4,6 +4,19 @@
   "outputDirectory": "dist/public",
   "routes": [
     {
+      "src": "/snake-game",
+      "status": 308,
+      "headers": { "Location": "/snake-game/" }
+    },
+    {
+      "src": "/snake-game/",
+      "dest": "/snake-lab/index.html"
+    },
+    {
+      "src": "/snake-game/(.*)",
+      "dest": "/snake-lab/$1"
+    },
+    {
       "status": 308,
       "headers": {
         "Location": "/snake-lab/"
