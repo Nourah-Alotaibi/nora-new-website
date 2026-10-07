@@ -16,3 +16,31 @@
 .collection-screenshots{font-size:12px;color:var(--collection-muted);margin-bottom:18px;line-height:1.75}.collection-screenshots summary{cursor:pointer}.collection-screenshots>div{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.collection-screenshots figure{margin:0;min-width:0}.collection-screenshots img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#0d1b2a;border:1px solid var(--collection-line);border-radius:8px}.collection-screenshots figcaption{font-size:10px;margin-top:5px}.collection-source-link{font-size:11px;margin-top:12px;color:var(--collection-muted)!important;text-decoration:underline!important;text-underline-offset:3px}
 
 .collection-question{font:italic 400 16px/1.5 Georgia,serif;color:var(--collection-accent);margin:0 0 16px}
+/* Compact project cards, with full summaries and full-size images on demand. */
+.collection-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.collection-card{border-radius:15px}
+.collection-visual{height:135px;aspect-ratio:auto}
+.collection-image-link{display:block;width:100%;height:100%}
+.collection-chart{padding:10px 14px}
+.collection-number{top:10px;left:10px;min-width:25px;height:25px;font-size:9px}
+.collection-card-body{padding:18px}
+.collection-meta{font-size:9px;gap:6px;margin-bottom:9px}
+.collection-status{font-size:8px;padding:3px 6px}
+.collection-card h3{font-size:24px;margin-bottom:6px}
+.collection-question{font-size:15px;line-height:1.4;margin-bottom:10px}
+.collection-description{font-size:13px;line-height:1.65;margin-bottom:10px}
+.collection-description.is-collapsed{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.collection-read-more{align-self:flex-start;background:none;border:0;color:var(--collection-accent);font-size:11px!important;min-height:28px;padding:0 0 5px;margin:0 0 8px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.collection-result{gap:10px;padding:10px 0;margin-bottom:12px}
+.collection-result strong{font-size:25px}
+.collection-result span{font-size:10px;line-height:1.4}
+.collection-tags{gap:4px;margin-bottom:12px}
+.collection-tags li{font-size:9px;padding:4px 6px}
+.collection-notes,.collection-demo,.collection-screenshots{font-size:11px;margin-bottom:10px;line-height:1.6}
+.collection-project-link{font-size:11px;padding-top:12px}
+.collection-source-link{font-size:10px;margin-top:8px}
+.collection-prototype-art{gap:10px}
+.collection-prototype-art svg{width:38px;height:38px}
+.collection-prototype-art span{font-size:17px}
+@media(max-width:1050px){.collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.collection-grid{grid-template-columns:1fr;gap:16px}.collection-visual{height:125px}.collection-card-body{padding:16px}}

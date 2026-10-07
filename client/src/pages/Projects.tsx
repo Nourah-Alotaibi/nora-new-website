@@ -8,12 +8,14 @@ import "./projects.css";
 const categories: Array<"All projects" | ProjectCategory> = ["All projects", "AI & machine learning", "Data analysis", "Cybersecurity", "Games & applications"];
 
 function ProjectCard({ project, index }: { project: CollectionProject; index: number }) {
+  const [expanded, setExpanded] = useState(false);
+  const longDescription = project.description.length > 160;
   const external = project.href?.startsWith("https://") ?? false;
   return (
     <article className={`collection-card${project.metric ? " collection-experiment" : ""}`} id={project.id}>
       <div className={`collection-visual${project.artIndex !== undefined ? " collection-art" : ""}${project.metric && project.image ? " collection-chart" : ""}`}>
         {project.artIndex !== undefined ? <ProjectArt index={project.artIndex} /> : project.image ? (
-          <img src={project.image} alt={project.imageAlt ?? project.title} loading="lazy" decoding="async" />
+          <a className="collection-image-link" href={project.image} target="_blank" rel="noopener noreferrer" aria-label={`Open ${project.title} image full size`}><img src={project.image} alt={project.imageAlt ?? project.title} loading="lazy" decoding="async" /></a>
         ) : (
           <div className="collection-prototype-art" aria-hidden="true"><Code2 size={64} strokeWidth={1} /><span>an experiment in progress</span></div>
         )}
@@ -23,7 +25,8 @@ function ProjectCard({ project, index }: { project: CollectionProject; index: nu
         <div className="collection-meta"><span>{project.category}</span>{project.status && <span className="collection-status">{project.status}</span>}</div>
         <h3>{project.shortTitle ?? project.title}</h3>
         <p className="collection-question">{project.question}</p>
-        <p className="collection-description">{project.description}</p>
+        <p id={`${project.id}-description`} className={`collection-description${longDescription && !expanded ? " is-collapsed" : ""}`}>{project.description}</p>
+        {longDescription && <button className="collection-read-more" type="button" aria-expanded={expanded} aria-controls={`${project.id}-description`} onClick={() => setExpanded(!expanded)}>{expanded ? "Show less" : "Read more"}</button>}
         {project.metric && <div className="collection-result"><strong>{project.metric.value}</strong><span>{project.metric.label}</span></div>}
         <ul className="collection-tags" aria-label="Skills and tools">{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
         {project.note && <details className="collection-notes"><summary>{project.noteLabel ?? "Context & limitations"}</summary><p>{project.note}</p></details>}
