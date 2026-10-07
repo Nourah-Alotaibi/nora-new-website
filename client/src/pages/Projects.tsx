@@ -69,15 +69,16 @@ export default function Projects() {
         <section className="collection-hero" aria-labelledby="collection-title">
           <div>
             <p className="collection-eyebrow">Ideas, experiments & projects</p>
-            <h1 id="collection-title">My <span>virtual lab.</span></h1>
-            <p className="collection-intro">“What if I tried…?” is how most things here began. Sometimes it turned into a website. Sometimes a game, a competition entry, or an AI experiment that refused to stay a small idea. <strong>AI and data science</strong> are my home base; curiosity picks the detours.</p>
-            <p className="collection-intro">Some are finished. Some are experiments. Some are still on the workbench. They came out of college, CODED Academy, UC Berkeley × AUM, my master’s studies and, mostly, my free time. These are the ones I wanted to bring out of the folders.</p>
+            <h1 id="collection-title">My <span>virtual lab. <i aria-hidden="true" style={{ fontStyle: "normal", fontSize: ".65em" }}>🧪</i></span></h1>
+            <p className="collection-intro">"What if I tried…?" is how almost everything here started. Sometimes it became a website. Sometimes a game, a competition entry, or an AI experiment that refused to stay small. <strong>AI and data science</strong> are home base. Curiosity picks the detours.</p>
+            <p className="collection-intro">Some are finished, some are experiments, and some are still on the workbench. They came from college, CODED Academy, UC Berkeley × AUM, my master's, and mostly my free time. These are the ones I wanted to bring out of the folders.</p>
+            <p className="collection-intro"><em>The internet and open-source projects taught me so much. This is me giving back.</em></p>
             <a className="collection-jump" href="#studio-projects">Explore the collection <ArrowDown size={16} /></a>
           </div>
           <aside className="collection-hero-note" aria-label="About this collection">
             <span className="collection-note-icons" aria-hidden="true"><Lightbulb size={38} strokeWidth={1.5} /><FlaskConical size={38} strokeWidth={1.5} /></span>
             <p>From an idea<br />to something<br /><em>you can explore.</em></p>
-            <div><strong>90+</strong><span>projects built or analyzed—give or take<br />a few forgotten folders.</span></div>
+            <div><strong>90+</strong><span>projects</span></div>
           </aside>
         </section>
         <div className="collection-toolbar">
