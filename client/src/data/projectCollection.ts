@@ -97,7 +97,7 @@ export const githubProjects: CollectionProject[] = [
     id: "snake-ai-game", title: "Snake AI Game", category: "Games & applications",
     question: "Can a snake find dinner without my help?",
     subtitle: "A tiny game with a curiosity problem",
-    description: "I gave the arrow keys a break. This Python and Pygame experiment lets Snake move by itself, mixing random exploration with a simple rule that heads toward food. A live panel tracks score, rewards, collisions and exploration as the game resets and tries again.",
+    description: "Snake was my first digital game, played on my mum’s old Nokia. It’s stayed with me ever since. Revisiting it helped me understand exploration, rewards and decision-making: when should the snake wander, and when should it chase dinner? A familiar game became a fun way to connect ideas and ask new questions.",
     tags: ["Python", "Pygame", "Decision rules", "Exploration"],
     status: "Exploration prototype",
     image: "/project-results/snake-exploration.svg", imageAlt: "Conceptual illustration of a pink Snake choosing between exploring and heading toward food",
