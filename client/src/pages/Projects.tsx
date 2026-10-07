@@ -44,7 +44,7 @@ export default function Projects() {
     const previousTitle = document.title;
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     const previousDescription = description?.content;
-    document.title = "My Lab: Curiosity, Put to Work | Nourah Alotaibi";
+    document.title = "My Virtual Lab | Nourah Alotaibi";
     if (description) description.content = "Step into Nourah Alotaibi’s lab: finished projects, experiments and works in progress, from competitions and websites to AI and data science.";
     return () => { document.title = previousTitle; if (description && previousDescription !== undefined) description.content = previousDescription; };
   }, []);
@@ -68,8 +68,8 @@ export default function Projects() {
       <main id="project-main" className="collection-main">
         <section className="collection-hero" aria-labelledby="collection-title">
           <div>
-            <p className="collection-eyebrow">Welcome to my lab</p>
-            <h1 id="collection-title">Curiosity,<span>put to work.</span></h1>
+            <p className="collection-eyebrow">Ideas, experiments & projects</p>
+            <h1 id="collection-title">My <span>virtual lab.</span></h1>
             <p className="collection-intro">“What if I tried…?” is how most things here began. Sometimes it turned into a website. Sometimes a game, a competition entry, or an AI experiment that refused to stay a small idea. <strong>AI and data science</strong> are my home base; curiosity picks the detours.</p>
             <p className="collection-intro">Some are finished. Some are experiments. Some are still on the workbench. They came out of college, CODED Academy, UC Berkeley × AUM, my master’s studies and, mostly, my free time. These are the ones I wanted to bring out of the folders.</p>
             <a className="collection-jump" href="#studio-projects">Explore the collection <ArrowDown size={16} /></a>
