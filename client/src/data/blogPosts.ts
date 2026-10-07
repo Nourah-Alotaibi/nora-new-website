@@ -1,10 +1,7 @@
-import { phiSciencePost } from "./phiSciencePost";
-
-export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote" | "image"; text: string; href?: string; lang?: string };
+export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote" | "image"; text: string; href?: string; lang?: string; hidden?: boolean };
 export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption?: string }; cover?: string; coverStyle?: "portrait"; category?: string; playHref?: string };
 
 export const blogPosts: BlogPost[] = [
-  phiSciencePost,
   {
     "slug": "my-journey-into-ai",
     "title": "A Path I Would Choose Again",
@@ -133,6 +130,7 @@ export const blogPosts: BlogPost[] = [
       {
         "type": "link",
         "text": "A cybersecurity detour → DecafShot, my CTF automation toolkit with a trained local ML classifier",
+        "hidden": true,
         "href": "https://github.com/Nourah-Alotaibi/DecafShot-No-AI-CTF-tool"
       },
       {
@@ -444,15 +442,18 @@ export const blogPosts: BlogPost[] = [
       },
       {
         "type": "paragraph",
-        "text": "After the competition, I also built **DecafShot**, a separate project focused more on practical CTF learning—an old-school tool with a modern twist. Think Sherlock Holmes, if he were a GitHub repository himself. ☕🔎"
+        "text": "After the competition, I also built **DecafShot**, a separate project focused more on practical CTF learning—an old-school tool with a modern twist. Think Sherlock Holmes, if he were a GitHub repository himself. ☕🔎",
+        "hidden": true
       },
       {
         "type": "paragraph",
-        "text": "As a big fan of the Sherlock Holmes books, shows, and his way of thinking, I took inspiration from him for DecafShot’s detective style. A little curiosity, a little mystery, and a love of following the clues. 🔎"
+        "text": "As a big fan of the Sherlock Holmes books, shows, and his way of thinking, I took inspiration from him for DecafShot’s detective style. A little curiosity, a little mystery, and a love of following the clues. 🔎",
+        "hidden": true
       },
       {
         "type": "image",
         "text": "DecafShot cybersecurity detective.",
+        "hidden": true,
         "href": "/blog-media/decaf-thumbnail.png"
       },
       {

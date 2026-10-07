@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 432" role="img" aria-labelledby="title desc">
+  <title id="title">A little snake, a big decision</title>
+  <desc id="desc">Conceptual illustration of the Snake prototype: explore randomly or head toward food.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#ced8c1" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="800" height="432" fill="#e8eddc"/>
+  <rect x="40" y="32" width="424" height="368" rx="24" fill="#f9f7ed" stroke="#c1cdb6"/>
+  <rect x="60" y="52" width="384" height="320" rx="12" fill="url(#grid)"/>
+  <path d="M124 308V244H220V180H284" stroke="#82486c" stroke-width="32" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M124 308V244H220V180H284" stroke="#dba8bd" stroke-width="25" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="272" y="164" width="38" height="32" rx="12" fill="#dba8bd"/>
+  <circle cx="297" cy="172" r="3" fill="#2c4035"/><circle cx="297" cy="188" r="3" fill="#2c4035"/>
+  <path d="M311 180H322M322 180L327 176M322 180L327 184" fill="none" stroke="#82486c" stroke-width="2"/>
+  <path d="M322 159V116H386" stroke="#947032" stroke-width="3" stroke-dasharray="6 7" fill="none"/>
+  <path d="M318 204V244H382V310" stroke="#8b9c80" stroke-width="3" stroke-dasharray="6 7" fill="none"/>
+  <path d="M378 91C369 81 353 91 357 107C359 124 376 134 379 127C383 134 399 123 401 107C404 92 389 83 378 91Z" fill="#bc526a"/>
+  <path d="M379 90Q378 78 386 74" fill="none" stroke="#526847" stroke-width="4" stroke-linecap="round"/>
+  <path d="M382 83Q398 67 404 81Q393 91 382 83" fill="#8b9c80"/>
+  <text x="500" y="111" font-family="Georgia,serif" font-size="36" fill="#2c4035">Dinner,</text>
+  <text x="500" y="154" font-family="Georgia,serif" font-size="36" font-style="italic" fill="#82486c">or a detour?</text>
+  <rect x="500" y="198" width="241" height="48" rx="24" fill="#f9f7ed" stroke="#c1cdb6"/>
+  <circle cx="525" cy="222" r="5" fill="#947032"/>
+  <text x="542" y="228" font-family="Arial,sans-serif" font-size="16" fill="#2c4035">Head toward food</text>
+  <rect x="500" y="260" width="241" height="48" rx="24" fill="#f9f7ed" stroke="#c1cdb6"/>
+  <circle cx="525" cy="284" r="5" fill="#8b9c80"/>
+  <text x="542" y="290" font-family="Arial,sans-serif" font-size="16" fill="#2c4035">Try a random direction</text>
+  <text x="500" y="360" font-family="Arial,sans-serif" font-size="12" letter-spacing="2" fill="#5c6d5f">A SNAKE EXPLORATION EXPERIMENT</text>
+</svg>

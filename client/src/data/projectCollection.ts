@@ -4,13 +4,15 @@ export type ProjectCategory = "AI & machine learning" | "Data analysis" | "Cyber
 export type CollectionProject = {
   id: string;
   title: string;
+  question: string;
   category: ProjectCategory;
   subtitle: string;
   description: string;
   tags: string[];
-  href: string;
-  linkLabel: string;
+  href?: string;
+  linkLabel?: string;
   status?: string;
+  hidden?: boolean;
   image?: string;
   imageAlt?: string;
   artIndex?: number;
@@ -21,11 +23,20 @@ export type CollectionProject = {
 
 const plain = (text: string) => text.replace(/\[\[(?:org|num|rank):([^\]]+)\]\]/g, "$1");
 
+const studioQuestions: Record<number, string> = {
+  1: "What if care had fewer disconnected pieces?",
+  2: "What if your everyday assistant came with you?",
+  3: "Can a game-jam idea grow fangs?",
+  4: "What’s for dinner when one size doesn’t fit all?",
+  5: "Can market data make a little more sense?",
+};
+
 // Keep the original portfolio as the source of truth for the five gallery projects.
-export const studioProjects: CollectionProject[] = [
+const studioProjectCatalog: CollectionProject[] = [
   ...PA_PROJECTS.map((project, index): CollectionProject => ({
     id: project.title.toLowerCase().replaceAll(" ", "-"),
     title: project.title === "WEREWOLF CURSE" ? "Werewolf’s Curse" : project.title === "EPICARE" ? "EpiCare & Hayat" : project.title === "AAFIYA" ? "Aafiya" : project.title,
+    question: studioQuestions[project.id],
     category: project.id === 3 || project.id === 4 ? "Games & applications" : "AI & machine learning",
     subtitle: project.subtitle,
     description: plain(project.desc),
@@ -38,8 +49,9 @@ export const studioProjects: CollectionProject[] = [
   })),
   {
     id: "noor", title: "Noor", category: "AI & machine learning",
+    question: "What if my computer knew how to lend a hand?",
     subtitle: "A personal Windows AI assistant",
-    description: "What if my computer had an assistant that felt like my own? I customized the open-source Jarvis project into Noor, with a redesigned interface, configurable cloud and local AI providers, voice interaction and productivity tools.",
+    description: "I wanted my computer’s assistant to feel like my own. I customized the open-source Jarvis project into Noor, with a redesigned interface, configurable cloud and local AI providers, voice interaction and productivity tools.",
     tags: ["Python", "Desktop apps", "Voice interfaces", "AI integration"],
     href: "/#main", linkLabel: "Meet Noor on the studio laptop",
     image: "/laptop/projects/noor.png", imageAlt: "Noor desktop assistant interface",
@@ -47,15 +59,18 @@ export const studioProjects: CollectionProject[] = [
   },
   {
     id: "phi2-science-lab", title: "Phi-2 Science Lab", category: "AI & machine learning",
+    question: "Can a small model tackle big science questions?",
     subtitle: "A hackathon spark, rebuilt into a local learning lab",
     description: "A science question box became an experiment in building—and questioning—an AI study companion. I rebuilt my hackathon prototype with local Phi-2 inference, learning controls, a study journal and notes lookup, then tested the explanations to see where fluent answers still go wrong.",
     tags: ["Python", "Streamlit", "Phi-2", "Local AI"],
-    href: "/blog/phi2-science-lab", linkLabel: "Read the rebuild story", status: "Working local prototype",
+    status: "Working local prototype",
     image: "/project-results/phi2-science-lab.png", imageAlt: "Phi-2 Science Lab answering a question about evaporation in the rebuilt interface",
     note: "Application tests and real model runs are documented. Uses Microsoft’s pretrained Phi-2 without fine-tuning; generated explanations can contain factual errors. Reference notes use a separate extractive lookup.",
   },
   {
     id: "decafshot", title: "DecafShot", category: "Cybersecurity",
+    hidden: true,
+    question: "What would Sherlock bring to a CTF?",
     subtitle: "A detective’s approach to CTF learning",
     description: "Inspired by Sherlock Holmes, DecafShot brings a detective’s curiosity to cybersecurity practice. A trained local ML classifier categorizes CTF challenges, while a toolkit helps organize security-tool testing and flag hunting.",
     tags: ["Python", "CTF", "Local ML", "Security tooling"],
@@ -64,6 +79,7 @@ export const studioProjects: CollectionProject[] = [
   },
   {
     id: "ctf-control-room", title: "CTF Control Room", category: "Cybersecurity",
+    question: "What if every clue had a place to land?",
     subtitle: "A personal workspace for CTF challenges",
     description: "A personal AI tool for analyzing and organizing CTF challenges. It grew alongside my cybersecurity practice and Team Matcha Latte’s competitions, with Sara as its first product tester. The story is public; the methods are still under wraps.",
     tags: ["Cybersecurity", "AI tooling", "CTF workflows"],
@@ -72,11 +88,25 @@ export const studioProjects: CollectionProject[] = [
   },
 ];
 
+export const studioProjects = studioProjectCatalog.filter(project => !project.hidden);
+
 const github = (repo: string) => `https://github.com/Nourah-Alotaibi/${repo}`;
 
 export const githubProjects: CollectionProject[] = [
   {
+    id: "snake-ai-game", title: "Snake AI Game", category: "Games & applications",
+    question: "Can a snake find dinner without my help?",
+    subtitle: "A tiny game with a curiosity problem",
+    description: "I gave the arrow keys a break. This Python and Pygame experiment lets Snake move by itself, mixing random exploration with a simple rule that heads toward food. A live panel tracks score, rewards, collisions and exploration as the game resets and tries again.",
+    tags: ["Python", "Pygame", "Decision rules", "Exploration"],
+    status: "Exploration prototype",
+    image: "/project-results/snake-exploration.svg", imageAlt: "Conceptual illustration of a pink Snake choosing between exploring and heading toward food",
+    note: "The current controller uses random and food-seeking rules. Learning rate, neuron count and layer count are demonstration labels; this version does not build or train a neural network. Exploration decreases during a run and resets after a collision.",
+    href: github("snake-ai-game"), linkLabel: "Meet the snake & explore the code",
+  },
+  {
     id: "customer-satisfaction", title: "Customer Satisfaction", category: "AI & machine learning",
+    question: "Can a great score hide unhappy customers?",
     subtitle: "Looking beyond a misleading accuracy score",
     description: "When almost 96% of customers share the same label, accuracy can hide the problem. I compared regularization, PCA and gradient boosting across 76,020 records, using duplicate-aware splits and training-only preprocessing to make the comparison meaningful.",
     tags: ["scikit-learn", "PCA", "Gradient boosting", "Imbalanced learning"],
@@ -87,6 +117,7 @@ export const githubProjects: CollectionProject[] = [
   },
   {
     id: "arabic-sentiment", title: "Arabic Sentiment", category: "AI & machine learning",
+    question: "Can a model read the mood in Arabic?",
     subtitle: "Finding the signal in words, characters and emoji",
     description: "Arabic sentiment needs more care than simply removing punctuation. I kept negation and emoji, normalized Arabic text, checked duplicate labels, and combined word and character TF-IDF features to build a stronger classical baseline.",
     tags: ["Arabic NLP", "TF-IDF", "Logistic regression", "Python"],
@@ -97,6 +128,7 @@ export const githubProjects: CollectionProject[] = [
   },
   {
     id: "cosmetics", title: "Cosmetics Catalog", category: "Data analysis",
+    question: "What’s hiding behind the beauty labels?",
     subtitle: "The most useful finding was what the data could not say",
     description: "I explored 931 cosmetics products to understand brands, product types, prices and ratings. Missing ratings and mixed currencies changed the story: I built a transparent catalog analysis that makes those gaps visible instead of turning them into market claims.",
     tags: ["pandas", "EDA", "Data quality", "Visualization"],
@@ -107,6 +139,7 @@ export const githubProjects: CollectionProject[] = [
   },
   {
     id: "tech-layoffs", title: "Technology Layoffs", category: "Data analysis",
+    question: "What do the layoff headlines leave out?",
     subtitle: "Making a difficult story readable without filling in the gaps",
     description: "I turned 2,412 reported layoff records into monthly, industry and geographic views. Alongside the trends, I tracked missing counts so readers can see the difference between an observed total and the coverage of the source.",
     tags: ["pandas", "Time-series analysis", "Data storytelling"],
@@ -117,6 +150,7 @@ export const githubProjects: CollectionProject[] = [
   },
   {
     id: "fashion-mnist", title: "Fashion-MNIST CNN", category: "AI & machine learning",
+    question: "Is that a shirt, a coat—or a confused CNN?",
     subtitle: "Teaching a model to tell a shirt from a coat",
     description: "I built a reproducible image-classification experiment with a regularized convolutional network, then looked beyond its headline score at learning curves and class-level errors. Shirts remained the most difficult category—a useful reminder that every score has a story underneath it.",
     tags: ["PyTorch", "Computer vision", "CNN", "Regularization"],
@@ -127,7 +161,8 @@ export const githubProjects: CollectionProject[] = [
   },
   {
     id: "arabic-transformers", title: "Arabic Transformer Sentiment", category: "AI & machine learning",
-    subtitle: "Does a bigger language model tell a better story?",
+    question: "Does a bigger model get the mood any better?",
+    subtitle: "Frozen CAMeLBERT meets a classical baseline",
     description: "Using the same cleaned Arabic text split as my classical benchmark, I compared pretrained CAMeLBERT features with TF-IDF. Frozen embeddings, masked pooling and a trained linear classifier made the experiment practical on CPU and easy to compare.",
     tags: ["Hugging Face", "CAMeLBERT", "Transfer learning", "Arabic NLP"],
     metric: { value: "5,217", label: "held-out Arabic texts evaluated" },
@@ -137,6 +172,7 @@ export const githubProjects: CollectionProject[] = [
   },
   {
     id: "weather-clustering", title: "Weather Pattern Clustering", category: "Data analysis",
+    question: "Can the weather sort itself into patterns?",
     subtitle: "Looking for structure when there are no labels",
     description: "I revisited a weather-clustering workflow with circular wind-direction features, chronological validation and stability checks. A 158,726-row sample from 1.59 million minute-level records helped explore recurring patterns without claiming a classification accuracy.",
     tags: ["MiniBatchKMeans", "Feature engineering", "Unsupervised learning"],
@@ -147,6 +183,7 @@ export const githubProjects: CollectionProject[] = [
   },
   {
     id: "german-credit", title: "German Credit Risk", category: "AI & machine learning",
+    question: "Which mistakes should a credit model make?",
     subtitle: "Choosing which mistakes a model makes",
     description: "I rebuilt a credit-classification notebook with preprocessing inside cross-validation and compared logistic regression, random forests and SVMs. The result is a clear account of how better minority-class performance can come with lower overall accuracy.",
     tags: ["scikit-learn", "Cross-validation", "Model evaluation"],
@@ -157,6 +194,7 @@ export const githubProjects: CollectionProject[] = [
   },
   {
     id: "breast-cancer", title: "Breast-Cancer SVM Benchmark", category: "AI & machine learning",
+    question: "Can a little scaling change the whole picture?",
     subtitle: "Small preprocessing choices, measurable differences",
     description: "On the Wisconsin Diagnostic Breast Cancer benchmark, I compared an unscaled baseline with cross-validated, scaled SVMs. I included class-level evaluation and an uncertainty interval so the result stays connected to the small test set behind it.",
     tags: ["SVM", "Preprocessing pipelines", "Cross-validation"],
@@ -167,6 +205,7 @@ export const githubProjects: CollectionProject[] = [
   },
   {
     id: "web-security-extension", title: "AI Web-Security Extension", category: "Cybersecurity",
+    question: "Could a browser lend a hand with security?",
     subtitle: "An early browser-extension experiment",
     description: "A Chrome Manifest V3 extension and Flask backend exploring how security utilities could meet in a browser interface. I collected the source and documented the integration gaps to make the next development steps clear.",
     tags: ["Chrome extensions", "Manifest V3", "Flask", "JavaScript"],

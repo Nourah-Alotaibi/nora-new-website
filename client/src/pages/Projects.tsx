@@ -8,7 +8,7 @@ import "./projects.css";
 const categories: Array<"All projects" | ProjectCategory> = ["All projects", "AI & machine learning", "Data analysis", "Cybersecurity", "Games & applications"];
 
 function ProjectCard({ project, index }: { project: CollectionProject; index: number }) {
-  const external = project.href.startsWith("https://");
+  const external = project.href?.startsWith("https://") ?? false;
   return (
     <article className={`collection-card${project.metric ? " collection-experiment" : ""}`} id={project.id}>
       <div className={`collection-visual${project.artIndex !== undefined ? " collection-art" : ""}${project.metric && project.image ? " collection-chart" : ""}`}>
@@ -21,14 +21,14 @@ function ProjectCard({ project, index }: { project: CollectionProject; index: nu
       </div>
       <div className="collection-card-body">
         <div className="collection-meta"><span>{project.category}</span>{project.status && <span className="collection-status">{project.status}</span>}</div>
-        <h3>{project.title}</h3>
-        <p className="collection-subtitle">{project.subtitle}</p>
+        <h3>{project.question}</h3>
+        <p className="collection-subtitle"><strong>{project.title}</strong> · {project.subtitle}</p>
         <p className="collection-description">{project.description}</p>
         {project.metric && <div className="collection-result"><strong>{project.metric.value}</strong><span>{project.metric.label}</span></div>}
         <ul className="collection-tags" aria-label="Skills and tools">{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
         {project.note && <details className="collection-notes"><summary>Context & limitations</summary><p>{project.note}</p></details>}
         {project.video && <details className="collection-demo"><summary>Watch the original demo</summary><video controls playsInline preload="none" aria-label={`${project.title} project demo`}><source src={project.video} type="video/mp4" />Your browser does not support this video.</video></details>}
-        <a className="collection-project-link" href={project.href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>{project.linkLabel}<ArrowUpRight size={17} aria-hidden="true" /><span className="sr-only">{external ? " (opens in a new tab)" : ""}</span></a>
+        {project.href && project.linkLabel && <a className="collection-project-link" href={project.href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>{project.linkLabel}<ArrowUpRight size={17} aria-hidden="true" /><span className="sr-only">{external ? " (opens in a new tab)" : ""}</span></a>}
       </div>
     </article>
   );
@@ -42,12 +42,12 @@ export default function Projects() {
     const previousTitle = document.title;
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     const previousDescription = description?.content;
-    document.title = "Curiosity, Put to Work | Nourah Alotaibi";
-    if (description) description.content = "Explore Nourah Alotaibi’s competition entries, hackathon prototypes, websites, apps and experiments, with a focus on AI and data science.";
+    document.title = "My Lab: Curiosity, Put to Work | Nourah Alotaibi";
+    if (description) description.content = "Step into Nourah Alotaibi’s lab: finished projects, experiments and works in progress, from competitions and websites to AI and data science.";
     return () => { document.title = previousTitle; if (description && previousDescription !== undefined) description.content = previousDescription; };
   }, []);
 
-  const matches = (project: CollectionProject) => (category === "All projects" || project.category === category) && `${project.title} ${project.subtitle} ${project.description} ${project.tags.join(" ")}`.toLowerCase().includes(query.trim().toLowerCase());
+  const matches = (project: CollectionProject) => (category === "All projects" || project.category === category) && `${project.title} ${project.question} ${project.subtitle} ${project.description} ${project.tags.join(" ")}`.toLowerCase().includes(query.trim().toLowerCase());
   const studio = studioProjects.filter(matches);
   const experiments = githubProjects.filter(matches);
   const count = studio.length + experiments.length;
@@ -66,10 +66,10 @@ export default function Projects() {
       <main id="project-main" className="collection-main">
         <section className="collection-hero" aria-labelledby="collection-title">
           <div>
-            <p className="collection-eyebrow">Nourah’s studio / the collection</p>
+            <p className="collection-eyebrow">Welcome to my lab</p>
             <h1 id="collection-title">Curiosity,<span>put to work.</span></h1>
-            <p className="collection-intro">Competition entries, hackathon prototypes, websites, apps, games and the occasional “what if?” that became a project. My work is mostly rooted in <strong>AI and data science</strong>, with room to explore beyond them.</p>
-            <p className="collection-intro">These projects grew through my college years, the UC Berkeley × AUM AI &amp; Entrepreneurship Program, CODED Academy and my master’s studies in AI and Data Science—though most came to life in my free time. This is a handpicked selection of the work I’m most excited to share.</p>
+            <p className="collection-intro">“What if I tried…?” is how most things here began. Sometimes it turned into a website. Sometimes a game, a competition entry, or an AI experiment that refused to stay a small idea. <strong>AI and data science</strong> are my home base; curiosity picks the detours.</p>
+            <p className="collection-intro">Some are finished. Some are experiments. Some are still on the workbench. They came out of college, CODED Academy, UC Berkeley × AUM, my master’s studies and, mostly, my free time. These are the ones I wanted to bring out of the folders.</p>
             <a className="collection-jump" href="#studio-projects">Explore the collection <ArrowDown size={16} /></a>
           </div>
           <aside className="collection-hero-note" aria-label="About this collection">
