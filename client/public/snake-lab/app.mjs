@@ -514,10 +514,7 @@ function drawNetwork(s) {
     if (l > 0 && !output && s.settings.hidden > nodes) svg.append(create("text", {x, y: 274, "text-anchor": "middle", class: "network-count"}, `+${s.settings.hidden - nodes} more`));
   }
   $("network").replaceChildren(svg);
-  const legend = document.createElement("p");
-  legend.className = "small network-output-key";
-  legend.textContent = "Hover a neuron to inspect its signal. Lines show connections; brightness shows activation.";
-  $("network").append(legend);
+
 }
 function drawBoard(g) {
   const c = $("board"),
