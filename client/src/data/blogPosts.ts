@@ -2,6 +2,114 @@ export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote" | "im
 export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption?: string }; cover?: string; coverStyle?: "portrait"; category?: string; playHref?: string };
 
 export const blogPosts: BlogPost[] = [
+{
+  "slug": "snake-learning-lab",
+  "title": "A Nokia memory, a neural twist: learning AI through Snake",
+  "date": "2026-10-09",
+  "excerpt": "Watch a neural network learn, ask why it turns, and explore reinforcement learning through a familiar Nokia-inspired game.",
+  "category": "AI · Learning by building",
+  "cover": "/blog/snake-learning-lab/snake-learning-lab.png",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Snake was the first digital game I played on my mum’s old Nokia. Years later, when I started studying AI, I built my own version to help unfamiliar concepts click. A small game became a way to ask much bigger questions."
+    },
+    {
+      "type": "paragraph",
+      "text": "I have now turned that idea into Snake Learning Lab: a browser experiment where you can watch a neural network learn, change its settings, and ask why it prefers one move over another. The goal is to make AI something you can observe and question, rather than just read about."
+    },
+    {
+      "type": "image",
+      "text": "The current lab: learning settings and network on the left, Snake in the center, explanations on the right.",
+      "href": "/blog/snake-learning-lab/snake-learning-lab.png"
+    },
+    {
+      "type": "heading",
+      "text": "A familiar game, a real learning process"
+    },
+    {
+      "type": "paragraph",
+      "text": "The snake receives eleven simple signals about nearby danger, its direction, and where the food is. Its neural network produces three scores: keep going straight, turn right, or turn left. These Q-values estimate future reward; they are not probabilities."
+    },
+    {
+      "type": "paragraph",
+      "text": "Training uses Double DQN, experience replay, a target network and Adam updates. The snake sometimes explores with a random move instead of following its current preference. You can change the learning rate, exploration, future-reward weighting and other parameters to see how behavior changes."
+    },
+    {
+      "type": "heading",
+      "text": "Why did it choose that turn?"
+    },
+    {
+      "type": "paragraph",
+      "text": "The live XAI panel uses exact Shapley attributions to compare the brain’s preferred move with its runner-up. It checks all 2,048 combinations of the eleven signals against an all-zero reference, then shows which signals push the score difference up or down. It updates automatically, and you can pause to study a board."
+    },
+    {
+      "type": "image",
+      "text": "SHAP shows which signals support or oppose the preferred move; the move-score panel shows expected rewards.",
+      "href": "/blog/snake-learning-lab/snake-xai.png"
+    },
+    {
+      "type": "paragraph",
+      "text": "That explanation has limits. Some masked combinations are not valid game states. The chart explains the network’s score difference, not a causal fact about the world. And when exploration chooses a random move, the network’s preferred action may differ from the action actually taken."
+    },
+    {
+      "type": "heading",
+      "text": "Seeing inside the little brain"
+    },
+    {
+      "type": "paragraph",
+      "text": "The network view labels the inputs, each hidden layer and the outputs. Neuron brightness reflects real current-board activations. You can expand the diagram for a closer look. The connection lines show the model structure, not learned connection strengths; only a sample of hidden neurons is drawn to keep the view readable."
+    },
+    {
+      "type": "image",
+      "text": "The expanded live diagram makes input signals, hidden layers and three move outputs easier to inspect.",
+      "href": "/blog/snake-learning-lab/snake-network.png"
+    },
+    {
+      "type": "heading",
+      "text": "Can it learn from a move it never made?"
+    },
+    {
+      "type": "paragraph",
+      "text": "The optional “what if?” replay setting copies the game and simulates the two moves the snake did not take. Those one-step outcomes join its replay memory without changing the real board. This is simulator-assisted planning inspired by Dyna, not a claim to invent a new reinforcement-learning algorithm."
+    },
+    {
+      "type": "paragraph",
+      "text": "The earlier controlled experiment had mixed results across three training seeds. I keep that report available rather than turn a small study into a performance promise. Those measurements used a 12 × 12 world; today’s lab uses 24 × 24 cells, so the old scores do not describe the current version. The included checkpoint also learned on the earlier grid."
+    },
+    {
+      "type": "heading",
+      "text": "Try one small experiment"
+    },
+    {
+      "type": "paragraph",
+      "text": "Start learning from scratch, or load the built-in example—no file needed. Set playback to one or two moves per second. Pause, predict the next move, and look at SHAP. Then change just one setting, predict its effect, and apply it to reset the brain. Observe several games before drawing conclusions."
+    },
+    {
+      "type": "paragraph",
+      "text": "The optional “Go deeper” area contains progress, a frozen comparison with random moves on 20 matched starting seeds, and save/load tools. The matched-seed test is a small repeatable check, not proof of general performance. The interface now uses charcoal panels, light text, green highlights and a red apple, with a stacked mobile layout and touch-friendly controls."
+    },
+    {
+      "type": "paragraph",
+      "text": "The project is still a tiny world with limited observations. Longer snakes can trap themselves, and changing rewards or network size can make learning worse. That is part of the lesson: AI is a process to investigate, not a high score to admire."
+    },
+    {
+      "type": "link",
+      "text": "Try Snake Learning Lab ↗",
+      "href": "https://www.nora-alotaibi.com/snake-game/"
+    },
+    {
+      "type": "link",
+      "text": "Code, README and references ↗",
+      "href": "https://github.com/Nourah-Alotaibi/snake-ai-game"
+    },
+    {
+      "type": "link",
+      "text": "Read the technical report and historical comparison ↗",
+      "href": "https://github.com/Nourah-Alotaibi/snake-ai-game/blob/main/REPORT.md"
+    }
+  ]
+},
   {
     "slug": "my-journey-into-ai",
     "title": "A Path I Would Choose Again",
