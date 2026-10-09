@@ -16,6 +16,18 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
+      "text": "Recently, a friend of a friend asked me how I had learned neural networks. They were studying in the program I had graduated from and were finding it difficult to understand how a network learns: how its weights change through backpropagation, and how those changes shape its decisions. The first thing that came to mind was this Snake game."
+    },
+    {
+      "type": "paragraph",
+      "text": "I had built it to help me understand and analyze those ideas before applying them in bigger projects later. As I tried to answer their question, I thought: you know what? I will publish it for you. That conversation gave me a reason to return to the game, polish it, enhance it, and make it easier for others to explore."
+    },
+    {
+      "type": "paragraph",
+      "text": "I also added explainable AI (XAI), including SHAP, to help open a window into the neural network’s black box. Alongside watching it learn, you can now inspect which input signals influence its preferred move. I wanted to give students and colleagues another way to understand these concepts, enjoy experimenting with them, and carry what they learn into their own domains."
+    },
+    {
+      "type": "paragraph",
       "text": "I first built this when we began learning deep learning in the UC Berkeley AI program at AUM. I ran it for hours on my laptop, sometimes leaving it running overnight. I enjoyed analyzing what happened, watching how the snake learned, and learning alongside it. Those experiments made the concepts feel alive."
     },
     {
