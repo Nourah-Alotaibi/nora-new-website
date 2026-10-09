@@ -477,7 +477,7 @@ function drawNetwork(s) {
     return el;
   };
   const layers = s.networkActivations ?? s.decision?.activations ?? [];
-  const count = s.settings.depth + 2, width = 460, height = 285;
+  const count = s.settings.depth + 2, width = 460, height = 200;
   const svg = create("svg", {viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": `Neural network: 11 inputs, ${s.settings.depth} hidden layers of ${s.settings.hidden} neurons, and three move score outputs`});
   svg.append(create("title", {}, "Sensors → hidden layers → move scores"));
   const defs = create("defs", {}), marker = create("marker", {id: "network-arrow", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 5, markerHeight: 5, orient: "auto-start-reverse"});
@@ -492,7 +492,7 @@ function drawNetwork(s) {
     const toCount = l === count - 2 ? 3 : Math.min(8, s.settings.hidden);
     for (let i = 0; i < fromCount; i++) {
       for (let j = 0; j < toCount; j++) {
-        links.append(create("line", {x1: x + 6, y1: 65 + i * 166 / (fromCount - 1), x2: x + spacing - 6, y2: 65 + j * 166 / (toCount - 1)}));
+        links.append(create("line", {x1: x + 6, y1: 55 + i * 110 / (fromCount - 1), x2: x + spacing - 6, y2: 55 + j * 110 / (toCount - 1)}));
       }
     }
   }
@@ -502,12 +502,12 @@ function drawNetwork(s) {
     svg.append(create("text", {x, y: 19, "text-anchor": "middle", class: "network-label"}, title));
     svg.append(create("text", {x, y: 37, "text-anchor": "middle", class: "network-count"}, l === 0 ? "11 sensors" : output ? "3 scores" : `${s.settings.hidden} neurons`));
     if (l < count - 1) {
-      svg.append(create("line", {x1: x + 13, y1: 257, x2: x + spacing - 13, y2: 257, class: "network-flow", "marker-end": "url(#network-arrow)"}));
+      svg.append(create("line", {x1: x + 13, y1: 180, x2: x + spacing - 13, y2: 180, class: "network-flow", "marker-end": "url(#network-arrow)"}));
     }
     const nodes = l === 0 ? 11 : output ? 3 : Math.min(8, s.settings.hidden);
     const max = Math.max(1e-9, ...values.map(Math.abs));
     for (let n = 0; n < nodes; n++) {
-      const y = nodes === 1 ? 143 : 65 + n * 166 / (nodes - 1);
+      const y = nodes === 1 ? 143 : 55 + n * 110 / (nodes - 1);
       const circle = create("circle", {cx: x, cy: y, r: 5, class: "network-node", opacity: values.length ? 0.25 + 0.75 * Math.min(1, Math.abs(values[n]) / max) : 0.25});
       const label = l === 0 ? sensorNames[n] : output ? actionNames[n] : `Hidden layer ${l}, neuron ${n + 1}`;
       circle.append(create("title", {}, `${label}: ${(values[n] ?? 0).toFixed(3)}`)); svg.append(circle);
@@ -516,7 +516,7 @@ function drawNetwork(s) {
         svg.append(create("text", {x: x + 14, y: y + 13, class: "network-score"}, (values[n] ?? 0).toFixed(2)));
       }
     }
-    if (l > 0 && !output && s.settings.hidden > nodes) svg.append(create("text", {x, y: 274, "text-anchor": "middle", class: "network-count"}, `+${s.settings.hidden - nodes} more`));
+    if (l > 0 && !output && s.settings.hidden > nodes) svg.append(create("text", {x, y: 197, "text-anchor": "middle", class: "network-count"}, `+${s.settings.hidden - nodes} more`));
   }
   $("network").replaceChildren(svg);
   if ($("network-dialog").open) {

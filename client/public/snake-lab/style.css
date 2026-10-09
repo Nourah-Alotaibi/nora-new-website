@@ -731,3 +731,10 @@ header, main { max-width: 1300px; }
   .network svg { height: 190px; }
   .deep-learning > summary { font-size: 14px; }
 }
+
+.network-panel .network svg { width: 100%; height: auto; max-height: none; }
+.network-label { font-size: 15px; }
+.network-count { font-size: 12px; }
+.network-action { font-size: 15px; }
+.network-score { font-size: 13px; }
+.network-panel .network { padding: 4px; }
