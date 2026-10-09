@@ -69,3 +69,6 @@
 .journal-theme-dark .journal-card-cover:not(.journal-cover-portrait){background:#102135}
 .journal-theme-dark .journal-card:hover .journal-card-read,.journal-theme-dark .journal-play-button{background:#9dd6ff;color:#0d1b2a}
 .journal-theme-dark .journal-play-button:hover{background:#c9e8ff}
+
+.journal-panel-image img { width: 380px; max-width: 100%; max-height: none; border-radius: 10px; }
+

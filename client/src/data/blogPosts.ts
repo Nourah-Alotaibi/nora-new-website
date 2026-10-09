@@ -16,24 +16,21 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "Recently, a friend of a friend asked me how I had learned neural networks. They were studying in the UC Berkeley AI program at AUM—the same program I had graduated from—and were finding it difficult to understand how a neural network learns. Their question took me back a few years, to when I was first learning AI in that program."
+      "text": "Recently, a friend of a friend asked how I had learned neural networks in the UC Berkeley AI program at AUM, which I had graduated from. Their question took me back to when I first built this game while learning deep learning. I ran it for hours on my laptop, sometimes overnight, enjoying the analysis and carrying those lessons into bigger projects."
     },
     {
       "type": "paragraph",
-      "text": "That was when I first built this Snake game. As we began studying deep learning, I wanted a small project where I could watch a neural network learn and analyze how its decisions changed. I ran it for hours on my laptop, sometimes leaving it running overnight. I enjoyed studying what happened, and the experience helped me understand ideas that I later applied in bigger projects."
-    },
-    {
-      "type": "paragraph",
-      "text": "When my friend asked that question, this game was the first thing that came to mind. Instead of only explaining it in a message, I thought: you know what? I will polish it and publish it for you. That conversation is why I returned to the project and brought it online now as Snake Learning Lab."
-    },
-    {
-      "type": "paragraph",
-      "text": "I refreshed the interface and added explainable AI (XAI), including SHAP, so learners could both watch the snake learn and explore why its brain prefers a particular move. My hope is that students in the new UC Berkeley AI program at AUM, other AI students, and colleagues can find the same joy in experimenting that I did—and take that understanding into their own projects and domains."
+      "text": "That conversation inspired me to polish the game and publish it now. I added XAI so other students and colleagues could watch it learn, explore its decisions, and find the same joy in learning that I did."
     },
     {
       "type": "image",
       "text": "The current lab: learning settings and network on the left, Snake in the center, explanations on the right.",
       "href": "/blog/snake-learning-lab/snake-learning-lab.png"
+    },
+    {
+      "type": "link",
+      "text": "Try Snake Learning Lab ↗",
+      "href": "https://www.nora-alotaibi.com/snake-game/"
     },
     {
       "type": "heading",
@@ -60,51 +57,42 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "heading",
-      "text": "A familiar game, a real learning process"
+      "text": "Left panel: choose how it learns"
     },
     {
       "type": "paragraph",
-      "text": "The learning cycle is simple: the snake senses its surroundings, its neural network scores three possible moves, it takes a move, and the game gives it a reward. Eating an apple earns a positive reward; a collision earns a negative one. During training, the learner uses these experiences to adjust the network’s weights. Backpropagation calculates how the weights should change, and Adam applies those changes."
+      "text": "Change one setting, then apply it to start a fresh brain. The question marks explain each parameter; Load example snake offers a ready-made model. The network below shows its live activity."
+    },
+    {
+      "type": "image",
+      "text": "Learning settings and the live network.",
+      "href": "/blog/snake-learning-lab/snake-panel-left.png"
     },
     {
       "type": "heading",
-      "text": "Left panel: choose how the snake learns"
+      "text": "Center panel: watch and experiment"
     },
     {
       "type": "paragraph",
-      "text": "Learning rate controls the size of each weight update. Starting curiosity controls how often the snake tries a random move instead of following its current scores. Future thinking controls how much it values rewards that arrive later. Change one setting at a time so you can connect the change to what you observe. The question marks explain each parameter, while the example experiments offer starting points."
+      "text": "Start learning, slow the playback, or advance a single move. Watching runs a fixed brain; the counters track apples and training progress."
     },
     {
-      "type": "paragraph",
-      "text": "Advanced parameters let you explore the number of hidden layers and neurons, replay memory, training batches, exploration decay and reward settings. Apply & reset brain begins a fresh experiment using your selected settings. These are the same kinds of choices you make when building other learning systems: model size, update size, training data and the objective you want the model to learn."
+      "type": "image",
+      "text": "The game, playback controls and progress counters.",
+      "href": "/blog/snake-learning-lab/snake-panel-center.png"
     },
     {
       "type": "heading",
-      "text": "Center panel: watch, pause and predict"
+      "text": "Right panel: understand a move"
     },
     {
       "type": "paragraph",
-      "text": "Start learning runs the game and updates the brain. Load example snake brings in a built-in trained model; watching runs a fixed brain so you can observe its decisions. Single move advances one step, and playback speed gives you time to predict what happens next. The counters show apples collected, training games completed and the average over the last twenty training games. Slowing the animation changes playback speed, rather than the learning rules."
+      "text": "Move scores compare straight, right and left. SHAP shows which signals support the preferred move over its runner-up. Pause to compare those signals with the board."
     },
     {
-      "type": "paragraph",
-      "text": "The snake receives eleven simple signals about nearby danger, its direction, and where the food is. Its neural network produces three scores: keep going straight, turn right, or turn left. These Q-values estimate future reward; they are not probabilities."
-    },
-    {
-      "type": "paragraph",
-      "text": "Training uses Double DQN, experience replay, a target network and Adam updates. The snake sometimes explores with a random move instead of following its current preference. You can change the learning rate, exploration, future-reward weighting and other parameters to see how behavior changes."
-    },
-    {
-      "type": "heading",
-      "text": "Why did it choose that turn?"
-    },
-    {
-      "type": "paragraph",
-      "text": "The right-hand SHAP chart answers a specific question: which signals support the preferred move over the next-best move? For example, food on the left may support turning left, while danger ahead may discourage continuing straight. Longer bars mean a larger contribution to that comparison. Read the move heading first, then look for the signals with the strongest bars."
-    },
-    {
-      "type": "paragraph",
-      "text": "The move-score panel answers a different question: which action does the network expect to lead to the most future reward? It shows straight, turn right and turn left side by side. A score estimates reward, rather than a percentage chance. Together, the score panel shows the preference and SHAP helps explain the signals behind it."
+      "type": "image",
+      "text": "Live SHAP explanations and move scores.",
+      "href": "/blog/snake-learning-lab/snake-panel-right.png"
     },
     {
       "type": "heading",
@@ -112,20 +100,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "A prediction alone tells you what a model chose. Explainable AI helps you investigate what influenced that choice. In this game, you can compare the explanation with the board you can see: did food direction matter, or nearby danger? That habit carries into other AI projects, where you can examine which features influence a prediction, check whether the model uses relevant information, and communicate its reasoning more clearly to colleagues and domain experts."
-    },
-    {
-      "type": "paragraph",
-      "text": "For example, in a demand-forecasting project, you might investigate the influence of seasonality and recent sales; in a classification project, you might inspect which measured features support one class over another. Snake offers a small, visible place to practice asking those questions. XAI supports investigation alongside evaluation and domain knowledge."
-    },
-    {
-      "type": "paragraph",
-      "text": "The live XAI panel uses exact Shapley attributions to compare the brain’s preferred move with its runner-up. It checks all 2,048 combinations of the eleven signals against an all-zero reference, then shows which signals push the score difference up or down. It updates automatically, and you can pause to study a board."
-    },
-    {
-      "type": "image",
-      "text": "SHAP identifies the input signals supporting the preferred move; the move-score panel compares expected future rewards for all three actions.",
-      "href": "/blog/snake-learning-lab/snake-xai.png"
+      "text": "XAI helps you investigate what influenced a prediction. Here, you can check whether food or danger supports a turn. In other projects, the same habit helps you examine relevant features and explain predictions to colleagues and domain experts."
     },
     {
       "type": "heading",
@@ -133,15 +108,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "Read the network screenshot from left to right. Inputs are the eleven signals describing danger, direction and food. Hidden layers combine those signals through learned weights. Outputs are the three move scores. The arrows show the direction information travels. Brighter neurons indicate stronger activations on the current board. Expand network opens a larger view, and hovering a neuron reveals its signal or value."
-    },
-    {
-      "type": "paragraph",
-      "text": "This diagram and SHAP complement each other: the diagram shows the network’s structure and activity, while SHAP attributes the difference between two move scores to the input signals. In other deep-learning projects, this distinction helps you separate understanding the architecture from explaining an individual prediction."
-    },
-    {
-      "type": "paragraph",
-      "text": "The network view labels the inputs, each hidden layer and the outputs. Neuron brightness reflects real current-board activations. You can expand the diagram for a closer look. The connection lines show the model structure, not learned connection strengths; only a sample of hidden neurons is drawn to keep the view readable."
+      "text": "Follow the arrows from eleven inputs, through hidden layers, to three move scores. Brighter neurons show stronger activity. Expand the diagram for a closer look; SHAP explains how input signals influence the preferred move."
     },
     {
       "type": "image",
@@ -154,23 +121,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "With what-if replay enabled, the learner also collects experiences from the two alternative moves in a copied game. Turning it off gives you a comparison using ordinary replay. Replay memory stores experiences for later training, allowing the network to revisit past situations rather than learning only from the latest move."
-    },
-    {
-      "type": "paragraph",
       "text": "The optional “what if?” replay setting copies the game and simulates the two moves the snake did not take. Those one-step outcomes join its replay memory without changing the real board. This is simulator-assisted planning inspired by Dyna."
-    },
-    {
-      "type": "heading",
-      "text": "Try one small experiment"
-    },
-    {
-      "type": "paragraph",
-      "text": "The optional Go deeper section brings the experiment together. The progress chart shows apples per training game and a rolling average, helping you see a trend across games. Training statistics show weight updates, stored replay experiences, the latest training loss and simulated samples. Run twenty test games compares the fixed brain with random play on matching starting positions. Save brain & diary downloads your model and experiment record; Load a brain lets you return to a saved model."
-    },
-    {
-      "type": "paragraph",
-      "text": "Start learning from scratch, or load the built-in example—no file needed. Set playback to one or two moves per second. Pause, predict the next move, and look at SHAP. Then change just one setting, predict its effect, and apply it to reset the brain. Observe several games before drawing conclusions."
     },
     {
       "type": "paragraph",
@@ -178,18 +129,8 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "link",
-      "text": "Try Snake Learning Lab ↗",
-      "href": "https://www.nora-alotaibi.com/snake-game/"
-    },
-    {
-      "type": "link",
       "text": "Code, README and references ↗",
       "href": "https://github.com/Nourah-Alotaibi/snake-ai-game"
-    },
-    {
-      "type": "link",
-      "text": "Read the technical report and historical comparison ↗",
-      "href": "https://github.com/Nourah-Alotaibi/snake-ai-game/blob/main/REPORT.md"
     }
   ]
 },
