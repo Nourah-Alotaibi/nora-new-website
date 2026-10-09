@@ -16,7 +16,11 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "I have now turned that idea into Snake Learning Lab: a browser experiment where you can watch a neural network learn, change its settings, and ask why it prefers one move over another. The goal is to make AI something you can observe and question, rather than just read about."
+      "text": "I first built this when we began learning deep learning in the UC Berkeley AI program at AUM. I ran it for hours on my laptop, sometimes leaving it running overnight. I enjoyed analyzing what happened, watching how the snake learned, and learning alongside it. Those experiments made the concepts feel alive."
+    },
+    {
+      "type": "paragraph",
+      "text": "Now I have updated it with a more polished look and brought it online as Snake Learning Lab. I hope it helps students in the new UC Berkeley AI program at AUM, other AI students, and colleagues explore these ideas and find the same joy in learning that I did. You can watch a neural network learn, change a setting, and ask why it prefers one move over another."
     },
     {
       "type": "image",
