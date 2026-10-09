@@ -628,3 +628,14 @@ header, main { max-width: 1300px; }
 .network-node { fill: var(--accent); stroke: var(--accent); }
 .network-flow { stroke: var(--accent); stroke-width: 1.5; opacity: .6; }
 .network-output-key { margin: 4px 0 !important; }
+
+.network { margin-top: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 8px; }
+.network svg { overflow: visible; }
+.network-links line { stroke: var(--accent); stroke-width: .65; opacity: .1; }
+.network-node { stroke-width: 1.3; }
+.network-label { font-size: 12px; }
+.network-count { font-size: 10px; }
+.network-action { fill: var(--ink); font: 600 12px system-ui; }
+.network-score { fill: var(--accent); font: 11px system-ui; }
+.network-flow { opacity: .8; }
+.network-output-key { padding: 8px 6px 0; font-size: 10px !important; }
