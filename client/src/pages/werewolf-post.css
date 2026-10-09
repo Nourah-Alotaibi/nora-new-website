@@ -121,3 +121,6 @@
 .journal-mode-gallery a { display:block; min-width:0; }
 .journal-mode-gallery img { display:block; width:100%; height:auto; border-radius:8px; }
 @media(max-width:600px) { .journal-mode-gallery { gap:5px; } }
+
+/* Preserve complete thumbnail artwork and its lettering. */
+.journal-index .journal-card-cover:not(.journal-cover-portrait) img { object-fit:contain; object-position:center; width:100%; height:100%; padding:6px; box-sizing:border-box; }
