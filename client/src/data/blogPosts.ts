@@ -64,6 +64,30 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
+      "text": "The learning cycle is simple: the snake senses its surroundings, its neural network scores three possible moves, it takes a move, and the game gives it a reward. Eating an apple earns a positive reward; a collision earns a negative one. During training, the learner uses these experiences to adjust the network’s weights. Backpropagation calculates how the weights should change, and Adam applies those changes."
+    },
+    {
+      "type": "heading",
+      "text": "Left panel: choose how the snake learns"
+    },
+    {
+      "type": "paragraph",
+      "text": "Learning rate controls the size of each weight update. Starting curiosity controls how often the snake tries a random move instead of following its current scores. Future thinking controls how much it values rewards that arrive later. Change one setting at a time so you can connect the change to what you observe. The question marks explain each parameter, while the example experiments offer starting points."
+    },
+    {
+      "type": "paragraph",
+      "text": "Advanced parameters let you explore the number of hidden layers and neurons, replay memory, training batches, exploration decay and reward settings. Apply & reset brain begins a fresh experiment using your selected settings. These are the same kinds of choices you make when building other learning systems: model size, update size, training data and the objective you want the model to learn."
+    },
+    {
+      "type": "heading",
+      "text": "Center panel: watch, pause and predict"
+    },
+    {
+      "type": "paragraph",
+      "text": "Start learning runs the game and updates the brain. Load example snake brings in a built-in trained model; watching runs a fixed brain so you can observe its decisions. Single move advances one step, and playback speed gives you time to predict what happens next. The counters show apples collected, training games completed and the average over the last twenty training games. Slowing the animation changes playback speed, rather than the learning rules."
+    },
+    {
+      "type": "paragraph",
       "text": "The snake receives eleven simple signals about nearby danger, its direction, and where the food is. Its neural network produces three scores: keep going straight, turn right, or turn left. These Q-values estimate future reward; they are not probabilities."
     },
     {
@@ -76,11 +100,31 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
+      "text": "The right-hand SHAP chart answers a specific question: which signals support the preferred move over the next-best move? For example, food on the left may support turning left, while danger ahead may discourage continuing straight. Longer bars mean a larger contribution to that comparison. Read the move heading first, then look for the signals with the strongest bars."
+    },
+    {
+      "type": "paragraph",
+      "text": "The move-score panel answers a different question: which action does the network expect to lead to the most future reward? It shows straight, turn right and turn left side by side. A score estimates reward, rather than a percentage chance. Together, the score panel shows the preference and SHAP helps explain the signals behind it."
+    },
+    {
+      "type": "heading",
+      "text": "Why XAI matters beyond Snake"
+    },
+    {
+      "type": "paragraph",
+      "text": "A prediction alone tells you what a model chose. Explainable AI helps you investigate what influenced that choice. In this game, you can compare the explanation with the board you can see: did food direction matter, or nearby danger? That habit carries into other AI projects, where you can examine which features influence a prediction, check whether the model uses relevant information, and communicate its reasoning more clearly to colleagues and domain experts."
+    },
+    {
+      "type": "paragraph",
+      "text": "For example, in a demand-forecasting project, you might investigate the influence of seasonality and recent sales; in a classification project, you might inspect which measured features support one class over another. Snake offers a small, visible place to practice asking those questions. XAI supports investigation alongside evaluation and domain knowledge."
+    },
+    {
+      "type": "paragraph",
       "text": "The live XAI panel uses exact Shapley attributions to compare the brain’s preferred move with its runner-up. It checks all 2,048 combinations of the eleven signals against an all-zero reference, then shows which signals push the score difference up or down. It updates automatically, and you can pause to study a board."
     },
     {
       "type": "image",
-      "text": "SHAP shows which signals support or oppose the preferred move; the move-score panel shows expected rewards.",
+      "text": "SHAP identifies the input signals supporting the preferred move; the move-score panel compares expected future rewards for all three actions.",
       "href": "/blog/snake-learning-lab/snake-xai.png"
     },
     {
@@ -89,11 +133,19 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
+      "text": "Read the network screenshot from left to right. Inputs are the eleven signals describing danger, direction and food. Hidden layers combine those signals through learned weights. Outputs are the three move scores. The arrows show the direction information travels. Brighter neurons indicate stronger activations on the current board. Expand network opens a larger view, and hovering a neuron reveals its signal or value."
+    },
+    {
+      "type": "paragraph",
+      "text": "This diagram and SHAP complement each other: the diagram shows the network’s structure and activity, while SHAP attributes the difference between two move scores to the input signals. In other deep-learning projects, this distinction helps you separate understanding the architecture from explaining an individual prediction."
+    },
+    {
+      "type": "paragraph",
       "text": "The network view labels the inputs, each hidden layer and the outputs. Neuron brightness reflects real current-board activations. You can expand the diagram for a closer look. The connection lines show the model structure, not learned connection strengths; only a sample of hidden neurons is drawn to keep the view readable."
     },
     {
       "type": "image",
-      "text": "The expanded live diagram makes input signals, hidden layers and three move outputs easier to inspect.",
+      "text": "Follow the arrows: eleven input signals pass through hidden layers to three move scores. Neuron brightness shows activity for the current board.",
       "href": "/blog/snake-learning-lab/snake-network.png"
     },
     {
@@ -102,11 +154,19 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
+      "text": "With what-if replay enabled, the learner also collects experiences from the two alternative moves in a copied game. Turning it off gives you a comparison using ordinary replay. Replay memory stores experiences for later training, allowing the network to revisit past situations rather than learning only from the latest move."
+    },
+    {
+      "type": "paragraph",
       "text": "The optional “what if?” replay setting copies the game and simulates the two moves the snake did not take. Those one-step outcomes join its replay memory without changing the real board. This is simulator-assisted planning inspired by Dyna."
     },
     {
       "type": "heading",
       "text": "Try one small experiment"
+    },
+    {
+      "type": "paragraph",
+      "text": "The optional Go deeper section brings the experiment together. The progress chart shows apples per training game and a rolling average, helping you see a trend across games. Training statistics show weight updates, stored replay experiences, the latest training loss and simulated samples. Run twenty test games compares the fixed brain with random play on matching starting positions. Save brain & diary downloads your model and experiment record; Load a brain lets you return to a saved model."
     },
     {
       "type": "paragraph",
