@@ -12,38 +12,52 @@ export const blogPosts: BlogPost[] = [
   "content": [
     {
       "type": "paragraph",
-      "text": "In the early 2000s, Snake was the first digital game I played on my mum’s old Nokia. Years later, when I started studying AI, I built my own version to help unfamiliar concepts click. A small game became a way to ask much bigger questions."
+      "text": "In the early 2000s, Snake was the first digital game I played on my mum’s old Nokia. Years later, that familiar game became a way for me to understand AI."
     },
     {
       "type": "paragraph",
-      "text": "Recently, a friend of a friend asked me how I had learned neural networks. They were studying in the program I had graduated from and were finding it difficult to understand how a network learns: how its weights change through backpropagation, and how those changes shape its decisions. The first thing that came to mind was this Snake game."
+      "text": "Recently, a friend of a friend asked me how I had learned neural networks. They were studying in the UC Berkeley AI program at AUM—the same program I had graduated from—and were finding it difficult to understand how a neural network learns. Their question took me back a few years, to when I was first learning AI in that program."
     },
     {
       "type": "paragraph",
-      "text": "I had built it to help me understand and analyze those ideas before applying them in bigger projects later. As I tried to answer their question, I thought: you know what? I will publish it for you. That conversation gave me a reason to return to the game, polish it, enhance it, and make it easier for others to explore."
+      "text": "That was when I first built this Snake game. As we began studying deep learning, I wanted a small project where I could watch a neural network learn and analyze how its decisions changed. I ran it for hours on my laptop, sometimes leaving it running overnight. I enjoyed studying what happened, and the experience helped me understand ideas that I later applied in bigger projects."
     },
     {
       "type": "paragraph",
-      "text": "I also added explainable AI (XAI), including SHAP, to help open a window into the neural network’s black box. Alongside watching it learn, you can now inspect which input signals influence its preferred move. I wanted to give students and colleagues another way to understand these concepts, enjoy experimenting with them, and carry what they learn into their own domains."
+      "text": "When my friend asked that question, this game was the first thing that came to mind. Instead of only explaining it in a message, I thought: you know what? I will polish it and publish it for you. That conversation is why I returned to the project and brought it online now as Snake Learning Lab."
     },
     {
       "type": "paragraph",
-      "text": "I first built this when we began learning deep learning in the UC Berkeley AI program at AUM. I ran it for hours on my laptop, sometimes leaving it running overnight. I enjoyed analyzing what happened, watching how the snake learned, and learning alongside it. Those experiments made the concepts feel alive."
-    },
-    {
-      "type": "paragraph",
-      "text": "Now I have updated it with a more polished look and brought it online as Snake Learning Lab. I hope it helps students in the new UC Berkeley AI program at AUM, other AI students, and colleagues explore these ideas and find the same joy in learning that I did. You can watch a neural network learn, change a setting, and ask why it prefers one move over another."
+      "text": "I refreshed the interface and added explainable AI (XAI), including SHAP, so learners could both watch the snake learn and explore why its brain prefers a particular move. My hope is that students in the new UC Berkeley AI program at AUM, other AI students, and colleagues can find the same joy in experimenting that I did—and take that understanding into their own projects and domains."
     },
     {
       "type": "image",
       "text": "The current lab: learning settings and network on the left, Snake in the center, explanations on the right.",
       "href": "/blog/snake-learning-lab/snake-learning-lab.png"
     },
-    {"type": "heading", "text": "Three ways to view the lab"},
-    {"type": "paragraph", "text": "Choose the original forest-green dark mode, soft Cozy Sage light mode, or matte charcoal Midnight mode. The controls and learning experiment stay the same, and your choice is saved for your next visit."},
-    {"type": "image", "text": "Forest green: the original dark palette, with gentle green panels and a bright snake.", "href": "/blog/snake-learning-lab/snake-forest.png"},
-    {"type": "image", "text": "Cozy Sage: muted sage surfaces and deep forest text, with the same dark green game board.", "href": "/blog/snake-learning-lab/snake-sage.png"},
-    {"type": "image", "text": "Midnight: almost-black charcoal surfaces, warm off-white text and soft lime accents.", "href": "/blog/snake-learning-lab/snake-midnight.png"},
+    {
+      "type": "heading",
+      "text": "Three ways to view the lab"
+    },
+    {
+      "type": "paragraph",
+      "text": "Choose the original forest-green dark mode, soft Cozy Sage light mode, or matte charcoal Midnight mode. The controls and learning experiment stay the same, and your choice is saved for your next visit."
+    },
+    {
+      "type": "image",
+      "text": "Forest green: the original dark palette, with gentle green panels and a bright snake.",
+      "href": "/blog/snake-learning-lab/snake-forest.png"
+    },
+    {
+      "type": "image",
+      "text": "Cozy Sage: muted sage surfaces and deep forest text, with the same dark green game board.",
+      "href": "/blog/snake-learning-lab/snake-sage.png"
+    },
+    {
+      "type": "image",
+      "text": "Midnight: almost-black charcoal surfaces, warm off-white text and soft lime accents.",
+      "href": "/blog/snake-learning-lab/snake-midnight.png"
+    },
     {
       "type": "heading",
       "text": "A familiar game, a real learning process"
