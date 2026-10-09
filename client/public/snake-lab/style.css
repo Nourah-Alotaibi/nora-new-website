@@ -765,3 +765,31 @@ header, main { max-width: 1300px; }
   .workspace { grid-template-columns: minmax(0,1fr) 450px minmax(0,1fr); }
   #board { width: min(100%, 410px, calc(100dvh - 300px)); }
 }
+
+:root { --bg: #17191c; --panel: #25282d; --soft: #30343a; --ink: #f4f5f6; --muted: #c5cbd2; --line: #555d67; --accent: #b2de91; --gold: #d3dfa1; }
+body.light { --bg: #f4f5f6; --panel: #ffffff; --soft: #e7eaed; --ink: #20252b; --muted: #46515d; --line: #89939e; --accent: #326226; --gold: #596331; }
+@media(max-width:680px) {
+  header, main { padding: 14px; }
+  header { gap: 12px; } nav { gap: 10px; }
+  .intro { padding: 12px 0; }
+  .intro h1 { font-size: 28px; }
+  .intro p { font-size: 14px; }
+  .workspace > .board-panel { grid-row: 1; width: 100%; padding: 14px; }
+  .controls-column { grid-row: 2; }
+  .play-column { grid-row: 3; }
+  .deep-learning { grid-row: 4; }
+  #board { width: 100%; }
+  .controls-column .panel, .play-column .panel { padding: 14px; }
+  .controls-column p, .play-column p { font-size: 14px; }
+  .controls-column .small, .play-column .small { font-size: 12px; }
+  .control label { font-size: 13px; }
+  .control select, .control input[type="number"] { font-size: 14px; min-height: 42px; }
+  button, .file-button { font-size: 13px; min-height: 44px; }
+  .help-button { width: 30px; height: 30px; min-height: 30px; }
+  .control input[type="range"] { min-height: 30px; }
+  .preset-buttons button, #network-expand { min-height: 44px; }
+  .shap-row { font-size: 12px; }
+  summary { font-size: 14px; padding-block: 12px; }
+  #network-dialog { padding: 14px; }
+  .network-panel .network svg { width: 100%; height: auto; }
+}
