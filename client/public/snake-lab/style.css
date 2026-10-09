@@ -738,3 +738,26 @@ header, main { max-width: 1300px; }
 .network-action { font-size: 15px; }
 .network-score { font-size: 13px; }
 .network-panel .network { padding: 4px; }
+
+/* Larger game and clearer type, with the same side-panel widths. */
+@media (min-width:1101px) and (min-height:650px) {
+  .workspace { grid-template-columns: minmax(0,1fr) 410px minmax(0,1fr); }
+  #board { width: min(100%, 370px, calc(100dvh - 330px)); }
+  .controls-column .control label { font-size: 16px; }
+  .controls-column p, .play-column p { font-size: 15px; line-height: 1.45; }
+  .controls-column h2, .play-column h2 { font-size: 21px; }
+  .play-column .shap-row { font-size: 14px; margin: 5px 0; }
+  .play-column .q-row { font-size: 15px; }
+  .controls-column summary, .play-column summary { font-size: 15px; }
+  .settings-panel .control select { font-size: 16px; }
+  .controls-column button { font-size: 14px; }
+  .controls-column .small, .play-column .small { font-size: 12px; }
+  .controls-column .eyebrow, .play-column .eyebrow { font-size: 12px; }
+  .settings-panel #settings > .small { font-size: 12px; }
+  .settings-panel .control-grid { gap: 8px 10px; }
+}
+@media (min-width:1101px) and (min-height:650px) {
+  header { height: 40px; }
+  .intro { padding: 3px 0; }
+  .network-panel h2 { margin: 3px 0; }
+}
