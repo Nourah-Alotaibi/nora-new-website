@@ -151,3 +151,21 @@
 
 .journal-title-thumbnail { width:360px; max-width:100%; margin:18px auto; }
 .journal-title-thumbnail img { display:block; width:100%; height:auto; border-radius:10px; }
+
+/* Compact reading rhythm for phone articles, without changing desktop. */
+@media(max-width:600px) {
+ .journal-article:not(.journal-index) { padding:24px 18px 30px; }
+ .journal-article:not(.journal-index) h1 { font-size:32px; line-height:1.12; margin-bottom:14px; }
+ .journal-article:not(.journal-index) .journal-eyebrow { font-size:10px; margin-bottom:12px; }
+ .journal-article:not(.journal-index) .journal-byline { font-size:11px; }
+ .journal-article:not(.journal-index) .journal-body { margin-top:20px; }
+ .journal-article:not(.journal-index) .journal-body p { font-size:15px; line-height:1.6; margin-bottom:13px; }
+ .journal-article:not(.journal-index) .journal-body h2 { font-size:23px; line-height:1.25; margin:26px 0 12px; }
+ .journal-article:not(.journal-index) .journal-post-image { margin:16px auto; }
+ .journal-article:not(.journal-index) .journal-post-image img { max-width:100%; max-height:420px; width:auto; border-radius:8px; }
+ .journal-article:not(.journal-index) .journal-panel-image img { width:240px; max-height:none; }
+ .journal-article:not(.journal-index) .journal-post-image figcaption { font-size:11px; line-height:1.4; margin-top:6px; }
+ .journal-title-thumbnail { width:260px; margin:12px auto; }
+ .journal-mode-gallery { max-width:320px; margin:12px auto 18px; }
+ .journal-article:not(.journal-index) .journal-film { margin:20px auto; }
+}
