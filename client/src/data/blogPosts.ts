@@ -54,10 +54,6 @@ export const blogPosts: BlogPost[] = [
       "href": "/blog/snake-learning-lab/snake-xai.png"
     },
     {
-      "type": "paragraph",
-      "text": "That explanation has limits. Some masked combinations are not valid game states. The chart explains the network’s score difference, not a causal fact about the world. And when exploration chooses a random move, the network’s preferred action may differ from the action actually taken."
-    },
-    {
       "type": "heading",
       "text": "Seeing inside the little brain"
     },
@@ -76,11 +72,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "The optional “what if?” replay setting copies the game and simulates the two moves the snake did not take. Those one-step outcomes join its replay memory without changing the real board. This is simulator-assisted planning inspired by Dyna, not a claim to invent a new reinforcement-learning algorithm."
-    },
-    {
-      "type": "paragraph",
-      "text": "The earlier controlled experiment had mixed results across three training seeds. I keep that report available rather than turn a small study into a performance promise. Those measurements used a 12 × 12 world; today’s lab uses 24 × 24 cells, so the old scores do not describe the current version. The included checkpoint also learned on the earlier grid."
+      "text": "The optional “what if?” replay setting copies the game and simulates the two moves the snake did not take. Those one-step outcomes join its replay memory without changing the real board. This is simulator-assisted planning inspired by Dyna."
     },
     {
       "type": "heading",
@@ -92,11 +84,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "The optional “Go deeper” area contains progress, a frozen comparison with random moves on 20 matched starting seeds, and save/load tools. The matched-seed test is a small repeatable check, not proof of general performance. The interface now uses dark green panels, light text, green highlights and a red apple, with a stacked mobile layout and touch-friendly controls."
-    },
-    {
-      "type": "paragraph",
-      "text": "The project is still a tiny world with limited observations. Longer snakes can trap themselves, and changing rewards or network size can make learning worse. That is part of the lesson: AI is a process to investigate, not a high score to admire."
+      "text": "The optional “Go deeper” area contains progress, a frozen comparison with random moves on 20 matched starting seeds, and save/load tools. The interface now uses dark green panels, light text, green highlights and a red apple, with a stacked mobile layout and touch-friendly controls."
     },
     {
       "type": "link",
