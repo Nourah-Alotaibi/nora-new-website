@@ -285,6 +285,11 @@ worker.onerror = (e) =>
     "The learning worker could not start. Serve this folder over HTTP and use a current browser. " +
       e.message,
   );
+$("network-expand").onclick = () => {
+  $("network-dialog").showModal();
+  if (latest) drawNetwork(latest);
+};
+$("network-close").onclick = () => $("network-dialog").close();
 $("tutorial-open").onclick = () => $("tutorial-dialog").showModal();
 $("tutorial-close").onclick = () => $("tutorial-dialog").close();
 worker.onmessage = ({ data }) => {
@@ -514,6 +519,12 @@ function drawNetwork(s) {
     if (l > 0 && !output && s.settings.hidden > nodes) svg.append(create("text", {x, y: 274, "text-anchor": "middle", class: "network-count"}, `+${s.settings.hidden - nodes} more`));
   }
   $("network").replaceChildren(svg);
+  if ($("network-dialog").open) {
+    const large = svg.cloneNode(true);
+    large.querySelector("marker").id = "network-arrow-large";
+    large.querySelectorAll("[marker-end]").forEach(el => el.setAttribute("marker-end", "url(#network-arrow-large)"));
+    $("network-large").replaceChildren(large);
+  }
 
 }
 function drawBoard(g) {

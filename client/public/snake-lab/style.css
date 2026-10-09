@@ -711,3 +711,23 @@ header, main { max-width: 1300px; }
 @media (min-width:1101px) and (min-height:851px) and (max-height:1000px) {
   header, main { zoom: .85; max-width: 1650px; }
 }
+
+.deep-learning { grid-column: 1 / -1; width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; background: var(--panel); }
+.deep-learning > summary { font-size: 13px; font-weight: 600; padding: 0; }
+.deep-learning[open] > summary { margin-bottom: 14px; }
+#network-expand { padding: 5px 10px; min-height: 29px; font-size: 12px; margin-bottom: 5px; }
+#network-dialog { width: min(1000px, calc(100% - 32px)); max-height: 90dvh; overflow: auto; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+#network-dialog::backdrop { background: #000b; }
+#network-large svg { height: auto; max-height: 65dvh; }
+@media(min-width:1101px) and (min-height:650px) {
+  .controls-column .control label { font-size: 14px; }
+  .controls-column p, .play-column p { font-size: 13px; }
+  .controls-column h2, .play-column h2 { font-size: 18px; }
+  .play-column .shap-row { font-size: 12px; margin: 6px 0; }
+  .q-row { font-size: 13px; }
+  .controls-column summary, .play-column summary { font-size: 13px; }
+  .settings-panel .control select { font-size: 14px; }
+  .eyebrow { font-size: 11px; }
+  .network svg { height: 190px; }
+  .deep-learning > summary { font-size: 14px; }
+}
