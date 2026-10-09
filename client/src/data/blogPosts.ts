@@ -80,15 +80,23 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "Eleven input signals describe nearby danger, the snake’s direction, and where the food is. They pass through two hidden layers to produce three Q-values: estimated future rewards for going straight, turning right, or turning left. Follow the arrows to see this flow; brighter neurons show stronger activation, and you can expand the diagram for a closer look."
+      "text": "The snake starts with eleven simple yes-or-no clues: is there danger nearby, which way is it facing, and where is the food? Two hidden layers combine these clues into three move scores, called Q-values: one for going straight, one for turning right, and one for turning left. Each score estimates how much reward that move could lead to over time—not just on the next step. Follow the diagram’s arrows to see this path; brighter neurons are more active on the current board. Expand it for a closer look."
     },
     {
       "type": "paragraph",
-      "text": "Rewards give the snake a learning goal: eating food earns a positive reward, while a collision receives a penalty. Future thinking (γ) controls how much later rewards matter, and curiosity (ε) lets it try random moves to discover alternatives. The learning rate controls the size of each weight update. Changing these settings helped me connect the equations to behavior I could actually watch."
+      "text": "Rewards tell the snake what to work toward. Eating food adds reward; crashing subtracts it. Future thinking (γ) sets how much it values rewards that come later. Curiosity (ε) is the chance of trying a random move, so it can explore instead of always following its current favorite. The learning rate sets how large each change to the network’s weights will be. Adjusting these settings helped me connect the equations to behavior I could actually watch."
     },
     {
       "type": "paragraph",
-      "text": "During training, Double DQN samples past moves from replay memory and builds a target from the reward plus an estimate of future value. A loss measures the difference between that target and the predicted Q-value. Backpropagation calculates how each weight contributed to this error, and Adam adjusts the weights to reduce it. Repeating this cycle changes the snake’s decisions; watching mode keeps the weights fixed. SHAP adds a different view: which input signals influence its preferred move over the next-best option."
+      "text": "Training works like reviewing past attempts. Replay memory stores what the snake saw, the move it tried, the reward it received, and what happened next. Double DQN revisits a batch of those experiences and builds a learning target: the reward received plus a discounted estimate of what could be earned afterward. It uses the learning network to choose the next move and a separate reference network to estimate that move’s value; after a game ends, the target uses only the final reward."
+    },
+    {
+      "type": "paragraph",
+      "text": "The loss measures how far the predicted move score is from that target. Backpropagation works backward through the layers to calculate how changing each weight would affect the loss. Adam uses those gradients to update the weights, with the learning rate controlling the step size. Repeating this cycle gradually changes the move scores and the snake’s choices. Watching mode pauses those updates, so you can study a fixed model."
+    },
+    {
+      "type": "paragraph",
+      "text": "SHAP answers another question: why does this model prefer one move over the next-best move on this board? It shows how each input clue contributes to the difference between their scores. The network diagram shows activity inside the model; SHAP helps you interpret which clues support its preference."
     },
     {
       "type": "image",
