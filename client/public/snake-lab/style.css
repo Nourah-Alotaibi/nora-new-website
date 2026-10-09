@@ -761,3 +761,7 @@ header, main { max-width: 1300px; }
   .intro { padding: 3px 0; }
   .network-panel h2 { margin: 3px 0; }
 }
+@media (min-width:1101px) and (min-height:650px) {
+  .workspace { grid-template-columns: minmax(0,1fr) 450px minmax(0,1fr); }
+  #board { width: min(100%, 410px, calc(100dvh - 300px)); }
+}
