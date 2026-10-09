@@ -24,7 +24,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "What’s the best way to learn a new concept? Gamify it. For me, turning the idea into a game made it easier to experiment: change a setting, predict what would happen, and watch the result. Rewards and neural networks became something I could explore, rather than only equations on a page."
+      "text": "When I first started learning neural networks, I asked myself, “What’s the best way to learn a new concept?” My answer was: gamify it. Turning the idea into a game made it easier to experiment: change a setting, predict what would happen, and watch the result. Rewards and neural networks became something I could explore, rather than only equations on a page."
     },
     {
       "type": "paragraph",
