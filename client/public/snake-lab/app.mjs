@@ -285,7 +285,13 @@ worker.onerror = (e) =>
     "The learning worker could not start. Serve this folder over HTTP and use a current browser. " +
       e.message,
   );
+$("tutorial-open").onclick = () => $("tutorial-dialog").showModal();
+$("tutorial-close").onclick = () => $("tutorial-dialog").close();
 worker.onmessage = ({ data }) => {
+  if (data.type === "explanation-ended") {
+    $("explanation").textContent = "Game ended. The next game will show a new explanation.";
+    return;
+  }
   if (data.type === "explanation") {
     lastExplanation = data;
     const panel = $("explanation");
@@ -324,8 +330,9 @@ worker.onmessage = ({ data }) => {
     const total = document.createElement("p");
     total.className = "small";
     total.textContent = `Reference gap ${data.baseline.toFixed(3)} + sensor contributions ${(data.output - data.baseline).toFixed(3)} = current Q-gap ${data.output.toFixed(3)}. ${data.evaluations.toLocaleString()} combinations checked.`;
+    total.className = "small shap-calculation";
     panel.append(total);
-    message(
+    if (!data.automatic) message(
       "SHAP explanation ready. Training is paused; this check changed no weights or replay memory.",
     );
     return;

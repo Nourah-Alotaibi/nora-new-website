@@ -16,7 +16,7 @@
       <nav>
         <a href="https://github.com/Nourah-Alotaibi/snake-ai-game"
           >Code & report ↗</a
-        ><button id="theme">Light mode</button>
+        ><button id="theme">Light mode</button><button id="tutorial-open" class="help-button" aria-label="Open tutorial">?</button>
       </nav>
     </header>
     <main>
@@ -25,6 +25,20 @@
         <h1>Snake Learning Lab</h1>
         <p>Learn how AI makes decisions. Watch a snake, change one setting, and explain a move.</p>
       </section>
+      <dialog id="tutorial-dialog" aria-label="How to use the Snake lab">
+        <button id="tutorial-close" aria-label="Close tutorial">Close</button>
+          <div class="panel start-panel">
+            <span class="eyebrow">01 / Optional example</span>
+            <h2>New to AI? Watch an example.</h2>
+            <ol class="lesson-steps">
+              <li>Click <strong>Load example snake</strong>. It is included here—no file needed.</li><li>Press <strong>Start watching</strong> to see an AI that has already practiced.</li>
+              <li>Pause and predict its next move.</li>
+              <li>Read <strong>Why this turn?</strong> on the right. Which signal mattered most?</li>
+            </ol>
+            <p class="small">This example learned on a smaller grid. Use Test to see how it performs on this larger board.</p>
+            <p class="small"><strong>Want to start from scratch?</strong> Skip this example and press <strong>Start learning</strong> on the game. The default settings are ready.</p>
+          </div>
+      </dialog>
       <section class="workspace" aria-label="Snake learning experiment">
           <div class="panel board-panel">
             <div class="panel-heading">
@@ -74,12 +88,12 @@
           </div>
         <div class="play-column">
           <div class="panel">
-            <span class="eyebrow">03 / Explain a move · XAI</span>
+            <span class="eyebrow">02 / Live XAI · SHAP</span>
             <h2>Why this turn?</h2>
             <p>
-              Pause and ask: why does the brain prefer this move?
+              Updates automatically. Pause to study a move.
             </p>
-            <button id="explain">Explain this board</button>
+            <button id="explain" hidden>Explain this board</button>
             <div id="explanation" aria-live="polite"></div>
             <details class="shap-method"><summary>How to read SHAP</summary><p class="small">
               Exact SHAP values for the preferred move versus its runner-up,
@@ -99,13 +113,11 @@
               </p>
             </details>
           </div>
-          <details class="panel score-details"><summary>Compare predicted rewards</summary>
-            <span class="eyebrow">Move scores</span>
+          <div class="panel score-details"><span class="eyebrow">Move scores</span>
             <h2>Which move looks best?</h2>
             <div id="q-values"></div>
             <p class="small">
-              Q-values estimate future reward. They are not probabilities. A
-              curious snake sometimes chooses a random move.
+              Higher means more expected reward, not a probability.
             </p>
             <details>
               <summary>Peek at the network</summary>
@@ -117,28 +129,17 @@
                 and food. This snake does not see pixels or the entire board.
               </p>
             </details>
-          </details>
+          </div>
         </div>
         <div class="controls-column">
-          <div class="panel start-panel">
-            <span class="eyebrow">01 / Optional example</span>
-            <h2>New to AI? Watch an example.</h2>
-            <ol class="lesson-steps">
-              <li>Click <strong>Load example snake</strong>. It is included here—no file needed.</li><li>Press <strong>Start watching</strong> to see an AI that has already practiced.</li>
-              <li>Pause and predict its next move.</li>
-              <li>Press <strong>Explain this board</strong>. Which signal mattered most?</li>
-            </ol>
-            <button id="example" class="primary wide">Load example snake</button><p class="small">This example learned on a smaller grid. Use Test to see how it performs on this larger board.</p>
-            <p class="small"><strong>Want to start from scratch?</strong> Skip this example and press <strong>Start learning</strong> on the game. The default settings are ready.</p>
-          </div>
           <div class="panel">
             <div class="panel-heading">
-              <span class="eyebrow">02 / Try an experiment</span>
+              <span class="eyebrow">01 / Learning settings</span>
             </div>
             <p>
-              Change one setting, predict the effect, then apply it and press Start learning. Try a few games before comparing.
+              Change one setting, then apply it to start a fresh brain.
             </p>
-            <details class="preset-drawer"><summary>Example experiments</summary><div class="preset-buttons">
+            <button id="example" class="wide">Load example snake</button><details class="preset-drawer"><summary>Example experiments</summary><div class="preset-buttons">
               <button data-preset="default">The curious one</button
               ><button data-preset="noplanning">No “what if?” replay</button
               ><button data-preset="myopic">Only the next snack</button
@@ -255,10 +256,7 @@
       </section>
       </details>
       <p id="status" role="status" aria-live="polite">Preparing the lab…</p>
-      <footer>
-        Made by Nourah Alotaibi · Runs in your browser. No account, paid API or
-        training-data upload.
-      </footer>
+
     </main>
     <noscript>This interactive lab needs JavaScript.</noscript>
     <script type="module" src="app.mjs"></script>
