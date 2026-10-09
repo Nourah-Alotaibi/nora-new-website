@@ -64,6 +64,27 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "heading",
+      "text": "Seeing inside the little brain"
+    },
+    {
+      "type": "paragraph",
+      "text": "Eleven input signals describe nearby danger, the snake’s direction, and where the food is. They pass through two hidden layers to produce three Q-values: estimated future rewards for going straight, turning right, or turning left. Follow the arrows to see this flow; brighter neurons show stronger activation, and you can expand the diagram for a closer look."
+    },
+    {
+      "type": "paragraph",
+      "text": "Rewards give the snake a learning goal: eating food earns a positive reward, while a collision receives a penalty. Future thinking (γ) controls how much later rewards matter, and curiosity (ε) lets it try random moves to discover alternatives. The learning rate controls the size of each weight update. Changing these settings helped me connect the equations to behavior I could actually watch."
+    },
+    {
+      "type": "paragraph",
+      "text": "During training, Double DQN samples past moves from replay memory and builds a target from the reward plus an estimate of future value. A loss measures the difference between that target and the predicted Q-value. Backpropagation calculates how each weight contributed to this error, and Adam adjusts the weights to reduce it. Repeating this cycle changes the snake’s decisions; watching mode keeps the weights fixed. SHAP adds a different view: which input signals influence its preferred move over the next-best option."
+    },
+    {
+      "type": "image",
+      "text": "Inputs → hidden layers → move scores: the network’s activity on the current board.",
+      "href": "/blog/snake-learning-lab/snake-network.png"
+    },
+    {
+      "type": "heading",
       "text": "Center panel: watch and experiment"
     },
     {
@@ -95,19 +116,6 @@ export const blogPosts: BlogPost[] = [
     {
       "type": "paragraph",
       "text": "XAI helps you investigate what influenced a prediction. Here, you can check whether food or danger supports a turn. In other projects, the same habit helps you examine relevant features and explain predictions to colleagues and domain experts."
-    },
-    {
-      "type": "heading",
-      "text": "Seeing inside the little brain"
-    },
-    {
-      "type": "paragraph",
-      "text": "Follow the arrows from eleven inputs, through hidden layers, to three move scores. Brighter neurons show stronger activity. Expand the diagram for a closer look; SHAP explains how input signals influence the preferred move."
-    },
-    {
-      "type": "image",
-      "text": "Follow the arrows: eleven input signals pass through hidden layers to three move scores. Neuron brightness shows activity for the current board.",
-      "href": "/blog/snake-learning-lab/snake-network.png"
     },
     {
       "type": "heading",
