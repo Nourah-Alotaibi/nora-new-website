@@ -20,7 +20,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "That conversation inspired me to polish the game and publish it now. I added XAI so other students and colleagues could watch it learn, explore its decisions, and find the same joy in learning that I did."
+      "text": "As I was explaining it to her, I stopped and thought, “You know what? I’ll polish that old project and publish it for you.” That conversation is why I returned to the game and brought it online now. I also added XAI so she—and other students and colleagues—could watch it learn, explore its decisions, and find the same joy in learning that I did."
     },
     {
       "type": "image",

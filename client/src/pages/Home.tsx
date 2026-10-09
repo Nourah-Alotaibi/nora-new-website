@@ -1409,7 +1409,7 @@ export default function Home() {
   const isDark = theme === "dark";
 
   return (
-    <div className={`min-h-screen ${isDark ? "bg-[#121321]" : "bg-[#FCFBF8]"}`}>
+    <div className={`min-h-screen ${isDark ? "bg-[#1c1d1f]" : "bg-[#FCFBF8]"}`}>
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-[3px] bg-white/5 z-[1000]">
         <div className="h-full bg-gradient-to-r from-indigo-400 via-purple-400 to-fuchsia-400 rounded-r transition-[width] duration-100" style={{ width: `${scrollProgress}%` }} />

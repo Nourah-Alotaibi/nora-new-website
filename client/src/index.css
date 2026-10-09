@@ -2812,3 +2812,14 @@
 @media(max-width:720px) {
   .dark .journey-card-content > p { font-size:12px;line-height:1.95; }
 }
+
+/* Shared, quiet neutral charcoal surfaces for dark mode. */
+.dark { --background:#1c1d1f; --foreground:#e4e3df; --card:#262729; --card-foreground:#e4e3df; --popover:#262729; --popover-foreground:#e4e3df; --secondary:#303133; --secondary-foreground:#d0cfca; --muted:#303133; --muted-foreground:#b9b8b4; --accent:#343638; --accent-foreground:#e4e3df; --border:#424447; --input:#424447; --sidebar:#262729; --sidebar-foreground:#e4e3df; }
+.dark .mh2-section,.dark #hero .mh2-section { --bg-0:#1c1d1f; --bg-1:#262729; }
+.dark #hero > section,.dark #journey,.dark #projects,.dark #contact { background:#1c1d1f !important; }
+.dark .mh2-section { background:#1c1d1f; }
+.dark .journey-card,.dark .pa-content,.dark .pa-media,.dark .skill-item { background:#262729 !important; }
+.dark .journey-window-bar { background:#303133; }
+.dark #hero .mh2-blob-a,.dark #hero .mh2-blob-b,.dark #hero .mh2-blob-c { opacity:.035; }
+
+.dark .pa-viewer-content { background:#262729 !important; }
