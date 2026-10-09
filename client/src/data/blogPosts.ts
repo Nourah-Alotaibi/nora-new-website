@@ -4,7 +4,7 @@ export type BlogPost = { slug: string; title: string; date: string; excerpt: str
 export const blogPosts: BlogPost[] = [
 {
   "slug": "snake-learning-lab",
-  "title": "A Nokia memory, a neural twist: learning AI through Snake",
+  "title": "A Nokia memory: learning AI through Snake",
   "date": "2026-10-09",
   "excerpt": "Watch a neural network learn, ask why it turns, and explore reinforcement learning through a familiar Nokia-inspired game.",
   "category": "AI · Learning by building",
@@ -586,4 +586,5 @@ export const sortedBlogPosts = [...blogPosts].sort((a, b) => {
   const bRank = blogOrder.indexOf(b.slug);
   return (aRank < 0 ? blogOrder.length : aRank) - (bRank < 0 ? blogOrder.length : bRank) || b.date.localeCompare(a.date);
 });
+
 
