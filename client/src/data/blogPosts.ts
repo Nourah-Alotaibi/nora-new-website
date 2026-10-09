@@ -16,6 +16,10 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
+      "text": "What’s a good way to learn a difficult concept? For me, it’s to turn it into something I can play with. Gamifying an idea gives me a way to experiment: change something, make a prediction, and watch what happens. With Snake, rewards, neural networks, and learning stopped being only equations on a page—I could see their effects, ask questions, and try again."
+    },
+    {
+      "type": "paragraph",
       "text": "Recently, a friend of a friend asked how I had learned neural networks in the UC Berkeley AI program at AUM, which I had graduated from. Their question took me back to when I first built this game while learning deep learning. I ran it for hours on my laptop, sometimes overnight, enjoying the analysis and carrying those lessons into bigger projects."
     },
     {
