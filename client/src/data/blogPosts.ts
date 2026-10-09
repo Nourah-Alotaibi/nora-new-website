@@ -12,7 +12,7 @@ export const blogPosts: BlogPost[] = [
   "content": [
     {
       "type": "paragraph",
-      "text": "Snake was the first digital game I played on my mum’s old Nokia. Years later, when I started studying AI, I built my own version to help unfamiliar concepts click. A small game became a way to ask much bigger questions."
+      "text": "In the early 2000s, Snake was the first digital game I played on my mum’s old Nokia. Years later, when I started studying AI, I built my own version to help unfamiliar concepts click. A small game became a way to ask much bigger questions."
     },
     {
       "type": "paragraph",
@@ -595,5 +595,6 @@ export const sortedBlogPosts = [...blogPosts].sort((a, b) => {
   const bRank = blogOrder.indexOf(b.slug);
   return (aRank < 0 ? blogOrder.length : aRank) - (bRank < 0 ? blogOrder.length : bRank) || b.date.localeCompare(a.date);
 });
+
 
 
