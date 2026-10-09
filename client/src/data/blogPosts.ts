@@ -87,7 +87,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "The optional “Go deeper” area contains progress, a frozen comparison with random moves on 20 matched starting seeds, and save/load tools. The matched-seed test is a small repeatable check, not proof of general performance. The interface now uses charcoal panels, light text, green highlights and a red apple, with a stacked mobile layout and touch-friendly controls."
+      "text": "The optional “Go deeper” area contains progress, a frozen comparison with random moves on 20 matched starting seeds, and save/load tools. The matched-seed test is a small repeatable check, not proof of general performance. The interface now uses dark green panels, light text, green highlights and a red apple, with a stacked mobile layout and touch-friendly controls."
     },
     {
       "type": "paragraph",
@@ -586,3 +586,4 @@ export const sortedBlogPosts = [...blogPosts].sort((a, b) => {
   const bRank = blogOrder.indexOf(b.slug);
   return (aRank < 0 ? blogOrder.length : aRank) - (bRank < 0 ? blogOrder.length : bRank) || b.date.localeCompare(a.date);
 });
+
