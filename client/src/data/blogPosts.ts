@@ -84,6 +84,10 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
+      "text": "Why eleven inputs? I use three groups of clues: **3 danger signals** check the next square straight ahead, to the right, and to the left; **4 direction signals** tell it whether it is facing up, down, left, or right; and **4 food signals** tell it whether the apple is above, below, left, or right of its head. That makes 3 + 4 + 4 = 11. Each clue is encoded as 1 for yes or 0 for no. An apple diagonally above and left activates both food clues. This compact state representation turns the board into numbers the network can process and makes the inputs easy to inspect in the diagram and SHAP panel. Eleven is a design choice for this lab, not a rule for neural networks."
+    },
+    {
+      "type": "paragraph",
       "text": "Rewards tell the snake what to work toward. Eating food adds reward; crashing subtracts it. Future thinking (γ) sets how much it values rewards that come later. Curiosity (ε) is the chance of trying a random move, so it can explore instead of always following its current favorite. The learning rate sets how large each change to the network’s weights will be. Adjusting these settings helped me connect the equations to behavior I could actually watch."
     },
     {
