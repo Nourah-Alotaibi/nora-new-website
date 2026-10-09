@@ -452,7 +452,7 @@ function render(s) {
     $("q-values").append(row);
   });
   $("architecture").textContent = `11 sensor inputs → ${s.settings.depth} hidden ${s.settings.depth === 1 ? "layer" : "layers"} (${s.settings.hidden} neurons each) → 3 move scores. Hidden layers show up to 8 neurons; brighter dots mean stronger activation. Arrows show information flow, not learned connection strength.`;
-  if ($("network").closest("details").open) {
+  if ($("network")) {
     drawNetwork(s);
     $("sensors").replaceChildren();
     sensorNames.forEach((name, i) => {
