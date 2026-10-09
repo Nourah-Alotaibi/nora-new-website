@@ -59,8 +59,20 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "image",
-      "text": "Learning settings and the live network.",
-      "href": "/blog/snake-learning-lab/snake-panel-left.png"
+      "text": "The left panel with advanced parameters expanded.",
+      "href": "/blog/snake-learning-lab/snake-panel-left-advanced.png"
+    },
+    {
+      "type": "paragraph",
+      "text": "Open Advanced parameters to shape the experiment more closely. Curiosity fade controls how quickly random exploration decreases after each game; curiosity floor sets the minimum exploration it keeps. Neurons per layer and hidden layers change the network’s size and the stages that combine its inputs."
+    },
+    {
+      "type": "paragraph",
+      "text": "Memories per lesson is the batch size: how many saved experiences contribute to one update. Replay capacity sets how many experiences are retained, while target refresh controls how often the learner is copied into the reference network used to build learning targets. Snack reward and collision penalty define what it values; distance hint adds a reward for moving closer to food. The experiment seed lets you repeat the same training sequence with the same settings."
+    },
+    {
+      "type": "paragraph",
+      "text": "Try changing one parameter at a time and predict what will happen before watching. Apply & reset brain starts fresh with your new settings—save first if you want to keep the current model."
     },
     {
       "type": "heading",
