@@ -20,11 +20,11 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "I first built it when we began learning deep learning in that program. I ran it for hours on my laptop, sometimes leaving it running overnight. Watching the snake learn and analyzing its choices helped me understand the concepts before applying them to bigger projects."
+      "text": "When we began learning deep learning in that program, I asked myself, “This concept is hard—what’s the best way to learn it?” My answer was: gamify it. That’s why I first built this Snake game. I ran it for hours on my laptop, sometimes leaving it running overnight, watching it learn and analyzing its choices before applying those lessons to bigger projects."
     },
     {
       "type": "paragraph",
-      "text": "When I first started learning neural networks, I asked myself, “What’s the best way to learn a new concept?” My answer was: gamify it. Turning the idea into a game made it easier to experiment: change a setting, predict what would happen, and watch the result. Rewards and neural networks became something I could explore, rather than only equations on a page."
+      "text": "Turning the idea into a game made it easier to experiment: change a setting, predict what would happen, and watch the result. Rewards and neural networks became something I could explore, rather than only equations on a page."
     },
     {
       "type": "paragraph",
