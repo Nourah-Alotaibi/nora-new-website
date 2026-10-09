@@ -16,15 +16,19 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "What’s the best way to learn a hard concept? Gamify it. For me, that means turning an idea into something I can play with. Gamifying an idea gives me a way to experiment: change something, make a prediction, and watch what happens. With Snake, rewards, neural networks, and learning stopped being only equations on a page—I could see their effects, ask questions, and try again."
+      "text": "Recently, a friend of a friend asked how I had learned neural networks. She was trying to understand the concept in the UC Berkeley AI program at AUM—the same program I had graduated from. Her question immediately reminded me of this Snake game."
     },
     {
       "type": "paragraph",
-      "text": "Recently, a friend of a friend asked how I had learned neural networks in the UC Berkeley AI program at AUM, which I had graduated from. Their question took me back to when I first built this game while learning deep learning. I ran it for hours on my laptop, sometimes overnight, enjoying the analysis and carrying those lessons into bigger projects."
+      "text": "I first built it when we began learning deep learning in that program. I ran it for hours on my laptop, sometimes leaving it running overnight. Watching the snake learn and analyzing its choices helped me understand the concepts before applying them to bigger projects."
     },
     {
       "type": "paragraph",
-      "text": "As I was explaining it to her, I stopped and thought, “You know what? I’ll polish that old project and publish it for you.” That conversation is why I returned to the game and brought it online now. I also added XAI so she—and other students and colleagues—could watch it learn, explore its decisions, and find the same joy in learning that I did."
+      "text": "What’s the best way to learn a new concept? Gamify it. For me, turning the idea into a game made it easier to experiment: change a setting, predict what would happen, and watch the result. Rewards and neural networks became something I could explore, rather than only equations on a page."
+    },
+    {
+      "type": "paragraph",
+      "text": "As I was explaining it to her, I stopped and thought, “You know what? I’ll polish that old project and publish it for you.” That conversation is why I brought it online now. I also added XAI to help her—and other students and colleagues—look inside the network’s decisions and find the same joy in learning that I did."
     },
     {
       "type": "link",
