@@ -16,7 +16,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "What’s a good way to learn a difficult concept? For me, it’s to turn it into something I can play with. Gamifying an idea gives me a way to experiment: change something, make a prediction, and watch what happens. With Snake, rewards, neural networks, and learning stopped being only equations on a page—I could see their effects, ask questions, and try again."
+      "text": "What’s the best way to learn a hard concept? Gamify it. For me, that means turning an idea into something I can play with. Gamifying an idea gives me a way to experiment: change something, make a prediction, and watch what happens. With Snake, rewards, neural networks, and learning stopped being only equations on a page—I could see their effects, ask questions, and try again."
     },
     {
       "type": "paragraph",
