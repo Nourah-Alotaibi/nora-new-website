@@ -604,12 +604,4 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
-const blogOrder = ["my-journey-into-ai", "werewolf-curse-reimagined", "ctf-control-room", "snake-learning-lab"];
-export const sortedBlogPosts = [...blogPosts].sort((a, b) => {
-  const aRank = blogOrder.indexOf(a.slug);
-  const bRank = blogOrder.indexOf(b.slug);
-  return (aRank < 0 ? blogOrder.length : aRank) - (bRank < 0 ? blogOrder.length : bRank) || b.date.localeCompare(a.date);
-});
-
-
-
+export const sortedBlogPosts = [...blogPosts].sort((a, b) => b.date.localeCompare(a.date));
