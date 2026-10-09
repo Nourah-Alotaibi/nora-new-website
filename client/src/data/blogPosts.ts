@@ -131,7 +131,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "Move scores compare straight, right and left. SHAP shows which signals support the preferred move over its runner-up. Pause to compare those signals with the board."
+      "text": "Move scores compare straight, right and left. SHAP is an explainable AI (XAI) method that shows how each input signal influences the model’s prediction. Here, it shows which signals support the preferred move over its runner-up. Pause to compare those signals with the board."
     },
     {
       "type": "image",
