@@ -521,8 +521,8 @@ function drawBoard(g) {
   for (const sign of [-1, 1]) {
     x.beginPath();
     x.arc(
-      (a + 0.5) * cell + d[0] * 10 + d[1] * sign * 9,
-      (b + 0.5) * cell + d[1] * 10 + d[0] * sign * 9,
+      (a + 0.5) * cell + d[0] * cell * 0.2 + d[1] * sign * cell * 0.18,
+      (b + 0.5) * cell + d[1] * cell * 0.2 + d[0] * sign * cell * 0.18,
       3,
       0,
       Math.PI * 2,

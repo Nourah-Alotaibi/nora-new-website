@@ -605,3 +605,6 @@ header, main { max-width: 1300px; }
 }
 
 #board { width: min(100%, 180px); }
+
+#board { width: min(100%, 420px); }
+@media(min-width:1101px) { .workspace { grid-template-columns: minmax(0,1fr) 460px minmax(0,1fr); } }
