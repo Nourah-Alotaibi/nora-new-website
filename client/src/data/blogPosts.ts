@@ -93,27 +93,19 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "The snake starts with eleven simple yes-or-no clues: is there danger nearby, which way is it facing, and where is the food? Two hidden layers combine these clues into three move scores, called Q-values: one for going straight, one for turning right, and one for turning left. Each score estimates how much reward that move could lead to over time—not just on the next step. Follow the diagram’s arrows to see this path; brighter neurons are more active on the current board. Expand it for a closer look."
+      "text": "The network reads eleven yes-or-no clues: **3 about danger, 4 about its direction, and 4 about food position**. Two hidden layers combine them into three Q-values—scores estimating the future reward for going straight, turning right, or turning left. Follow the arrows; brighter neurons show stronger activity."
     },
     {
       "type": "paragraph",
-      "text": "Why eleven inputs? I use three groups of clues: **3 danger signals** check the next square straight ahead, to the right, and to the left; **4 direction signals** tell it whether it is facing up, down, left, or right; and **4 food signals** tell it whether the apple is above, below, left, or right of its head. That makes 3 + 4 + 4 = 11. Each clue is encoded as 1 for yes or 0 for no. An apple diagonally above and left activates both food clues. This compact state representation turns the board into numbers the network can process and makes the inputs easy to inspect in the diagram and SHAP panel. Eleven is a design choice for this lab, not a rule for neural networks."
+      "text": "Rewards guide learning: food earns a reward, while crashing brings a penalty. Future thinking (γ) sets how much later rewards matter; curiosity (ε) encourages random exploration; and the learning rate controls the size of weight updates."
     },
     {
       "type": "paragraph",
-      "text": "Rewards tell the snake what to work toward. Eating food adds reward; crashing subtracts it. Future thinking (γ) sets how much it values rewards that come later. Curiosity (ε) is the chance of trying a random move, so it can explore instead of always following its current favorite. The learning rate sets how large each change to the network’s weights will be. Adjusting these settings helped me connect the equations to behavior I could actually watch."
+      "text": "The snake learns by reviewing past moves stored in replay memory. Double DQN compares its predicted move scores with targets based on the reward received and an estimate of future value, using a separate reference network to help build those targets."
     },
     {
       "type": "paragraph",
-      "text": "Training works like reviewing past attempts. Replay memory stores what the snake saw, the move it tried, the reward it received, and what happened next. Double DQN revisits a batch of those experiences and builds a learning target: the reward received plus a discounted estimate of what could be earned afterward. It uses the learning network to choose the next move and a separate reference network to estimate that move’s value; after a game ends, the target uses only the final reward."
-    },
-    {
-      "type": "paragraph",
-      "text": "The loss measures how far the predicted move score is from that target. Backpropagation works backward through the layers to calculate how changing each weight would affect the loss. Adam uses those gradients to update the weights, with the learning rate controlling the step size. Repeating this cycle gradually changes the move scores and the snake’s choices. Watching mode pauses those updates, so you can study a fixed model."
-    },
-    {
-      "type": "paragraph",
-      "text": "SHAP answers another question: why does this model prefer one move over the next-best move on this board? It shows how each input clue contributes to the difference between their scores. The network diagram shows activity inside the model; SHAP helps you interpret which clues support its preference."
+      "text": "The loss measures the prediction error. Backpropagation calculates how the weights should change, and Adam updates them to reduce that error. Repeated updates shape the snake’s decisions; watching mode keeps the model fixed so you can study it."
     },
     {
       "type": "image",
