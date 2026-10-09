@@ -81,10 +81,10 @@
   .journal-index .journal-deck { margin:4px 0 14px; font-size:15px; }
   .journal-index .journal-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
   .journal-index .journal-preview { margin:0; }
-  .journal-index .journal-card { grid-template-columns:34% minmax(0,1fr); min-height:0; height:220px; border-radius:12px; }
+  .journal-index .journal-card { grid-template-columns:50% minmax(0,1fr); min-height:0; height:220px; border-radius:12px; }
   .journal-index .journal-card-cover { height:100%; min-height:0; aspect-ratio:auto; }
-  .journal-index .journal-card-content { padding:16px; }
-  .journal-index .journal-card h2 { font-size:22px; margin:8px 0; }
+  .journal-index .journal-card-content { padding:12px; }
+  .journal-index .journal-card h2 { font-size:20px; margin:6px 0; }
   .journal-index .journal-card p { font-size:13px; line-height:1.45; margin:0 0 10px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
   .journal-index .journal-card-read { padding:6px 10px; }
   .werewolf-journal:has(.journal-index) .journal-footer { padding-block:12px; }
@@ -111,6 +111,8 @@
   .werewolf-journal:has(.journal-index) .journal-footer { padding:10px 16px; }
 }
 .journal-card-cover:has(img[src*="thumbnail"]) { background:#0d1b13; }
-.journal-card-cover img[src*="nokia-snake-thumbnail"], .journal-card-cover img[src*="ctf-competition-thumbnail"] { object-fit:contain; width:100%; height:100%; }
+.journal-index .journal-card-cover:not(.journal-cover-portrait) img { object-fit:cover; object-position:center; width:100%; height:100%; }
 
 @media(max-width:899px) { .werewolf-journal:has(.journal-index) .journal-brand { font-size:28px; } .werewolf-journal:has(.journal-index) .journal-header { padding-block:8px; } }
+
+.journal-index .journal-card-cover img[src*='nokia-snake-thumbnail'] { object-position:28% center; }
