@@ -240,7 +240,7 @@ $("example").onclick = async () => {
     if (!response.ok) throw Error("Trained example unavailable");
     send("load", { brain: await response.json() });
     message(
-      "Loaded the saved what-if learner. Press Resume watching, or switch to training. See the report for its measured results.",
+      "Loaded the saved what-if learner. Press Start watching, or switch to training. See the report for its measured results.",
     );
   } catch (e) {
     message(e.message);
@@ -415,7 +415,7 @@ function render(s) {
   $("run").textContent = s.running
     ? "Pause"
     : s.mode === "watch"
-      ? "Resume watching"
+      ? "Start watching"
       : "Start learning";
   $("watch").textContent =
     s.mode === "watch" ? "Return to training" : "Watch this brain";
@@ -575,5 +575,5 @@ function drawChart(history) {
   );
 }
 message(
-  "Your lab is ready. Start learning from scratch, or try the saved trained snake.",
+  "Ready. Press Start learning, or load the optional example.",
 );
