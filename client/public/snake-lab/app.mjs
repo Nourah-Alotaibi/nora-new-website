@@ -451,23 +451,9 @@ function render(s) {
     row.append(label, track, number);
     $("q-values").append(row);
   });
-  $("architecture").textContent =
-    `11 inputs → ${Array(s.settings.depth).fill(s.settings.hidden).join(" → ")} hidden neurons → 3 action values. Dots show up to 12 actual activations per layer; brighter means more active. Curiosity now: ${(s.epsilon * 100).toFixed(1)}%.`;
+  $("architecture").textContent = `11 sensor inputs → ${s.settings.depth} hidden ${s.settings.depth === 1 ? "layer" : "layers"} (${s.settings.hidden} neurons each) → 3 move scores. Hidden layers show up to 8 neurons; brighter dots mean stronger activation. Arrows show information flow, not learned connection strength.`;
   if ($("network").closest("details").open) {
-    $("network").replaceChildren();
-    for (const layer of s.decision?.activations ?? []) {
-      const col = document.createElement("div");
-      col.className = "neuron-column";
-      const max = Math.max(1, ...layer.map(Math.abs));
-      for (const value of layer.slice(0, 12)) {
-        const dot = document.createElement("span");
-        dot.className = "neuron";
-        dot.style.opacity = 0.15 + 0.85 * Math.min(1, Math.abs(value) / max);
-        dot.title = value.toFixed(3);
-        col.append(dot);
-      }
-      $("network").append(col);
-    }
+    drawNetwork(s);
     $("sensors").replaceChildren();
     sensorNames.forEach((name, i) => {
       const el = document.createElement("span");
@@ -476,6 +462,46 @@ function render(s) {
       $("sensors").append(el);
     });
   }
+}
+function drawNetwork(s) {
+  const ns = "http://www.w3.org/2000/svg";
+  const create = (tag, attrs, text) => {
+    const el = document.createElementNS(ns, tag);
+    for (const [key, value] of Object.entries(attrs)) el.setAttribute(key, value);
+    if (text !== undefined) el.textContent = text;
+    return el;
+  };
+  const layers = s.networkActivations ?? s.decision?.activations ?? [];
+  const count = s.settings.depth + 2, width = 350, height = 270;
+  const svg = create("svg", {viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": `Neural network: 11 inputs, ${s.settings.depth} hidden layers of ${s.settings.hidden} neurons, and three move score outputs`});
+  svg.append(create("title", {}, "Sensors → hidden layers → move scores"));
+  const defs = create("defs", {}), marker = create("marker", {id: "network-arrow", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 5, markerHeight: 5, orient: "auto-start-reverse"});
+  marker.append(create("path", {d: "M 0 0 L 10 5 L 0 10 z", fill: "var(--accent)"}));
+  defs.append(marker); svg.append(defs);
+  const spacing = (width - 48) / (count - 1);
+  for (let l = 0; l < count; l++) {
+    const x = 24 + l * spacing, values = layers[l] ?? [], output = l === count - 1;
+    const title = l === 0 ? "Inputs" : output ? "Outputs" : `Hidden ${l}`;
+    svg.append(create("text", {x, y: 16, "text-anchor": "middle", class: "network-label"}, title));
+    svg.append(create("text", {x, y: 33, "text-anchor": "middle", class: "network-count"}, l === 0 ? "11 sensors" : output ? "3 scores" : `${s.settings.hidden} neurons`));
+    if (l < count - 1) {
+      svg.append(create("line", {x1: x + 13, y1: 143, x2: x + spacing - 13, y2: 143, class: "network-flow", "marker-end": "url(#network-arrow)"}));
+    }
+    const nodes = l === 0 ? 11 : output ? 3 : Math.min(8, s.settings.hidden);
+    const max = Math.max(1e-9, ...values.map(Math.abs));
+    for (let n = 0; n < nodes; n++) {
+      const y = nodes === 1 ? 143 : 55 + n * 176 / (nodes - 1);
+      const circle = create("circle", {cx: x, cy: y, r: 5, class: "network-node", opacity: values.length ? 0.25 + 0.75 * Math.min(1, Math.abs(values[n]) / max) : 0.25});
+      const label = l === 0 ? sensorNames[n] : output ? actionNames[n] : `Hidden layer ${l}, neuron ${n + 1}`;
+      circle.append(create("title", {}, `${label}: ${(values[n] ?? 0).toFixed(3)}`)); svg.append(circle);
+    }
+    if (l > 0 && !output && s.settings.hidden > nodes) svg.append(create("text", {x, y: 254, "text-anchor": "middle", class: "network-count"}, `+${s.settings.hidden - nodes} more`));
+  }
+  $("network").replaceChildren(svg);
+  const legend = document.createElement("p");
+  legend.className = "small network-output-key";
+  legend.textContent = "Outputs, top to bottom: Straight · Turn right · Turn left. Hover a dot for its signal or value.";
+  $("network").append(legend);
 }
 function drawBoard(g) {
   const c = $("board"),

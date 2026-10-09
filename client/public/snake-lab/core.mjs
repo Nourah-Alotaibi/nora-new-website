@@ -461,6 +461,7 @@ export class Learner {
     const recent = this.history.slice(-20);
     return {
       game: this.game.snapshot(),
+      networkActivations: this.net.forward(this.game.state()).map(a => Array.from(a)),
       settings: this.settings,
       steps: this.steps,
       episodes: this.episodes,
