@@ -504,7 +504,7 @@ export const blogPosts: BlogPost[] = [
     "date": "2026-10-04",
     "excerpt": "Three waves, Team Matcha Latte, and a sixth-place CYSEC Kuwait finish. A story of progress, teamwork, and a project I am keeping under the radar.",
     "category": "Cybersecurity · CTF · Building",
-    "cover": "/blog-media/ctf-combo-thumbnail.png",
+    "cover": "/blog-media/ctf-competition-thumbnail.png",
     "content": [
       {
         "type": "paragraph",
