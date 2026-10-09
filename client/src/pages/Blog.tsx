@@ -63,8 +63,7 @@ export default function Blog() {
               {sortedBlogPosts.map(item => <article className="journal-preview" key={item.slug}>
                 <a className="journal-card" href={`/blog/${item.slug}`} aria-label={`Read ${item.title}`}>
                   {item.cover && <div className={`journal-card-cover${item.coverStyle === "portrait" ? " journal-cover-portrait" : ""}`}>
-                    <img src={item.cover} alt="" loading="lazy" />
-                    {item.coverStyle === "portrait" && <span className="journal-cover-note">How it all started.</span>}
+                    {item.coverStyle === "portrait" ? <div className="journal-portrait-art"><img src={item.cover} alt="" loading="lazy" /><span className="journal-cover-note">How it all started.</span></div> : <img src={item.cover} alt="" loading="lazy" />}
                   </div>}
                   <div className="journal-card-content">
                     <div className="journal-card-meta"><span>{item.category ?? "Studio notes"}</span><time dateTime={item.date}>{displayDate(item.date)}</time></div>

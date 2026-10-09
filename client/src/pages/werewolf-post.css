@@ -132,3 +132,11 @@
 
 .journal-index .journal-cover-portrait img { width:65%; margin-left:auto; }
 .journal-index .journal-cover-note { max-width:44%; line-height:1.25; font-size:18px; }
+
+/* Portrait artwork sits inside the same landscape inset as other covers. */
+.journal-index .journal-card-cover.journal-cover-portrait { background:#282035; padding:6px; justify-content:center; }
+.journal-theme-dark .journal-card-cover.journal-cover-portrait { background:#222325; }
+.journal-portrait-art { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; background:radial-gradient(circle at 72% 58%,#faf2dd 0 58%,transparent 58.5%),#dfe6cd; }
+.journal-index .journal-portrait-art img { position:absolute; right:0; bottom:0; width:65%; height:100%; padding:0; object-fit:contain; object-position:right bottom; }
+.journal-index .journal-portrait-art .journal-cover-note { top:12%; left:7%; width:40%; max-width:none; font-size:clamp(15px,1.5vw,21px); line-height:1.2; }
+@media(max-width:899px) { .journal-portrait-art { max-height:100%; width:auto; height:100%; } }
