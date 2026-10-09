@@ -155,6 +155,22 @@ for (let i = 0; i < fields.length; i++) {
   wrap.append(input);
   const hint = document.createElement("p");
   hint.textContent = help;
+  hint.id = key + "-help";
+  hint.className = "parameter-help";
+  hint.setAttribute("role", "tooltip");
+  const helpButton = document.createElement("button");
+  helpButton.type = "button";
+  helpButton.className = "help-button";
+  helpButton.textContent = "?";
+  helpButton.setAttribute("aria-label", "Explain " + label);
+  helpButton.setAttribute("aria-describedby", hint.id);
+  helpButton.setAttribute("aria-expanded", "false");
+  helpButton.onclick = () => {
+    const open = wrap.classList.toggle("help-open");
+    helpButton.setAttribute("aria-expanded", String(open));
+  };
+  title.append(helpButton);
+  input.setAttribute("aria-describedby", hint.id);
   wrap.append(hint);
   $(i < 4 ? "main-controls" : "advanced-controls").append(wrap);
 }
@@ -458,11 +474,11 @@ function drawBoard(g) {
   const c = $("board"),
     x = c.getContext("2d"),
     cell = c.width / g.size;
-  x.fillStyle = "#081722";
+  x.fillStyle = "#102719";
   x.fillRect(0, 0, 600, 600);
-  x.strokeStyle = "#183044";
+  x.strokeStyle = "#254331";
   x.lineWidth = 1;
-  for (let i = 0; i <= 12; i++) {
+  for (let i = 0; i <= g.size; i++) {
     x.beginPath();
     x.moveTo(i * cell, 0);
     x.lineTo(i * cell, 600);
@@ -471,13 +487,13 @@ function drawBoard(g) {
     x.stroke();
   }
   g.body.forEach(([a, b], i) => {
-    x.fillStyle = i ? "#629ec7" : "#bce5ff";
+    x.fillStyle = i ? "#69af50" : "#a7dc70";
     x.beginPath();
-    x.roundRect(a * cell + 3, b * cell + 3, cell - 6, cell - 6, 9);
+    x.roundRect(a * cell + 3, b * cell + 3, cell - 6, cell - 6, 2);
     x.fill();
   });
   if (g.food) {
-    x.fillStyle = "#efcb88";
+    x.fillStyle = "#d3dfa1";
     x.beginPath();
     x.arc(
       (g.food[0] + 0.5) * cell,
@@ -501,7 +517,7 @@ function drawBoard(g) {
       [-1, 0],
       [0, -1],
     ][g.direction];
-  x.fillStyle = "#081722";
+  x.fillStyle = "#102719";
   for (const sign of [-1, 1]) {
     x.beginPath();
     x.arc(

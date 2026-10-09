@@ -21,35 +21,11 @@
     </header>
     <main>
       <section class="intro">
-        <div>
-          <p class="eyebrow">
-            What’s the best way to learn something new? Gamify it!
-          </p>
-          <h1>A Nokia memory.<br /><em>A neural twist.</em></h1>
-          <p>
-            Snake was my first digital game, on my mum’s old Nokia. I first
-            built my own version when I started studying AI: a familiar game
-            helped the concepts click—and helped me ace my exams. Now it has a
-            new question to tackle:
-            <strong>can it learn from the moves it never made?</strong>
-          </p>
-          <p>
-            Turn the knobs and see how rewards guide behavior, why exploration
-            matters and how learning rate changes training. It’s a familiar,
-            playful way to make abstract AI concepts click.
-          </p>
-        </div>
-        <aside class="intro-note">
-          <span aria-hidden="true">↳</span>
-          <h2>Eat. Try. Learn.<br /><em>Ask “what if?”</em></h2>
-          <p>
-            A real neural network. A tiny world.<br />And the freedom to turn a
-            few knobs.
-          </p>
-        </aside>
+        <p class="eyebrow">Play. Observe. Learn.</p>
+        <h1>Snake Learning Lab</h1>
+        <p>A Nokia-inspired game with a learning brain. Try a trained snake, slow it down, and discover why it turns.</p>
       </section>
       <section class="workspace" aria-label="Snake learning experiment">
-        <div class="play-column">
           <div class="panel board-panel">
             <div class="panel-heading">
               <span class="eyebrow">01 / Meet your learner</span
@@ -81,8 +57,13 @@
             <div class="speed">
               <label for="speed">Playback speed</label
               ><select id="speed">
-                <option value="10">Slow · follow each move</option>
-                <option value="120" selected>Quick · 120 moves/s</option>
+                <option value="1">Very slow · 1 move/s</option>
+                <option value="2" selected>Slow · 2 moves/s</option>
+                <option value="4">Gentle · 4 moves/s</option>
+                <option value="6">Steady · 6 moves/s</option>
+                <option value="10">Classic · 10 moves/s</option>
+                <option value="30">Quick · 30 moves/s</option>
+                <option value="120">Fast training · 120 moves/s</option>
                 <option value="2000">Fast lab · up to 2,000 moves/s</option>
               </select>
             </div>
@@ -91,9 +72,10 @@
               rules. Pause to inspect a decision.
             </p>
           </div>
+        <div class="play-column">
           <div class="panel">
             <div class="panel-heading">
-              <span class="eyebrow">02 / A learning diary</span
+              <span class="eyebrow">Training progress</span
               ><button id="example">Try a trained snake</button>
             </div>
             <canvas
@@ -103,7 +85,7 @@
               aria-label="Training apples per game and rolling 20-game mean"
             ></canvas>
             <p class="small">
-              Dim line: apples each game. Blue line: rolling mean. Training can
+              Dim line: apples each game. Green line: rolling mean. Training can
               wobble; this is not an accuracy score.
             </p>
             <div class="mini-stats">
@@ -113,39 +95,9 @@
               ><span>What-if samples <b id="simulated">0</b></span>
             </div>
           </div>
-        </div>
-        <div class="controls-column">
           <div class="panel">
-            <div class="panel-heading">
-              <span class="eyebrow">03 / A little brain chemistry</span>
-            </div>
-            <p>
-              Change one thing. Make a prediction. See what actually happens.
-            </p>
-            <div class="preset-buttons">
-              <button data-preset="default">The curious one</button
-              ><button data-preset="noplanning">No “what if?” replay</button
-              ><button data-preset="myopic">Only the next snack</button
-              ><button data-preset="tiny">A smaller brain</button>
-            </div>
-            <form id="settings">
-              <div id="main-controls" class="control-grid"></div>
-              <details>
-                <summary>Open the deeper-learning drawer</summary>
-                <div id="advanced-controls" class="control-grid"></div>
-              </details>
-              <button class="primary wide" type="submit">
-                Apply settings & start fresh
-              </button>
-              <p class="small">
-                This resets the current brain and diary. Save your brain first
-                if you want to keep it.
-              </p>
-            </form>
-          </div>
-          <div class="panel">
-            <span class="eyebrow">04 / What is it thinking?</span>
-            <h2>The last decision, unpacked.</h2>
+            <span class="eyebrow">Predicted rewards</span>
+            <h2>Which move looks best?</h2>
             <div id="q-values"></div>
             <p class="small">
               Q-values estimate future reward. They are not probabilities. A
@@ -163,8 +115,8 @@
             </details>
           </div>
           <div class="panel">
-            <span class="eyebrow">05 / Explainable AI · SHAP</span>
-            <h2>Okay, but why that turn?</h2>
+            <span class="eyebrow">XAI · Explainable AI · SHAP</span>
+            <h2>Why this turn?</h2>
             <p>
               Pause this board and unpack the brain’s preferred next move. Which
               signals tip the balance?
@@ -173,8 +125,8 @@
             <div id="explanation" aria-live="polite"></div>
             <p class="small">
               Exact SHAP values for the preferred move versus its runner-up,
-              relative to an all-zero sensor reference. Blue supports the
-              preferred move; gold supports the alternative. This explains the
+              relative to an all-zero sensor reference. Green supports the
+              preferred move; muted green supports the alternative. This explains the
               network’s scores; curiosity may still choose a random action.
             </p>
             <details>
@@ -218,8 +170,38 @@
             </p>
           </div>
         </div>
+        <div class="controls-column">
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="eyebrow">Learning settings</span>
+            </div>
+            <p>
+              Change one thing. Make a prediction. See what actually happens.
+            </p>
+            <div class="preset-buttons">
+              <button data-preset="default">The curious one</button
+              ><button data-preset="noplanning">No “what if?” replay</button
+              ><button data-preset="myopic">Only the next snack</button
+              ><button data-preset="tiny">A smaller brain</button>
+            </div>
+            <form id="settings">
+              <div id="main-controls" class="control-grid"></div>
+              <details>
+                <summary>More learning settings</summary>
+                <div id="advanced-controls" class="control-grid"></div>
+              </details>
+              <button class="primary wide" type="submit">
+                Apply settings & reset brain
+              </button>
+              <p class="small">
+                This resets the current brain and diary. Save your brain first
+                if you want to keep it.
+              </p>
+            </form>
+          </div>
+        </div>
       </section>
-      <section class="explain-grid">
+      <details class="background-notes"><summary>How the experiment works · references</summary><section class="explain-grid">
         <article class="panel">
           <p class="eyebrow">The contribution / beyond a scoreboard</p>
           <h2>What about the turn it didn’t take?</h2>
@@ -260,6 +242,7 @@
           >
         </article>
       </section>
+      </details>
       <p id="status" role="status" aria-live="polite">Preparing the lab…</p>
       <footer>
         Made by Nourah Alotaibi · Runs in your browser. No account, paid API or

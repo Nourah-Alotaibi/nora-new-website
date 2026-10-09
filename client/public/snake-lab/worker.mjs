@@ -4,7 +4,7 @@ let learner = new Learner(),
   watcher = null,
   mode = "train",
   running = false,
-  speed = 120,
+  speed = 2,
   last = performance.now(),
   carry = 0,
   lastPost = 0;
@@ -33,7 +33,7 @@ onmessage = ({ data }) => {
         watcher = null;
         break;
       case "speed":
-        speed = Math.max(1, Math.min(2000, Number(data.value) || 10));
+        speed = Math.max(1, Math.min(2000, Number(data.value) || 2));
         break;
       case "step":
         running = false;
