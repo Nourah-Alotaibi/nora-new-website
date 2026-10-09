@@ -476,7 +476,7 @@ function drawBoard(g) {
     cell = c.width / g.size;
   x.fillStyle = "#102719";
   x.fillRect(0, 0, 600, 600);
-  x.strokeStyle = "#254331";
+  x.strokeStyle = "#35593f";
   x.lineWidth = 1;
   for (let i = 0; i <= g.size; i++) {
     x.beginPath();
@@ -489,7 +489,7 @@ function drawBoard(g) {
   g.body.forEach(([a, b], i) => {
     x.fillStyle = i ? "#69af50" : "#a7dc70";
     x.beginPath();
-    x.roundRect(a * cell + 3, b * cell + 3, cell - 6, cell - 6, 2);
+    x.roundRect(a * cell + cell * 0.2, b * cell + cell * 0.2, cell * 0.6, cell * 0.6, 2);
     x.fill();
   });
   if (g.food) {

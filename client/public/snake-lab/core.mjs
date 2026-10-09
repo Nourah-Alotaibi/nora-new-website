@@ -83,14 +83,14 @@ export class Snake {
   constructor(seed = 42, settings = DEFAULTS) {
     this.rng = new RNG(seed);
     this.settings = config(settings);
-    this.size = 32;
+    this.size = 24;
     this.reset();
   }
   reset() {
     this.body = [
-      [16, 16],
-      [15, 16],
-      [14, 16],
+      [12, 12],
+      [11, 12],
+      [10, 12],
     ];
     this.direction = 0;
     this.score = 0;
