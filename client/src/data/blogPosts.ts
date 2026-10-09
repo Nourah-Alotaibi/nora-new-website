@@ -41,11 +41,6 @@ export const blogPosts: BlogPost[] = [
       "href": "/blog/snake-learning-lab/snake-learning-lab.png"
     },
     {
-      "type": "link",
-      "text": "Here is the published game: play Snake Learning Lab ↗",
-      "href": "https://www.nora-alotaibi.com/snake-game/"
-    },
-    {
       "type": "heading",
       "text": "Three ways to view the lab"
     },
