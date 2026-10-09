@@ -23,12 +23,12 @@
       <section class="intro">
         <p class="eyebrow">Play. Observe. Learn.</p>
         <h1>Snake Learning Lab</h1>
-        <p>A Nokia-inspired game with a learning brain. Try a trained snake, slow it down, and discover why it turns.</p>
+        <p>A Nokia-inspired game with a learning brain. Follow panels 1–6: choose settings, run the snake, and discover why it turns.</p>
       </section>
       <section class="workspace" aria-label="Snake learning experiment">
           <div class="panel board-panel">
             <div class="panel-heading">
-              <span class="eyebrow">01 / Meet your learner</span
+              <span class="eyebrow">02 / Run the snake</span
               ><span id="mode-badge" class="pill">Fresh brain</span>
             </div>
             <canvas
@@ -74,29 +74,7 @@
           </div>
         <div class="play-column">
           <div class="panel">
-            <div class="panel-heading">
-              <span class="eyebrow">Training progress</span
-              ><button id="example">Try a trained snake</button>
-            </div>
-            <canvas
-              id="chart"
-              width="720"
-              height="180"
-              aria-label="Training apples per game and rolling 20-game mean"
-            ></canvas>
-            <p class="small">
-              Dim line: apples each game. Green line: rolling mean. Training can
-              wobble; this is not an accuracy score.
-            </p>
-            <div class="mini-stats">
-              <span>Updates <b id="updates">0</b></span
-              ><span>Replay <b id="memory">0</b></span
-              ><span>Loss <b id="loss">—</b></span
-              ><span>What-if samples <b id="simulated">0</b></span>
-            </div>
-          </div>
-          <div class="panel">
-            <span class="eyebrow">Predicted rewards</span>
+            <span class="eyebrow">03 / Compare the moves</span>
             <h2>Which move looks best?</h2>
             <div id="q-values"></div>
             <p class="small">
@@ -115,7 +93,7 @@
             </details>
           </div>
           <div class="panel">
-            <span class="eyebrow">XAI · Explainable AI · SHAP</span>
+            <span class="eyebrow">04 / Explore XAI · SHAP</span>
             <h2>Why this turn?</h2>
             <p>
               Pause this board and unpack the brain’s preferred next move. Which
@@ -141,8 +119,62 @@
               </p>
             </details>
           </div>
+        </div>
+        <div class="controls-column">
           <div class="panel">
-            <span class="eyebrow">06 / Give it a report card</span>
+            <div class="panel-heading">
+              <span class="eyebrow">01 / Choose learning settings</span>
+            </div>
+            <p>
+              Change one thing. Make a prediction. See what actually happens.
+            </p>
+            <div class="preset-buttons">
+              <button data-preset="default">The curious one</button
+              ><button data-preset="noplanning">No “what if?” replay</button
+              ><button data-preset="myopic">Only the next snack</button
+              ><button data-preset="tiny">A smaller brain</button>
+            </div>
+            <form id="settings">
+              <div id="main-controls" class="control-grid"></div>
+              <details>
+                <summary>More learning settings</summary>
+                <div id="advanced-controls" class="control-grid"></div>
+              </details>
+              <button class="primary wide" type="submit">
+                Apply settings & reset brain
+              </button>
+              <p class="small">
+                This resets the current brain and diary. Save your brain first
+                if you want to keep it.
+              </p>
+            </form>
+          </div>
+        </div>
+        <div class="results-row">
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="eyebrow">05 / Review training progress</span
+              ><button id="example">Try a trained snake</button>
+            </div>
+            <canvas
+              id="chart"
+              width="720"
+              height="180"
+              aria-label="Training apples per game and rolling 20-game mean"
+            ></canvas>
+            <p class="small">
+              Dim line: apples each game. Green line: rolling mean. Training can
+              wobble; this is not an accuracy score.
+            </p>
+            <div class="mini-stats">
+              <span>Updates <b id="updates">0</b></span
+              ><span>Replay <b id="memory">0</b></span
+              ><span>Loss <b id="loss">—</b></span
+              ><span>What-if samples <b id="simulated">0</b></span>
+            </div>
+          </div>
+          <div class="panel">
+            <span class="eyebrow">06 / Test & save</span>
             <h2>Better than wandering?</h2>
             <p>
               Freeze the brain and compare it with a random player on the same
@@ -168,36 +200,6 @@
               Saved brains keep weights and settings; replay memory and
               optimizer history start fresh when loaded.
             </p>
-          </div>
-        </div>
-        <div class="controls-column">
-          <div class="panel">
-            <div class="panel-heading">
-              <span class="eyebrow">Learning settings</span>
-            </div>
-            <p>
-              Change one thing. Make a prediction. See what actually happens.
-            </p>
-            <div class="preset-buttons">
-              <button data-preset="default">The curious one</button
-              ><button data-preset="noplanning">No “what if?” replay</button
-              ><button data-preset="myopic">Only the next snack</button
-              ><button data-preset="tiny">A smaller brain</button>
-            </div>
-            <form id="settings">
-              <div id="main-controls" class="control-grid"></div>
-              <details>
-                <summary>More learning settings</summary>
-                <div id="advanced-controls" class="control-grid"></div>
-              </details>
-              <button class="primary wide" type="submit">
-                Apply settings & reset brain
-              </button>
-              <p class="small">
-                This resets the current brain and diary. Save your brain first
-                if you want to keep it.
-              </p>
-            </form>
           </div>
         </div>
       </section>

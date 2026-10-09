@@ -493,7 +493,7 @@ function drawBoard(g) {
     x.fill();
   });
   if (g.food) {
-    x.fillStyle = "#d3dfa1";
+    x.fillStyle = "#ef615b";
     x.beginPath();
     x.arc(
       (g.food[0] + 0.5) * cell,

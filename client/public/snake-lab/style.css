@@ -535,3 +535,43 @@ h2 { font: 600 21px/1.3 system-ui, sans-serif; }
   header, main { padding: 16px; }
   nav { flex-wrap: wrap; }
 }
+
+/* Use the space around the board for the experiment controls. */
+header, main { max-width: 1560px; }
+.workspace { grid-template-columns: minmax(0,1fr) 410px minmax(0,1fr); align-items: start; gap: 24px; }
+.workspace > .board-panel { grid-column: 2; grid-row: 1; width: 100%; }
+.controls-column { grid-column: 1; grid-row: 1; }
+.play-column { grid-column: 3; grid-row: 1; }
+.results-row { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; }
+.results-row .panel { margin-bottom: 0; }
+.control-grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+@media(max-width:1100px) {
+  .workspace { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  .workspace > .board-panel { grid-column: 1 / -1; grid-row: 1; width: min(100%,410px); }
+  .controls-column { grid-column: 1; grid-row: 2; }
+  .play-column { grid-column: 2; grid-row: 2; }
+}
+@media(max-width:680px) {
+  .workspace, .results-row { grid-template-columns: minmax(0,1fr); }
+  .workspace > .board-panel, .controls-column, .play-column, .results-row { grid-column: 1; grid-row: auto; order: 0; }
+  .workspace > .board-panel { grid-row: 1; }
+  .results-row { gap: 18px; }
+}
+
+/* Compact controls, with room to read and operate each input. */
+.controls-column .panel, .play-column .panel, .results-row .panel { padding: 14px 16px; border-radius: 10px; }
+.controls-column .panel-heading, .play-column .panel-heading, .results-row .panel-heading { margin-bottom: 10px; }
+.controls-column p, .play-column p, .results-row p { margin-block: 8px; }
+.controls-column h2, .play-column h2, .results-row h2 { font-size: 18px; margin: 8px 0; }
+.control-grid { gap: 12px; margin: 14px 0; }
+.preset-buttons { gap: 6px; margin-bottom: 12px; }
+.preset-buttons button { padding: 6px 10px; min-height: 34px; }
+.control input[type="range"] { margin-top: 8px; }
+.control label { font-size: 11px; gap: 5px; }
+.control select, .control input[type="number"] { font-size: 12px; padding: 6px; }
+.q-row { margin: 9px 0; }
+.results-row #chart { max-height: 130px; }
+
+#board { width: min(100%, 280px); }
+.results-row { align-items: start; }
+@media(min-width:1101px) { .workspace { grid-template-columns: minmax(0,1fr) 370px minmax(0,1fr); } }
