@@ -1,4 +1,4 @@
-export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote" | "image"; text: string; href?: string; lang?: string; hidden?: boolean };
+export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote" | "image" | "gallery"; images?: { src: string; alt: string }[]; text: string; href?: string; lang?: string; hidden?: boolean };
 export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption?: string }; cover?: string; coverStyle?: "portrait"; category?: string; playHref?: string };
 
 export const blogPosts: BlogPost[] = [
@@ -38,22 +38,16 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "Choose the original forest-green dark mode, soft Cozy Sage light mode, or matte charcoal Midnight mode. The controls and learning experiment stay the same, and your choice is saved for your next visit."
+      "text": "Choose Forest Green for a gentle dark look, Cozy Sage for soft light surfaces, or Midnight for matte charcoal—the same lab, with your preference saved."
     },
     {
-      "type": "image",
-      "text": "Forest green: the original dark palette, with gentle green panels and a bright snake.",
-      "href": "/blog/snake-learning-lab/snake-forest.png"
-    },
-    {
-      "type": "image",
-      "text": "Cozy Sage: muted sage surfaces and deep forest text, with the same dark green game board.",
-      "href": "/blog/snake-learning-lab/snake-sage.png"
-    },
-    {
-      "type": "image",
-      "text": "Midnight: almost-black charcoal surfaces, warm off-white text and soft lime accents.",
-      "href": "/blog/snake-learning-lab/snake-midnight.png"
+      "type": "gallery",
+      "text": "Three lab themes",
+      "images": [
+        { "src": "/blog/snake-learning-lab/snake-forest.png", "alt": "Forest Green" },
+        { "src": "/blog/snake-learning-lab/snake-sage.png", "alt": "Cozy Sage" },
+        { "src": "/blog/snake-learning-lab/snake-midnight.png", "alt": "Midnight" }
+      ]
     },
     {
       "type": "heading",

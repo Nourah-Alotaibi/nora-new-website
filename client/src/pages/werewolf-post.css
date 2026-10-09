@@ -116,3 +116,8 @@
 @media(max-width:899px) { .werewolf-journal:has(.journal-index) .journal-brand { font-size:28px; } .werewolf-journal:has(.journal-index) .journal-header { padding-block:8px; } }
 
 .journal-index .journal-card-cover img[src*='nokia-snake-thumbnail'] { object-position:28% center; }
+
+.journal-mode-gallery { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; max-width:680px; margin:16px auto 24px; }
+.journal-mode-gallery a { display:block; min-width:0; }
+.journal-mode-gallery img { display:block; width:100%; height:auto; border-radius:8px; }
+@media(max-width:600px) { .journal-mode-gallery { gap:5px; } }
