@@ -604,7 +604,7 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
-const blogOrder = ["ctf-control-room", "werewolf-curse-reimagined", "my-journey-into-ai"];
+const blogOrder = ["my-journey-into-ai", "werewolf-curse-reimagined", "ctf-control-room", "snake-learning-lab"];
 export const sortedBlogPosts = [...blogPosts].sort((a, b) => {
   const aRank = blogOrder.indexOf(a.slug);
   const bRank = blogOrder.indexOf(b.slug);
