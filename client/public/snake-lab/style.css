@@ -603,3 +603,5 @@ header, main { max-width: 1300px; }
   .play-column { grid-row: 3; }
   .results-row { grid-row: 4; }
 }
+
+#board { width: min(100%, 180px); }
