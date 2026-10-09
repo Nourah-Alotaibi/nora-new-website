@@ -169,3 +169,6 @@
  .journal-mode-gallery { max-width:320px; margin:12px auto 18px; }
  .journal-article:not(.journal-index) .journal-film { margin:20px auto; }
 }
+
+.journal-post-image > a { display:block; max-width:100%; }
+.journal-post-image > a:focus-visible { outline:2px solid currentColor; outline-offset:5px; border-radius:10px; }

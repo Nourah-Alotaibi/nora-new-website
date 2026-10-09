@@ -38,7 +38,7 @@ export const blogPosts: BlogPost[] = [
     {
       "type": "image",
       "text": "The current lab: learning settings and network on the left, Snake in the center, explanations on the right.",
-      "href": "/blog/snake-learning-lab/snake-learning-lab.png"
+      "href": "/blog/snake-learning-lab/snake-overview-interactive.png"
     },
     {
       "type": "heading",
@@ -52,9 +52,18 @@ export const blogPosts: BlogPost[] = [
       "type": "gallery",
       "text": "Three lab themes",
       "images": [
-        { "src": "/blog/snake-learning-lab/snake-forest.png", "alt": "Forest Green" },
-        { "src": "/blog/snake-learning-lab/snake-sage.png", "alt": "Cozy Sage" },
-        { "src": "/blog/snake-learning-lab/snake-midnight.png", "alt": "Midnight" }
+        {
+          "src": "/blog/snake-learning-lab/snake-forest-interactive.png",
+          "alt": "Forest Green"
+        },
+        {
+          "src": "/blog/snake-learning-lab/snake-sage-interactive.png",
+          "alt": "Cozy Sage"
+        },
+        {
+          "src": "/blog/snake-learning-lab/snake-midnight-interactive.png",
+          "alt": "Midnight"
+        }
       ]
     },
     {
@@ -63,12 +72,12 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "Change one setting, then apply it to start a fresh brain. The question marks explain each parameter; Load example snake offers a ready-made model. The network below shows its live activity."
+      "text": "Technical parameter names now appear first, with familiar names in parentheses. Change a setting, then use Apply & reset brain to start a fresh model; the question marks explain each control. Load example snake offers an already-trained model."
     },
     {
       "type": "image",
-      "text": "The left panel with advanced parameters expanded.",
-      "href": "/blog/snake-learning-lab/snake-panel-left-advanced.png"
+      "text": "Advanced settings pair technical names with friendly explanations.",
+      "href": "/blog/snake-learning-lab/snake-settings-advanced-new.png"
     },
     {
       "type": "paragraph",
@@ -88,7 +97,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "The network reads eleven yes-or-no clues: **3 about danger, 4 about its direction, and 4 about food position**. Two hidden layers combine them into three Q-values—scores estimating the future reward for going straight, turning right, or turning left. Follow the arrows; brighter neurons show stronger activity."
+      "text": "The network reads eleven yes-or-no clues: **3 about danger, 4 about its direction, and 4 about food position**. The default two hidden layers combine them into three Q-values—estimated future rewards for straight, right, or left. Brighter neurons show stronger activity, and the eleven signal boxes stay visible beneath the diagram."
     },
     {
       "type": "paragraph",
@@ -103,9 +112,22 @@ export const blogPosts: BlogPost[] = [
       "text": "The loss measures the prediction error. Backpropagation calculates how the weights should change, and Adam updates them to reduce that error. Repeated updates shape the snake’s decisions; watching mode keeps the model fixed so you can study it."
     },
     {
+      "type": "paragraph",
+      "text": "Click a neuron to select it—the Inspect neuron menu follows automatically. Live calculation shows its incoming values, learned weights, bias, weighted sum, and result. Hidden neurons apply ReLU; output neurons keep the weighted sum as their Q-value. The menu also lets you inspect hidden neurons outside the visible sample."
+    },
+    {
       "type": "image",
-      "text": "Inputs → hidden layers → move scores: the network’s activity on the current board.",
-      "href": "/blog/snake-learning-lab/snake-network.png"
+      "text": "A selected hidden neuron, with its incoming connections highlighted and its real calculation below.",
+      "href": "/blog/snake-learning-lab/snake-neuron-inspection.png"
+    },
+    {
+      "type": "paragraph",
+      "text": "Pause & inspect freezes the board and its calculations. Next board advances one move while staying paused; Resume live view restores the previous running state. Open Show all inputs × weights to follow every multiplication. Network spacing spreads out the diagram without changing the model."
+    },
+    {
+      "type": "image",
+      "text": "The selected neuron’s actual inputs, weights, products and bias—not an illustrative calculation.",
+      "href": "/blog/snake-learning-lab/snake-live-calculation.png"
     },
     {
       "type": "heading",
@@ -118,7 +140,7 @@ export const blogPosts: BlogPost[] = [
     {
       "type": "image",
       "text": "The game, playback controls and progress counters.",
-      "href": "/blog/snake-learning-lab/snake-panel-center.png"
+      "href": "/blog/snake-learning-lab/snake-game-controls-new.png"
     },
     {
       "type": "heading",
@@ -131,7 +153,15 @@ export const blogPosts: BlogPost[] = [
     {
       "type": "image",
       "text": "Live SHAP explanations and move scores.",
-      "href": "/blog/snake-learning-lab/snake-panel-right.png"
+      "href": "/blog/snake-learning-lab/snake-explanation-new.png"
+    },
+    {
+      "type": "heading",
+      "text": "Make the layout yours"
+    },
+    {
+      "type": "paragraph",
+      "text": "Use ↑ ↓ ← → to move side cards up, down, or between columns. The game has its own up/down position controls. Your layout is saved for your next visit; reset buttons restore the original arrangement."
     },
     {
       "type": "heading",
@@ -151,7 +181,7 @@ export const blogPosts: BlogPost[] = [
     },
     {
       "type": "paragraph",
-      "text": "The optional “Go deeper” area contains progress, a frozen comparison with random moves on 20 matched starting seeds, and save/load tools. The interface now uses dark green panels, light text, green highlights and a red apple, with a stacked mobile layout and touch-friendly controls."
+      "text": "The optional Go deeper area contains progress, testing on 20 matched starting seeds, and save/load tools. On phones, the board appears first and the panels stack with touch-friendly controls."
     },
     {
       "type": "link",
