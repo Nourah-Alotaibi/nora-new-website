@@ -639,3 +639,12 @@ header, main { max-width: 1300px; }
 .network-score { fill: var(--accent); font: 11px system-ui; }
 .network-flow { opacity: .8; }
 .network-output-key { padding: 8px 6px 0; font-size: 10px !important; }
+
+.controls-column .settings-panel { padding: 12px 14px; }
+.settings-panel .panel-heading { margin-bottom: 6px; }
+.settings-panel > p { margin: 4px 0 8px; font-size: 12px; }
+.settings-panel .wide { margin-top: 6px; padding: 7px 12px; min-height: 34px; }
+.settings-panel .control-grid { margin: 10px 0; gap: 10px 12px; }
+.settings-panel summary { padding-block: 6px; font-size: 12px; }
+.settings-panel #settings > .small { margin: 6px 0 0; font-size: 10px; }
+.settings-panel .control select { padding: 5px; }
