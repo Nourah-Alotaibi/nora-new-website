@@ -8,7 +8,7 @@ export const blogPosts: BlogPost[] = [
   "date": "2026-10-09",
   "excerpt": "Watch a neural network learn, ask why it turns, and explore reinforcement learning through a familiar Nokia-inspired game.",
   "category": "AI · Learning by building",
-  "cover": "/blog/snake-learning-lab/snake-learning-lab.png",
+  "cover": "/blog/snake-learning-lab/nokia-snake-thumbnail.png",
   "content": [
     {
       "type": "paragraph",
@@ -504,7 +504,7 @@ export const blogPosts: BlogPost[] = [
     "date": "2026-10-04",
     "excerpt": "Three waves, Team Matcha Latte, and a sixth-place CYSEC Kuwait finish. A story of progress, teamwork, and a project I am keeping under the radar.",
     "category": "Cybersecurity · CTF · Building",
-    "cover": "/blog-media/ctf-welcome.png",
+    "cover": "/blog-media/ctf-combo-thumbnail.png",
     "content": [
       {
         "type": "paragraph",
