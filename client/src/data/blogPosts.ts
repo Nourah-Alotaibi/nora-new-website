@@ -27,13 +27,18 @@ export const blogPosts: BlogPost[] = [
       "text": "As I was explaining it to her, I stopped and thought, “You know what? I’ll polish that old project and publish it for you.” That conversation is why I returned to the game and brought it online now. I also added XAI so she—and other students and colleagues—could watch it learn, explore its decisions, and find the same joy in learning that I did."
     },
     {
+      "type": "link",
+      "text": "Here is the published game: play Snake Learning Lab ↗",
+      "href": "https://www.nora-alotaibi.com/snake-game/"
+    },
+    {
       "type": "image",
       "text": "The current lab: learning settings and network on the left, Snake in the center, explanations on the right.",
       "href": "/blog/snake-learning-lab/snake-learning-lab.png"
     },
     {
       "type": "link",
-      "text": "Try Snake Learning Lab ↗",
+      "text": "Here is the published game: play Snake Learning Lab ↗",
       "href": "https://www.nora-alotaibi.com/snake-game/"
     },
     {
