@@ -116,9 +116,6 @@ export default function BrightHome() {
             <a href="/blog">Blog</a>
             <a href="#studio">Off the screen</a>
           </nav>
-          <a href="#connect" className="header-contact">
-            Let’s talk <ArrowUpRight size={17} />
-          </a>
           <ModeSwitch />
         </header>
 

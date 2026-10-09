@@ -3216,3 +3216,11 @@ body:has(.laptop-inspection) .leave-note-widget { display:none; }
 .dark-theme-header { background:#1c1d1f; }
 .dark-theme-header .header-mode,.dark-theme-header .header-game { background:#303133; border-color:#525558; color:#e4e3df; box-shadow:none; }
 .dark-theme-header .header-mode:hover { background:#383a3c; box-shadow:none; }
+
+/* Comfortable phone-sized navigation targets. */
+@media(max-width:720px) {
+ .bright-site .studio-header:has(a[href="/blog"]) { gap:8px; }
+ .bright-site .studio-header nav a,.bright-site .studio-header .header-game,.bright-site .studio-header .header-mode { min-height:44px; height:auto; font-size:12px; padding:10px 12px; gap:6px; }
+ .bright-site .studio-header .header-mode svg { width:15px; height:15px; }
+ .dark-theme-header .header-game,.dark-theme-header .header-mode,.dark-site-navigation a { min-height:44px; font-size:12px; padding:10px 12px; }
+}

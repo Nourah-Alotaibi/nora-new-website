@@ -81,7 +81,7 @@
   .journal-index .journal-deck { margin:4px 0 14px; font-size:15px; }
   .journal-index .journal-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
   .journal-index .journal-preview { margin:0; }
-  .journal-index .journal-card { grid-template-columns:50% minmax(0,1fr); min-height:0; height:220px; border-radius:12px; }
+  .journal-index .journal-card { grid-template-columns:50% minmax(0,1fr); min-height:0; height:210px; border-radius:12px; }
   .journal-index .journal-card-cover { height:100%; min-height:0; aspect-ratio:auto; }
   .journal-index .journal-card-content { padding:12px; }
   .journal-index .journal-card h2 { font-size:20px; margin:6px 0; }
@@ -140,3 +140,14 @@
 .journal-index .journal-portrait-art img { position:absolute; right:0; bottom:0; width:65%; height:100%; padding:0; object-fit:contain; object-position:right bottom; }
 .journal-index .journal-portrait-art .journal-cover-note { top:12%; left:7%; width:40%; max-width:none; font-size:clamp(15px,1.5vw,21px); line-height:1.2; }
 @media(max-width:899px) { .journal-portrait-art { max-height:100%; width:auto; height:100%; } }
+
+.journal-index-intro { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.journal-index-intro .journal-deck { margin:0; }
+.journal-snake-button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 16px; border:1px solid #b3c3aa; border-radius:999px; background:#315c3d; color:#f0f3e8; font-size:13px; white-space:nowrap; text-decoration:none; }
+.journal-snake-button:hover { background:#274c32; }
+.journal-theme-dark .journal-snake-button { background:#303133; border-color:#525558; color:#e4e3df; }
+.journal-snake-button:focus-visible { outline:3px solid #63875c; outline-offset:3px; }
+@media(max-width:600px) { .journal-index-intro { gap:8px; } .journal-snake-button { font-size:12px; padding:8px 12px; } }
+
+.journal-title-thumbnail { width:360px; max-width:100%; margin:18px auto; }
+.journal-title-thumbnail img { display:block; width:100%; height:auto; border-radius:10px; }

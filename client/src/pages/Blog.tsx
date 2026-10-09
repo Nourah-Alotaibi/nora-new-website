@@ -36,6 +36,7 @@ export default function Blog() {
           <article>
             <div className="journal-eyebrow">Notes from my corner of the internet.</div>
             <h1>{post.title}</h1>
+            {post.slug === "snake-learning-lab" && post.cover && <figure className="journal-title-thumbnail"><img src={post.cover} alt="A Nokia phone beside Snake Learning Lab" /></figure>}
             <p className="journal-byline"><time dateTime={post.date}>{displayDate(post.date)}</time></p>
             {post.video && <figure className="journal-film">
               <video controls playsInline preload="metadata" poster={post.video.poster} aria-label={`${post.title} — game video`}>
@@ -58,7 +59,7 @@ export default function Blog() {
           <>
             <div className="journal-eyebrow">Nourah’s studio</div>
             <h1>Blog</h1>
-            <p className="journal-deck">Notes from my corner of the internet.</p>
+            <div className="journal-index-intro"><p className="journal-deck">Notes from my corner of the internet.</p><a className="journal-snake-button" href="/snake-game/">Play Snake ↗</a></div>
             <div className="journal-list">
               {sortedBlogPosts.map(item => <article className="journal-preview" key={item.slug}>
                 <a className="journal-card" href={`/blog/${item.slug}`} aria-label={`Read ${item.title}`}>
