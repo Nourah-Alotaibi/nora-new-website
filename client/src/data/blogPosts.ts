@@ -9,7 +9,7 @@ export const blogPosts: BlogPost[] = [
   "excerpt": "Watch a neural network learn, ask why it turns, and explore reinforcement learning through a familiar Nokia-inspired game.",
   "category": "AI · Learning by building",
   "cover": "/blog/snake-learning-lab/nokia-snake-thumbnail.png",
-  "video": { "src": "/blog/snake-learning-lab/snake-tutorial.mp4", "poster": "/blog/snake-learning-lab/snake-overview-interactive.png", "caption": "Watch the Snake Learning Lab tutorial." },
+  "video": { "src": "/blog/snake-learning-lab/snake-tutorial.mp4?v=2", "poster": "/blog/snake-learning-lab/snake-overview-interactive.png", "caption": "Watch the Snake Learning Lab tutorial." },
   "content": [
     {
       "type": "paragraph",
