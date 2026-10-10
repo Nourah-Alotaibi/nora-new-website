@@ -174,5 +174,4 @@
 .journal-post-image > a:focus-visible { outline:2px solid currentColor; outline-offset:5px; border-radius:10px; }
 
 /* Soft thumbnail framing in light mode. */
-.journal-theme-light .journal-index .journal-card-cover { background:#eeeadd; }
-.journal-theme-light .journal-index .journal-card-cover.journal-cover-portrait { background:#eeeadd; }
+.werewolf-journal.journal-theme-light .journal-index .journal-card .journal-card-cover { background:#f5f1e7; }
