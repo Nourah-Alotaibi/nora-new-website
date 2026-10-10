@@ -189,3 +189,7 @@
  .journal-index .journal-card-content { padding:10px; }
  .journal-index .journal-card p { -webkit-line-clamp:3; }
 }
+
+/* Frame the portrait artwork at the same landscape ratio as other thumbnails. */
+.journal-index .journal-card-cover.journal-cover-portrait { padding:6px;box-sizing:border-box; }
+.journal-index .journal-card-cover.journal-cover-portrait .journal-portrait-art { width:100%;height:auto;aspect-ratio:16/9;max-height:none;flex:none; }
