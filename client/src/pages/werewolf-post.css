@@ -178,3 +178,14 @@
 
 /* Keep blog posts in one vertical reading order on every screen. */
 .journal-index .journal-list { grid-template-columns:minmax(0,1fr); }
+
+/* Stacked cards with the image beside the text on every screen. */
+.journal-index .journal-card { display:grid;grid-template-columns:30% minmax(0,1fr);height:auto;min-height:180px; }
+.journal-index .journal-card-cover { width:100%;height:100%;min-height:180px;aspect-ratio:auto; }
+.journal-index .journal-card-content { min-width:0;padding:16px; }
+@media(max-width:600px) {
+ .journal-index .journal-card { grid-template-columns:32% minmax(0,1fr);min-height:150px; }
+ .journal-index .journal-card-cover { min-height:150px; }
+ .journal-index .journal-card-content { padding:10px; }
+ .journal-index .journal-card p { -webkit-line-clamp:3; }
+}
