@@ -193,3 +193,6 @@
 /* Frame the portrait artwork at the same landscape ratio as other thumbnails. */
 .journal-index .journal-card-cover.journal-cover-portrait { padding:6px;box-sizing:border-box; }
 .journal-index .journal-card-cover.journal-cover-portrait .journal-portrait-art { width:100%;height:auto;aspect-ratio:16/9;max-height:none;flex:none; }
+
+.journal-title-thumbnail { width:680px;max-width:100%;margin:18px auto; }
+@media(max-width:600px) { .journal-title-thumbnail { width:100%;margin:12px auto; } }
