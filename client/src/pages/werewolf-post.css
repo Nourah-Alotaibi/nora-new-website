@@ -175,3 +175,6 @@
 
 /* Soft thumbnail framing in light mode. */
 .werewolf-journal.journal-theme-light .journal-index .journal-card .journal-card-cover { background:#f5f1e7; }
+
+/* Keep blog posts in one vertical reading order on every screen. */
+.journal-index .journal-list { grid-template-columns:minmax(0,1fr); }
