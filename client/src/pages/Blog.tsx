@@ -59,7 +59,7 @@ export default function Blog() {
           <>
             <div className="journal-eyebrow">Nourah’s studio</div>
             <h1>Blog</h1>
-            <div className="journal-index-intro"><p className="journal-deck">Notes from my corner of the internet.</p><a className="journal-snake-button" href="/snake-game/">Play Snake ↗</a></div>
+            <div className="journal-index-intro"><p className="journal-deck">Notes from my corner of the internet.</p></div>
             <div className="journal-list">
               {sortedBlogPosts.map(item => <article className="journal-preview" key={item.slug}>
                 <a className="journal-card" href={`/blog/${item.slug}`} aria-label={`Read ${item.title}`}>

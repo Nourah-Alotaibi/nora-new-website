@@ -43,6 +43,7 @@ export function ModeSwitch() {
   return (
     <div className="header-quick-actions">
     <a className="header-game" href="/werewolf/">🐺 Play Werewolf</a>
+    <a className="header-game" href="/snake-game/">Play Snake</a>
     <button
       className={`header-mode ${theme === "dark" ? "header-mode-dark" : ""}`}
       type="button"
