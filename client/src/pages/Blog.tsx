@@ -35,8 +35,8 @@ export default function Blog() {
         {post ? (
           <article>
             <div className="journal-eyebrow">Notes from my corner of the internet.</div>
-            <h1>{post.title}</h1>
             {post.slug === "snake-learning-lab" && post.cover && <figure className="journal-title-thumbnail"><img src={post.cover} alt="A Nokia phone beside Snake Learning Lab" /></figure>}
+            <h1>{post.title}</h1>
             <p className="journal-byline"><time dateTime={post.date}>{displayDate(post.date)}</time></p>
             {post.video && <figure className="journal-film">
               <video controls playsInline preload="metadata" poster={post.video.poster} aria-label={`${post.title} — game video`}>
