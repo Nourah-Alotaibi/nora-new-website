@@ -1,4 +1,4 @@
-export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote" | "image" | "gallery"; images?: { src: string; alt: string }[]; text: string; href?: string; lang?: string; hidden?: boolean };
+export type BlogBlock = { type: "heading" | "paragraph" | "link" | "quote" | "image" | "gallery" | "video"; images?: { src: string; alt: string }[]; text: string; href?: string; lang?: string; hidden?: boolean };
 export type BlogPost = { slug: string; title: string; date: string; excerpt: string; content: BlogBlock[]; video?: { src: string; poster: string; caption?: string }; cover?: string; coverStyle?: "portrait"; category?: string; playHref?: string };
 
 export const blogPosts: BlogPost[] = [
@@ -36,6 +36,7 @@ export const blogPosts: BlogPost[] = [
       "text": "Here is the published game: play Snake Learning Lab ↗",
       "href": "https://www.nora-alotaibi.com/snake-game/"
     },
+    { "type": "video", "text": "Watch the Snake Learning Lab tutorial." },
     {
       "type": "image",
       "text": "The current lab: learning settings and network on the left, Snake in the center, explanations on the right.",
